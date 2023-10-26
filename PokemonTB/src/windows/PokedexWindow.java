@@ -81,6 +81,7 @@ public class PokedexWindow extends JFrame{
 		
 	}
 	
+	
 	private void loadPokemons() {
 		//Se borran los datos del modelo de datos
 		this.modeloDatosPokemon.setRowCount(0);
