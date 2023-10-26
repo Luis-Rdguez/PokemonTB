@@ -73,7 +73,8 @@ public class StartWindow extends JFrame {
 		bLoginUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				// Abrir ventana login user
+				LoginUserWindow luw = new LoginUserWindow();
+				luw.setVisible(true);
 				dispose();
 			}
 		});
@@ -81,8 +82,9 @@ public class StartWindow extends JFrame {
 		bRegisterUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				// Abrir ventana register user
-				setVisible(false);
+				RegisterUserWindow ruw = new RegisterUserWindow();
+				ruw.setVisible(true);
+				dispose();
 			}
 		});
 		setVisible(true);
