@@ -1,19 +1,23 @@
 package windows;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class CreatePokemonTeamWindow extends JFrame {
-   
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	public CreatePokemonTeamWindow() {
         setTitle("Create Pokemon Team Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(470, 340); // Aumentamos el tamaño de la ventana con el margen
-        setLayout(new GridLayout(2, 3, 10, 10)); // Agregamos espacio entre los paneles
+        setSize(470, 340);
+        setLayout(new BorderLayout());
+
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
 
         for (int i = 0; i < 6; i++) {
             JPanel panel = new JPanel();
@@ -22,27 +26,38 @@ public class CreatePokemonTeamWindow extends JFrame {
             panel.setLayout(new BorderLayout());
             panel.add(new JLabel("Panel " + (i + 1), SwingConstants.CENTER), BorderLayout.CENTER);
 
-            // Agregar esquinas redondeadas
-            int arc = 20; // El radio de las esquinas redondeadas
+            int arc = 20;
             panel.setPreferredSize(new Dimension(100, 100));
             panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(arc, arc, arc, arc)
             ));
 
-            // Cambiar el cursor cuando el ratón está sobre el panel
             panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+//                	Esta comentado porque aun no existe la clase
 //                	PokedexSelectorWindow vt = new PokedexSelectorWindow();
 //                	vt.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Esto abre la base de datos de pokemons ");
                 }
             });
 
-            add(panel);
+            panelContainer.add(panel);
         }
+
+        add(panelContainer, BorderLayout.CENTER);
+
+
+        JButton guardarEquipoButton = new JButton("Guardar equipo");
+        guardarEquipoButton.addActionListener(e -> {
+            // Guardar el equipo en la base de datos para mostrarla en la ventana de pokemonTeamWindow
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(guardarEquipoButton);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     
