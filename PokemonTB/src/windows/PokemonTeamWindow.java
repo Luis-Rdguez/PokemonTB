@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
 
+import pruebasPokemon.CreatePokemonTeamWindow;
+
 public class PokemonTeamWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -58,7 +60,16 @@ public class PokemonTeamWindow extends JFrame {
                         for(JLabel label: labels) {
                         	equipoPanel.add(label);
                         }
-                        
+                        equipoLabel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                if (e.getClickCount() == 2) {
+                                    CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
+                                    vt.setVisible(true);
+                                    vt.setLocationRelativeTo(null);
+                                }
+                            }
+                        });
                         
                         revalidate();
                         repaint();

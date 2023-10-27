@@ -1,5 +1,8 @@
 package windows;
 import javax.swing.*;
+
+import pruebasPokemon.PokemonTeamWindow;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -53,7 +56,10 @@ public class CreatePokemonTeamWindow extends JFrame {
 
         JButton guardarEquipoButton = new JButton("Guardar equipo");
         guardarEquipoButton.addActionListener(e -> {
-            // Guardar el equipo en la base de datos para mostrarla en la ventana de pokemonTeamWindow
+        	PokemonTeamWindow vt = new PokemonTeamWindow();
+        	vt.setVisible(true);
+        	vt.setLocationRelativeTo(null);
+        	this.setVisible(false);
         });
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(guardarEquipoButton);
