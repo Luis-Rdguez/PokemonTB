@@ -5,8 +5,13 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import classes.Pokemon;
 
 public class MenuWindow extends JFrame{
 
@@ -46,5 +53,37 @@ public class MenuWindow extends JFrame{
         this.getContentPane().add(LoadTeam);
         this.getContentPane().add(Pokedex);
         this.getContentPane().add(Logout);
+        NewTeam.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    CreatePokemonTeamWindow cptw = new CreatePokemonTeamWindow();
+                    cptw.setVisible(true);
+                    dispose();
+                }
+            });
+        LoadTeam.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    //Abrir bases de datos
+                }
+            });
+        Pokedex.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
+                    List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
+                    PokedexWindow frame = new PokedexWindow(pokemons);
+                    frame.setVisible(true);
+                    dispose();
+                }
+            });
+        Logout.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    StartWindow sw = new StartWindow();
+                    sw.setVisible(true);
+                    dispose();
+                }
+            });
 }
 }
