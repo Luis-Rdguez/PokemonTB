@@ -28,7 +28,7 @@ public class PokemonTeamWindow extends JFrame {
         equipoPanel.setLayout(new GridLayout(6, 1));
     	equipoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     	
-        // Fila 3: Botones "Añadir Equipo", "Eliminar Equipo" y "Editar Equipo"
+        // Fila 3: Botones "Añadir Equipo", "Eliminar Equipo" y "Comparar equipos"
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton addEquipoButton = new JButton("Añadir Equipo");
         addEquipoButton.addMouseListener(new MouseAdapter() {
@@ -124,10 +124,20 @@ public class PokemonTeamWindow extends JFrame {
                 frameNombre.setLocationRelativeTo(null);
             }	
         });
-        JButton editarEquipoButton = new JButton("Editar Equipo");
+        JButton compararEquiposButton = new JButton("Comparar Equipos");
+        
+        compararEquiposButton.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+            	CompareWindow cw = new CompareWindow();
+                    cw.setVisible(true);
+                    dispose();
+                }
+            });
+        
         JPanel containerButton = new JPanel(new GridLayout(2,1));
         buttonPanel.add(eliminarEquipoButton);
-        buttonPanel.add(editarEquipoButton);
+        buttonPanel.add(compararEquiposButton);
         buttonPanel.add(addEquipoButton); 
         containerButton.add(buttonPanel, BorderLayout.SOUTH);
         add(containerButton, BorderLayout.SOUTH);
