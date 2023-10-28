@@ -149,12 +149,12 @@ public class PokemonTeamWindow extends JFrame {
 			label.setBorder(new LineBorder(Color.BLACK));
 			label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2) {
-                        CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
-                        vt.setVisible(true);
-                        vt.setLocationRelativeTo(null);
+				@Override
+				public void mouseClicked(MouseEvent e) {
+				    if (e.getClickCount() == 2) {
+					CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
+					vt.setVisible(true);
+					vt.setLocationRelativeTo(null);
                         
                     }
                 }
