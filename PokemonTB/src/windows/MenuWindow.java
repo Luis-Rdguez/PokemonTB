@@ -45,28 +45,21 @@ public class MenuWindow extends JFrame{
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
 
-        JButton NewTeam = new JButton("New team");
-        JButton LoadTeam = new JButton("Load team");
+        JButton OpenTeams = new JButton("Open Teams");
         JButton Pokedex = new JButton("Pokedex");
         JButton Logout = new JButton("Logout");
-        this.getContentPane().setLayout(new GridLayout(2, 2));
-        this.getContentPane().add(NewTeam);
-        this.getContentPane().add(LoadTeam);
+        this.getContentPane().setLayout(new GridLayout(3, 1));
+        this.getContentPane().add(OpenTeams);
         this.getContentPane().add(Pokedex);
         this.getContentPane().add(Logout);
-        NewTeam.addActionListener(new ActionListener() {
+
+        OpenTeams.addActionListener(new ActionListener() {
             @Override
-                public void actionPerformed(ActionEvent e) {
-                    CreatePokemonTeamWindow cptw = new CreatePokemonTeamWindow();
-                    cptw.setVisible(true);
-                    dispose();
-                }
-            });
-        LoadTeam.addActionListener(new ActionListener() {
-            @Override
-                public void actionPerformed(ActionEvent e) {
-                    //Abrir bases de datos
-                }
+            	public void actionPerformed(ActionEvent e) {
+            		PokemonTeamWindow ptw = new PokemonTeamWindow();
+            		ptw.setVisible(true);
+            		dispose();
+            	}
             });
         Pokedex.addActionListener(new ActionListener() {
             @Override
