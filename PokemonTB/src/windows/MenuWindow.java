@@ -40,6 +40,7 @@ public class MenuWindow extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(470, 340);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));

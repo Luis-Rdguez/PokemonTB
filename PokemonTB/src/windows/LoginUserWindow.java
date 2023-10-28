@@ -111,7 +111,9 @@ public class LoginUserWindow extends JDialog{
 		btnAcceder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					dispose();
+				MenuWindow mw = new MenuWindow();
+				mw.setVisible(true);
+				dispose();
 			}
 		});
 		
@@ -121,9 +123,9 @@ public class LoginUserWindow extends JDialog{
 		bAtras.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					StartWindow st = new StartWindow();
-					st.setVisible(true);
-					dispose();
+				StartWindow st = new StartWindow();
+				st.setVisible(true);
+				dispose();
 			}
 		});
 		
