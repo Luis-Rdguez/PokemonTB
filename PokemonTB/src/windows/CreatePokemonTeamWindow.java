@@ -1,8 +1,6 @@
 package windows;
 import javax.swing.*;
 
-import pruebasPokemon.PokemonTeamWindow;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

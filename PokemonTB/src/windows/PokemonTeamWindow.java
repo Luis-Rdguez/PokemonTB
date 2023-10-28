@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
 
-import pruebasPokemon.CreatePokemonTeamWindow;
-
 public class PokemonTeamWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -28,7 +26,6 @@ public class PokemonTeamWindow extends JFrame {
         
         JPanel equipoPanel = new JPanel();
         equipoPanel.setLayout(new GridLayout(6, 1));
-//    	equipoPanel.setLayout(new BoxLayout(equipoPanel, BoxLayout.Y_AXIS));
     	equipoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     	
         // Fila 3: Botones "Añadir Equipo", "Eliminar Equipo" y "Editar Equipo"
@@ -52,24 +49,17 @@ public class PokemonTeamWindow extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String nombreEquipo = nombreEquipoField.getText();
-                        nombres.add(nombreEquipo);
-                    	JLabel equipoLabel = new JLabel(nombreEquipo);
-                    	labels.add(equipoLabel);
-                    	equipoLabel.setBorder(new LineBorder(Color.BLACK));
-                    	equipoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
-                        for(JLabel label: labels) {
-                        	equipoPanel.add(label);
+                        if(!nombres.contains(nombreEquipo)) {
+                        	nombres.add(nombreEquipo);
+                        	JLabel equipoLabel = new JLabel(nombreEquipo);
+                        	labels.add(equipoLabel);
+                        	mostrarEquipos(labels, equipoPanel);
+                            
+                        } else {
+                        	showMessage("El nombre del equipo ya existe.");
                         }
-                        equipoLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                if (e.getClickCount() == 2) {
-                                    CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
-                                    vt.setVisible(true);
-                                    vt.setLocationRelativeTo(null);
-                                }
-                            }
-                        });
+                        
+                        
                         
                         revalidate();
                         repaint();
@@ -108,22 +98,27 @@ public class PokemonTeamWindow extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String nombreEquipo = nombreEquipoField.getText();
-                        if(nombres.contains(nombreEquipo)) {
+                        if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
                         	for(JLabel label : labels) {
-                        		if (label.toString().equals(nombreEquipo)) {
-                        			nombres.remove(label.toString());
+                        		if (labels.size() >= 1 && label.getText().equals(nombreEquipo)) {
+                        			nombres.remove(label.getText());
                         			labels.remove(label);
-                        			equipoPanel.remove(label);
+                        			mostrarEquipos(labels, equipoPanel);
+                        			break;
+                        		} else {
+                        			JOptionPane.showMessageDialog(null, "El equipo no existe");
                         		}
                         	}
                         	
                         }
-                        equipoPanel.revalidate();
-                    	equipoPanel.repaint();
+                        revalidate();
+                    	repaint();
                     	frameNombre.setVisible(false);
                         
                     }
+                    
                 });
+                
                 panel.add(continuarButton);
                 frameNombre.setVisible(true);
                 frameNombre.setLocationRelativeTo(null);
@@ -138,9 +133,36 @@ public class PokemonTeamWindow extends JFrame {
         add(containerButton, BorderLayout.SOUTH);
         add(equipoPanel, BorderLayout.SOUTH);
         
-
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        
+        setLocationRelativeTo(null);
     }
-
+	
+	private void showMessage(String message) {
+        JOptionPane.getRootFrame().dispose(); 
+        JOptionPane.showMessageDialog(null, message);
+        
+    }
+	
+	private void mostrarEquipos(ArrayList<JLabel> labels, JPanel panel) {
+		panel.removeAll();
+		for(JLabel label : labels) {
+			label.setBorder(new LineBorder(Color.BLACK));
+			label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
+                        vt.setVisible(true);
+                        vt.setLocationRelativeTo(null);
+                        
+                    }
+                }
+            });
+			panel.add(label);
+		}
+		revalidate();
+		repaint();
+	}
     
 }
