@@ -1,6 +1,8 @@
 package windows;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,11 +61,24 @@ public class PokedexWindow extends JFrame{
 		panelPokedex.add(BorderLayout.CENTER, scrollPanePokemon);
 		panelPokedex.add(BorderLayout.NORTH, panelFiltro);
 		
+		
+		JButton back = new JButton("Back");
+		panelPokedex.add(BorderLayout.SOUTH, back);
+		
 		this.getContentPane().add(panelPokedex);
 		
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		
+		back.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    MenuWindow mw = new MenuWindow();
+                    mw.setVisible(true);
+                    dispose();
+                }
+            });
 		
 	}
 	

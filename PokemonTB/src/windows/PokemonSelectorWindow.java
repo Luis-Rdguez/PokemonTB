@@ -1,6 +1,8 @@
 package windows;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,13 +64,20 @@ public class PokemonSelectorWindow extends JFrame{
 		JButton accept = new JButton("Accept");
 		panelPokedex.add(BorderLayout.SOUTH, accept);
 		
-		
 		this.getContentPane().add(panelPokedex);
 		
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
+		accept.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    CreatePokemonTeamWindow cpt = new CreatePokemonTeamWindow();
+                    cpt.setVisible(true);
+                    dispose();
+                }
+            });
 	}
 	
 	private void initTables() {
