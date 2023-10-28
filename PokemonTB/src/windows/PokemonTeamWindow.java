@@ -20,7 +20,7 @@ public class PokemonTeamWindow extends JFrame {
         setTitle("Main Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 400);
-        setLayout(new GridLayout(2, 1));
+        setLayout(new GridLayout(3, 1));
         nombres = new ArrayList<String>();
         labels = new ArrayList<JLabel>();
         
@@ -53,7 +53,7 @@ public class PokemonTeamWindow extends JFrame {
                         	nombres.add(nombreEquipo);
                         	JLabel equipoLabel = new JLabel(nombreEquipo);
                         	labels.add(equipoLabel);
-                        	mostrarEquipos(labels, equipoPanel);
+                        	cargarEquipos(labels, equipoPanel);
                             
                         } else {
                         	showMessage("El nombre del equipo ya existe.");
@@ -103,7 +103,7 @@ public class PokemonTeamWindow extends JFrame {
                         		if (labels.size() >= 1 && label.getText().equals(nombreEquipo)) {
                         			nombres.remove(label.getText());
                         			labels.remove(label);
-                        			mostrarEquipos(labels, equipoPanel);
+                        			cargarEquipos(labels, equipoPanel);
                         			break;
                         		} else {
                         			JOptionPane.showMessageDialog(null, "El equipo no existe");
@@ -135,13 +135,29 @@ public class PokemonTeamWindow extends JFrame {
                 }
             });
         
-        JPanel containerButton = new JPanel(new GridLayout(2,1));
+        JPanel containerButton = new JPanel(new BorderLayout());
+        
+        JPanel backPanel = new JPanel(new BorderLayout());
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MenuWindow vt = new MenuWindow();
+				vt.setVisible(true);
+				setVisible(false);
+			}
+        	
+        });
+        backPanel.add(backButton, BorderLayout.SOUTH);
+        
+        
         buttonPanel.add(eliminarEquipoButton);
         buttonPanel.add(compararEquiposButton);
         buttonPanel.add(addEquipoButton); 
-        containerButton.add(buttonPanel, BorderLayout.SOUTH);
-        add(containerButton, BorderLayout.SOUTH);
-        add(equipoPanel, BorderLayout.SOUTH);
+        containerButton.add(buttonPanel, BorderLayout.NORTH);
+        add(containerButton);
+        add(equipoPanel);
+        add(backPanel);
         
         
         setLocationRelativeTo(null);
@@ -153,7 +169,7 @@ public class PokemonTeamWindow extends JFrame {
         
     }
 	
-	private void mostrarEquipos(ArrayList<JLabel> labels, JPanel panel) {
+	private void cargarEquipos(ArrayList<JLabel> labels, JPanel panel) {
 		panel.removeAll();
 		for(JLabel label : labels) {
 			label.setBorder(new LineBorder(Color.BLACK));

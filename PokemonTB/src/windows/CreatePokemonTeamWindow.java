@@ -1,16 +1,22 @@
 package windows;
 import javax.swing.*;
 
+import classes.Pokemon;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreatePokemonTeamWindow extends JFrame {
-    /**
-	 * 
-	 */
+    
 	private static final long serialVersionUID = 1L;
-
+	
+	Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
+	List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
+	
 	public CreatePokemonTeamWindow() {
         setTitle("Create Pokemon Team Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,9 +46,9 @@ public class CreatePokemonTeamWindow extends JFrame {
             panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-//                	Esta comentado porque aun no existe la clase
-//                	PokedexSelectorWindow vt = new PokedexSelectorWindow();
-//                	vt.setVisible(true);
+                	PokemonSelectorWindow vt = new PokemonSelectorWindow(pokemons);
+                	vt.setVisible(true);
+                	setVisible(false);
                     JOptionPane.showMessageDialog(null, "Esto abre la base de datos de pokemons ");
                 }
             });
