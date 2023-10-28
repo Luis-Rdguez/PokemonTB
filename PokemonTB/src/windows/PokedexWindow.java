@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,8 +44,8 @@ public class PokedexWindow extends JFrame{
 		
 		this.loadPokemons();
 		
-		JScrollPane scrollPaneComics = new JScrollPane(this.tablaPokemons);
-		scrollPaneComics.setBorder(new TitledBorder("Comics"));
+		JScrollPane scrollPanePokemon = new JScrollPane(this.tablaPokemons);
+		scrollPanePokemon.setBorder(new TitledBorder("Pokemons"));
 		this.tablaPokemons.setFillsViewportHeight(true);
 		
 		this.txtFiltro = new JTextField(20);	
@@ -55,8 +56,10 @@ public class PokedexWindow extends JFrame{
 		
 		JPanel panelPokedex = new JPanel();
 		panelPokedex.setLayout(new BorderLayout());
-		panelPokedex.add(BorderLayout.CENTER, scrollPaneComics);
+		panelPokedex.add(BorderLayout.CENTER, scrollPanePokemon);
 		panelPokedex.add(BorderLayout.NORTH, panelFiltro);
+		
+		this.getContentPane().add(panelPokedex);
 		
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
@@ -67,18 +70,7 @@ public class PokedexWindow extends JFrame{
 	private void initTables() {
 		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability"));
 		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons);
-		this.tablaPokemons = new JTable(this.modeloDatosPokemon) {
-			private static final long serialVersionUID = 1L;
-
-			public boolean isCellEditable(int row, int col) {
-				if (col == 0 || col == 12) {
-					return false;
-	         	} else {
-	         		return true;
-	         	}
-	         }
-		};
-		
+		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
 	}
 	
 	
