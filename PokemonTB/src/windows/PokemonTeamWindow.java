@@ -129,7 +129,7 @@ public class PokemonTeamWindow extends JFrame {
         compararEquiposButton.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-            	CompareWindow cw = new CompareWindow();
+            		CompareWindow cw = new CompareWindow();
                     cw.setVisible(true);
                     dispose();
                 }
