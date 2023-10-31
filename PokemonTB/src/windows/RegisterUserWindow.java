@@ -2,6 +2,7 @@ package windows;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,37 +42,37 @@ public class RegisterUserWindow extends JDialog {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new MigLayout("", "[67px][5px][19px][5px][68px,grow][5px][13px][][5px][26px,grow][5px][25px][5px][7px][5px][18px][5px][9px][5px][94px][7px]", "[22px][22px][23px][][][][][][][][][][][][][]"));
+		panel.setLayout(new GridLayout(7, 2));
 		
 		JLabel lblUser = new JLabel("Username");
-		panel.add(lblUser, "cell 4 0,alignx left,aligny center");
+		panel.add(lblUser);
 		
 		JTextField txtName = new JTextField();
-		panel.add(txtName, "cell 4 1,alignx left,aligny center");
+		panel.add(txtName);
 		txtName.setColumns(10);
 		
 		JLabel lblFirstSurname= new JLabel("First Surname");
-		panel.add(lblFirstSurname, "cell 4 2");
+		panel.add(lblFirstSurname);
 		
 		JLabel lblSecondSurname = new JLabel("Second Surname");
-		panel.add(lblSecondSurname, "cell 9 2");
+		panel.add(lblSecondSurname);
 	
 		JTextField txtFirstSurname = new JTextField();
-		panel.add(txtFirstSurname, "cell 4 3,growx");
+		panel.add(txtFirstSurname);
 		txtFirstSurname.setColumns(10);
 		
 		JTextField txtSecondSurname = new JTextField();
-		panel.add(txtSecondSurname, "cell 9 3,growx");
+		panel.add(txtSecondSurname);
 		txtSecondSurname.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		panel.add(lblPassword, "cell 4 4,alignx left,aligny center");
+		panel.add(lblPassword);
 		
 		JPasswordField password = new JPasswordField();
-		panel.add(password, "cell 4 5,growx,aligny center");
+		panel.add(password);
 		
 		Button bShowPassword = new Button("Show");
-		panel.add(bShowPassword, "cell 7 5,alignx left,aligny top");
+		//panel.add(bShowPassword);
 		bShowPassword.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -81,13 +82,13 @@ public class RegisterUserWindow extends JDialog {
 		});
 		
 		JLabel lblPassword2 = new JLabel("Repeat Password");
-		panel.add(lblPassword2, "cell 4 6,alignx left,aligny center");
+		panel.add(lblPassword2);
 		
 		JPasswordField password2 = new JPasswordField();
-		panel.add(password2, "cell 4 7,growx,aligny center");
+		panel.add(password2);
 		
 		Button bShowPassword2 = new Button("Show");
-		panel.add(bShowPassword2, "cell 7 7,alignx right,aligny top");
+		//panel.add(bShowPassword2);
 		bShowPassword2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,32 +97,36 @@ public class RegisterUserWindow extends JDialog {
 		});
 		
 		JLabel lblEmail = new JLabel("Correo Electrónico");
-		panel.add(lblEmail, "cell 4 8,alignx left,aligny center");
+		panel.add(lblEmail);
 		
 		JTextField txtEmail = new JTextField();
-		panel.add(txtEmail, "cell 4 9,alignx left,aligny center");
+		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JLabel lblPhone = new JLabel("Teléfono");
-		panel.add(lblPhone, "cell 4 10,alignx left,aligny center");
+		panel.add(lblPhone);
 		
 		JTextField txtTelefono = new JTextField();
-		panel.add(txtTelefono, "cell 4 11,alignx left,aligny center");
+		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
+		
+		JPanel panelButtons = new JPanel();
 		JButton bAccept = new JButton("Accept");
-		panel.add(bAccept, "cell 19 16,alignx left,aligny top");
+		panelButtons.add(bAccept);
 		
 		bAccept.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { 
-
+				StartWindow st = new StartWindow();
+				st.setVisible(true);
+				dispose();
 			}
 			
 		});
 		
 		JButton btnBack = new JButton("Back");
-		panel.add(btnBack, "cell 0 16");
+		panelButtons.add(btnBack);
 		
 		btnBack.addActionListener(new ActionListener() {
 			@Override
@@ -131,6 +136,8 @@ public class RegisterUserWindow extends JDialog {
 				dispose();
 			}
 		});
+		
+		contentPane.add(panelButtons, BorderLayout.SOUTH);
 		
 		this.setVisible(true);
 	}

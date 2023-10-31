@@ -17,6 +17,8 @@ public class PokemonTeamWindow extends JFrame {
 	private ArrayList<JLabel> labels;
 
 	public PokemonTeamWindow() {
+		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
+		setIconImage(icon.getImage());
         setTitle("Main Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 400);

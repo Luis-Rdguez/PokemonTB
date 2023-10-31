@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +37,8 @@ public class MenuWindow extends JFrame{
     }
 
 	public MenuWindow() {
+		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
+		setIconImage(icon.getImage());
         setTitle("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(470, 340);

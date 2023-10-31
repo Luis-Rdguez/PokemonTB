@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +27,8 @@ public class CompareWindow  extends JFrame{
 	
 	
 	public CompareWindow() {
+		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
+		setIconImage(icon.getImage());
         setTitle("Compare teams");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);

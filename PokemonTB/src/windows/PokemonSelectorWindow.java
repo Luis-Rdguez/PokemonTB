@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -40,6 +41,8 @@ public class PokemonSelectorWindow extends JFrame{
 	}
 	
 	public PokemonSelectorWindow(List<Pokemon> pokemons) {
+		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
+		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
 		this.initTables();
