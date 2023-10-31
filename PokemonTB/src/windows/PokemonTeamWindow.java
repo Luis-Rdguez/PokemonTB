@@ -38,7 +38,6 @@ public class PokemonTeamWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
             	// Creamos un frame para guardar el nombre del equipo
                 JFrame frameNombre = new JFrame("Nombre Equipo");
-                frameNombre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frameNombre.setSize(500, 130);
                 JPanel panel = new JPanel();
                 JLabel labelPregunta = new JLabel("Escoja el nombre del equipo:", SwingConstants.CENTER);
@@ -86,7 +85,6 @@ public class PokemonTeamWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
             	// Creamos un frame para guardar el nombre del equipo
                 JFrame frameNombre = new JFrame("Nombre Equipo");
-                frameNombre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frameNombre.setSize(500, 130);
                 JPanel panel = new JPanel();
                 

@@ -68,7 +68,7 @@ public class CompareWindow  extends JFrame{
         panelTeam2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam2.setBackground(Color.WHITE);
         panelTeam2.setLayout(new BorderLayout());
-        panelTeam2.add(new JLabel("Panel 2", SwingConstants.CENTER), BorderLayout.CENTER);
+        panelTeam2.add(new JLabel("Team 2", SwingConstants.CENTER), BorderLayout.CENTER);
         panelTeam2.setPreferredSize(new Dimension(100, 100));
         panelTeam2.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.BLACK),
