@@ -70,6 +70,8 @@ public class StartWindow extends JFrame {
 		JButton bRegisterUser = new JButton("Register");
 		bPanel.add(bRegisterUser);
 			
+		bPanel.setOpaque(false);
+		
 		bLoginUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
