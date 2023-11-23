@@ -69,7 +69,7 @@ public class MenuWindow extends JFrame{
                 public void actionPerformed(ActionEvent e) {
                     Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
                     List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
-                    PokedexWindow frame = new PokedexWindow(pokemons, "p");
+                    PokedexWindow frame = new PokedexWindow(pokemons, null, 0);
                     frame.setVisible(true);
                     dispose();
                 }

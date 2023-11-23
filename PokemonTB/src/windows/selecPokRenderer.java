@@ -10,15 +10,20 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import classes.Pokemon;
+import classes.PokemonTeam;
 
 public class selecPokRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 	private static final long serialVersionUID = 1L;
 	
 	private Pokemon pokemon;
 	private PokedexWindow pokedex;
+	private PokemonTeam team;
+	private int pos;
 	
-	public selecPokRenderer(PokedexWindow pokedex, ) {
+	public selecPokRenderer(PokedexWindow pokedex, PokemonTeam team, int pos) {
 		this.pokedex = pokedex;
+		this.team = team;
+		this.pos = pos;
 	}
 	
 	private JButton select(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

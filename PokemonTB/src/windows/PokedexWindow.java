@@ -37,22 +37,22 @@ public class PokedexWindow extends JFrame{
 		Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		Pokemon p2 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1,p2));
-		PokedexWindow frame = new PokedexWindow(pokemons, "s");
+		PokedexWindow frame = new PokedexWindow(pokemons, "hola", 6);
 		frame.setVisible(true);
 	}
 	
-	public PokedexWindow(List<Pokemon> pokemons, String PoS) {
+	public PokedexWindow(List<Pokemon> pokemons, String name, int pos) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		if(PoS == "p") {
+		if(name == null) {
 			this.initTables1();
 			this.loadPokemons();
 		}else {
 			this.initTables2();
 			this.loadPokemons();
-			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this));
+			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, name, pos));
 		}
 		
 	
