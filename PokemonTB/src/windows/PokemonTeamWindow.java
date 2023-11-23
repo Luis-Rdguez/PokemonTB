@@ -55,6 +55,7 @@ public class PokemonTeamWindow extends JFrame {
                         String nombreEquipo = nombreEquipoField.getText();
                         User u1 = new User("hola", "hola", "hola", "hola", "hola", 6);
                     	PokemonTeam t1 = new PokemonTeam(nombreEquipo, u1);
+                    	u1.anadirEquipo(t1);
                         if(!nombres.contains(nombreEquipo)) {
                         	nombres.add(nombreEquipo);
                         	JLabel equipoLabel = new JLabel(nombreEquipo);
@@ -180,15 +181,16 @@ public class PokemonTeamWindow extends JFrame {
 			label.setBorder(new LineBorder(Color.BLACK));
 			label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			label.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-				    if (e.getClickCount() == 2) {
-					CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
-					vt.setVisible(true);
-					vt.setLocationRelativeTo(null);
-                        
-                    }
-                }
+//				@Override
+//				public void mouseClicked(MouseEvent e) {
+//				    if (e.getClickCount() == 2) {
+//					CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow();
+//					vt.setVisible(true);
+//					vt.setLocationRelativeTo(null);
+//                        
+//                    }
+//                }
+				//Que es esto??
             });
 			panel.add(label);
 		}
