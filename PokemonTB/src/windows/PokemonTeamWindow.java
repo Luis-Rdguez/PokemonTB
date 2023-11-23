@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
 
+import classes.PokemonTeam;
+import classes.User;
+
 public class PokemonTeamWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -50,6 +53,8 @@ public class PokemonTeamWindow extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String nombreEquipo = nombreEquipoField.getText();
+                        User u1 = new User("hola", "hola", "hola", "hola", "hola", 6);
+                    	PokemonTeam t1 = new PokemonTeam(nombreEquipo, u1);
                         if(!nombres.contains(nombreEquipo)) {
                         	nombres.add(nombreEquipo);
                         	JLabel equipoLabel = new JLabel(nombreEquipo);

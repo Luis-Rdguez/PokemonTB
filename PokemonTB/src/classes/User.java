@@ -1,5 +1,8 @@
 package classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 
 	private String username;
@@ -8,6 +11,7 @@ public class User {
 	private String secondSurname;
 	private String email;
 	private int telephone;
+	private List<PokemonTeam> equipos;
 	public User(String username, String password, String firstSurname, String secondSurname, String email,
 			int telephone) {
 		super();
@@ -17,6 +21,16 @@ public class User {
 		this.secondSurname = secondSurname;
 		this.email = email;
 		this.telephone = telephone;
+		this.equipos = new ArrayList<>();
+	}
+	public List<PokemonTeam> getEquipos() {
+		return equipos;
+	}
+	public void setEquipos(List<PokemonTeam> equipos) {
+		this.equipos = equipos;
+	}
+	public void anadirEquipo(PokemonTeam team) {
+		this.equipos.add(team);
 	}
 	public String getUsername() {
 		return username;

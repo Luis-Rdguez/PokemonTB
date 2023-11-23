@@ -2,6 +2,7 @@ package windows;
 import javax.swing.*;
 
 import classes.Pokemon;
+import classes.PokemonTeam;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,11 +14,12 @@ import java.util.List;
 public class CreatePokemonTeamWindow extends JFrame {
     
 	private static final long serialVersionUID = 1L;
-	
+
 	Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 	List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
 	
-	public CreatePokemonTeamWindow() {
+	
+	public CreatePokemonTeamWindow(PokemonTeam team) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
         setTitle("Create Pokemon Team Window");
@@ -28,13 +30,13 @@ public class CreatePokemonTeamWindow extends JFrame {
 
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
-
         for (int i = 0; i < 6; i++) {
+        	int ind = i+1;
             JPanel panel = new JPanel();
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             panel.setBackground(Color.WHITE);
             panel.setLayout(new BorderLayout());
-            panel.add(new JLabel("Panel " + (i + 1), SwingConstants.CENTER), BorderLayout.CENTER);
+            panel.add(new JLabel("Panel " + (ind), SwingConstants.CENTER), BorderLayout.CENTER);
 
             int arc = 20;
             panel.setPreferredSize(new Dimension(100, 100));
@@ -48,10 +50,9 @@ public class CreatePokemonTeamWindow extends JFrame {
             panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                	PokemonSelectorWindow vt = new PokemonSelectorWindow(pokemons);
+                	PokedexWindow vt = new PokedexWindow(pokemons, team, ind);
                 	vt.setVisible(true);
                 	setVisible(false);
-                    JOptionPane.showMessageDialog(null, "Esto abre la base de datos de pokemons ");
                 }
             });
 
@@ -63,10 +64,8 @@ public class CreatePokemonTeamWindow extends JFrame {
 
         JButton guardarEquipoButton = new JButton("Guardar equipo");
         guardarEquipoButton.addActionListener(e -> {
-        	PokemonTeamWindow vt = new PokemonTeamWindow();
-        	vt.setVisible(true);
-        	vt.setLocationRelativeTo(null);
-        	this.setVisible(false);
+        	dispose();
+        	//cargar los equipos desde la base de datos
         });
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(guardarEquipoButton);
