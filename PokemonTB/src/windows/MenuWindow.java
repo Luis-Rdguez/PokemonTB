@@ -1,4 +1,4 @@
-package windows;
+	package windows;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -42,21 +45,24 @@ public class MenuWindow extends JFrame{
         setTitle("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(470, 340);
-        setLayout(new BorderLayout());
         setLocationRelativeTo(null);
+        
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        
+        JMenu optionsMenu = new JMenu("Options");
+        menuBar.add(optionsMenu);
+        
+        JMenuItem openTeamsItem = new JMenuItem("Open Teams");
+        JMenuItem pokedexItem = new JMenuItem("Pokedex");
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        
+        optionsMenu.add(openTeamsItem);
+        optionsMenu.add(pokedexItem);
+        optionsMenu.addSeparator();
+        optionsMenu.add(logoutItem);
 
-        JPanel panelContainer = new JPanel();
-        panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
-
-        JButton OpenTeams = new JButton("Open Teams");
-        JButton Pokedex = new JButton("Pokedex");
-        JButton Logout = new JButton("Logout");
-        this.getContentPane().setLayout(new GridLayout(3, 1));
-        this.getContentPane().add(OpenTeams);
-        this.getContentPane().add(Pokedex);
-        this.getContentPane().add(Logout);
-
-        OpenTeams.addActionListener(new ActionListener() {
+        openTeamsItem.addActionListener(new ActionListener() {
             @Override
             	public void actionPerformed(ActionEvent e) {
             		PokemonTeamWindow ptw = new PokemonTeamWindow();
@@ -64,7 +70,7 @@ public class MenuWindow extends JFrame{
             		dispose();
             	}
             });
-        Pokedex.addActionListener(new ActionListener() {
+        pokedexItem.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
                     Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
@@ -74,7 +80,7 @@ public class MenuWindow extends JFrame{
                     dispose();
                 }
             });
-        Logout.addActionListener(new ActionListener() {
+        logoutItem.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
                     StartWindow sw = new StartWindow();
