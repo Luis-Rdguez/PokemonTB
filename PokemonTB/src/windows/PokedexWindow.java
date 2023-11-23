@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import classes.Pokemon;
+import classes.PokemonTeam;
 
 
 public class PokedexWindow extends JFrame{
@@ -37,22 +38,22 @@ public class PokedexWindow extends JFrame{
 		Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		Pokemon p2 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1,p2));
-		PokedexWindow frame = new PokedexWindow(pokemons, "hola", 6);
+		PokedexWindow frame = new PokedexWindow(pokemons, null, 0);
 		frame.setVisible(true);
 	}
 	
-	public PokedexWindow(List<Pokemon> pokemons, String name, int pos) {
+	public PokedexWindow(List<Pokemon> pokemons, PokemonTeam team, int pos) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		if(name == null) {
+		if(team == null) {
 			this.initTables1();
 			this.loadPokemons();
 		}else {
 			this.initTables2();
 			this.loadPokemons();
-			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, name, pos));
+			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, team, pos));
 		}
 		
 	
@@ -85,7 +86,7 @@ public class PokedexWindow extends JFrame{
 		back.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-            		if(PoS == "p") {
+            		if(team == null) {
                         MenuWindow mw = new MenuWindow();
                         mw.setVisible(true);
                         dispose();

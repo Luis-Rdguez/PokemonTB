@@ -36,7 +36,16 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 		}
 		
 		button.addActionListener(e -> {
-			
+			switch (this.pos) {
+			case 1: {this.team.setP1(this.pokemon);}
+			case 2: {this.team.setP2(this.pokemon);}
+			case 3: {this.team.setP3(this.pokemon);}
+			case 4: {this.team.setP4(this.pokemon);}
+			case 5: {this.team.setP5(this.pokemon);}
+			case 6: {this.team.setP6(this.pokemon);}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + this.pos);
+			}
 		});
 		
 		button.setOpaque(true);
