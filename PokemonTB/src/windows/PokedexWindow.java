@@ -36,18 +36,25 @@ public class PokedexWindow extends JFrame{
 	public static void main(String[] args) {
 		Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
-		PokedexWindow frame = new PokedexWindow(pokemons);
+		PokedexWindow frame = new PokedexWindow(pokemons, "s");
 		frame.setVisible(true);
 	}
 	
-	public PokedexWindow(List<Pokemon> pokemons) {
+	public PokedexWindow(List<Pokemon> pokemons, String PoS) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		this.initTables();
+		if(PoS == "p") {
+			this.initTables1();
+			this.loadPokemons();
+		}else {
+			this.initTables2();
+			this.loadPokemons();
+			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this));
+		}
 		
-		this.loadPokemons();
+	
 		
 		JScrollPane scrollPanePokemon = new JScrollPane(this.tablaPokemons);
 		scrollPanePokemon.setBorder(new TitledBorder("Pokemons"));
@@ -85,8 +92,13 @@ public class PokedexWindow extends JFrame{
 		
 	}
 	
-	private void initTables() {
+	private void initTables1() {
 		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability"));
+		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons);
+		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
+	}
+	private void initTables2() {
+		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability","Select"));
 		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons);
 		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
 	}
