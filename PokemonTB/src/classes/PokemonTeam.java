@@ -1,7 +1,12 @@
 package classes;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PokemonTeam {
 	
+	private static Set<String> valoresUnicos = new HashSet<>();
+	private String name;
 	private User u1;
 	private Pokemon p1;
 	private Pokemon p2;
@@ -14,8 +19,13 @@ public class PokemonTeam {
 		super();
 	}
 	
-	public PokemonTeam(User u1, Pokemon p1, Pokemon p2, Pokemon p3, Pokemon p4, Pokemon p5, Pokemon p6) {
+	public PokemonTeam(String name, User u1, Pokemon p1, Pokemon p2, Pokemon p3, Pokemon p4, Pokemon p5, Pokemon p6) {
 		super();
+		if (valoresUnicos.contains(name)) {
+            throw new IllegalArgumentException("El nombre ya existe, intentalo de nuevo.");
+        }
+        this.name = name;
+        valoresUnicos.add(name);
 		this.u1 = u1;
 		this.p1 = p1;
 		this.p2 = p2;
@@ -23,6 +33,10 @@ public class PokemonTeam {
 		this.p4 = p4;
 		this.p5 = p5;
 		this.p6 = p6;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public User getU1() {

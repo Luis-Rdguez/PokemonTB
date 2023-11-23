@@ -35,7 +35,8 @@ public class PokedexWindow extends JFrame{
 	
 	public static void main(String[] args) {
 		Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
-		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
+		Pokemon p2 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
+		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1,p2));
 		PokedexWindow frame = new PokedexWindow(pokemons, "s");
 		frame.setVisible(true);
 	}
@@ -84,9 +85,14 @@ public class PokedexWindow extends JFrame{
 		back.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-                    MenuWindow mw = new MenuWindow();
-                    mw.setVisible(true);
-                    dispose();
+            		if(PoS == "p") {
+                        MenuWindow mw = new MenuWindow();
+                        mw.setVisible(true);
+                        dispose();
+            		}else {
+            			dispose();
+            		}
+
                 }
             });
 		

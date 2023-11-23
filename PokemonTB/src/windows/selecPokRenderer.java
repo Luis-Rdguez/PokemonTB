@@ -17,7 +17,7 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	private Pokemon pokemon;
 	private PokedexWindow pokedex;
 	
-	public selecPokRenderer(PokedexWindow pokedex) {
+	public selecPokRenderer(PokedexWindow pokedex, ) {
 		this.pokedex = pokedex;
 	}
 	
