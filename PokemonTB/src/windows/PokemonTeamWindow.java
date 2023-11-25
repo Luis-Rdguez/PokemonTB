@@ -18,7 +18,9 @@ public class PokemonTeamWindow extends JFrame {
 	
 	private ArrayList<String> nombres;
 	private ArrayList<JLabel> labels;
-
+	
+	
+	
 	public PokemonTeamWindow() {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
@@ -130,7 +132,7 @@ public class PokemonTeamWindow extends JFrame {
                 frameNombre.setLocationRelativeTo(null);
             }	
         });
-        JButton compararEquiposButton = new JButton("Comparar Equipos");
+        JButton compararEquiposButton = new JButton("Competir");
         
         compararEquiposButton.addActionListener(new ActionListener() {
             @Override

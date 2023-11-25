@@ -19,6 +19,7 @@ public class CreatePokemonTeamWindow extends JFrame {
 	List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
 	
 	
+	
 	public CreatePokemonTeamWindow(PokemonTeam team) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
