@@ -13,8 +13,6 @@ public class db {
 	
 	
 	// Metodos CSV
-	
-	@SuppressWarnings("unchecked")
 	public static List<Pokemon> importarPokemonsDesdeCSV() {
 		List<Pokemon> pokemons = new ArrayList<>();
 		try (BufferedReader in = new BufferedReader(new FileReader("resources/pokemon.csv"))) {
