@@ -17,14 +17,13 @@ public class CreatePokemonTeamWindow extends JFrame {
 
 	Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 	List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
-	
-	
+
 	
 	public CreatePokemonTeamWindow(PokemonTeam team) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
         setTitle("Create Pokemon Team Window");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(470, 340);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);

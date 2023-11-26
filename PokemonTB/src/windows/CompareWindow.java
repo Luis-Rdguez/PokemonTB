@@ -1,6 +1,7 @@
 package windows;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -9,16 +10,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -30,8 +31,8 @@ public class CompareWindow  extends JFrame{
 	
 	private JPanel contentPane;
 	private List<PokemonTeam> listaEquipos;
-	private static final long serialVersionUID = 1L;
-		
+	private List<Pokemon> pokemons;
+	private static final long serialVersionUID = 1L;	
 	
 	public CompareWindow() {
 		
@@ -69,48 +70,8 @@ public class CompareWindow  extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2) {
-                	 // Mostrar el JFrame
-                    JFrame frame = new JFrame("Seleccionar Equipo");
-                    JPanel panel = new JPanel(new GridLayout(3, 1));
-
-                    JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
-                    JTextField nombreEquipoField = new JTextField();
-                    JButton seleccionarButton = new JButton("Seleccionar Equipo");
-
-                    seleccionarButton.addActionListener(ev -> {
-                        // Acciones a realizar al seleccionar el equipo
-                        String nombreEquipoInput = nombreEquipoField.getText();
-                        for (PokemonTeam pt : listaEquipos) {
-                            if(pt.getName().equals(nombreEquipoInput)) {
-                            	for (int i = 1; i <= 6; i++) {
-                                    try {
-                                        // Obtener dinámicamente el método getP1(), getP2(), getP3()
-                                        String methodName = "getP" + i;
-                                        Pokemon pokemon = (Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt);
-
-                                        // Crear y agregar el panel correspondiente
-                                        JPanel panelPokemon = new JPanel();
-                                        panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                                        panelPokemon.add(new JLabel("Id: " + pokemon.getId()));
-                                        getContentPane().add(panelPokemon);
-                                    } catch (Exception s) {
-                                        s.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                        frame.dispose();
-                    });
-
-                    panel.add(mensajeLabel);
-                    panel.add(nombreEquipoField);
-                    panel.add(seleccionarButton);
-
-                    frame.getContentPane().add(panel);
-                    frame.setSize(300, 150);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                
+                	 cargarEquipo();
+                    
                 }
             }
         });
@@ -118,55 +79,6 @@ public class CompareWindow  extends JFrame{
         panelContainer.add(panelTeam1);
         JPanel panelTeam2= new JPanel();
         
-        panelTeam2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2) {
-                	 // Mostrar el JFrame
-                    JFrame frame = new JFrame("Seleccionar Equipo");
-                    JPanel panel = new JPanel(new GridLayout(3, 1));
-
-                    JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
-                    JTextField nombreEquipoField = new JTextField();
-                    JButton seleccionarButton = new JButton("Seleccionar Equipo");
-
-                    seleccionarButton.addActionListener(ev -> {
-                        // Acciones a realizar al seleccionar el equipo
-                        String nombreEquipoInput = nombreEquipoField.getText();
-                        for (PokemonTeam pt : listaEquipos) {
-                            if(pt.getName().equals(nombreEquipoInput)) {
-                            	for (int i = 1; i <= 6; i++) {
-                                    try {
-                                        // Obtener dinámicamente el método getP1(), getP2(), getP3()
-                                        String methodName = "getP" + i;
-                                        Pokemon pokemon = (Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt);
-
-                                        // Crear y agregar el panel correspondiente
-                                        JPanel panelPokemon = new JPanel();
-                                        panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                                        panelPokemon.add(new JLabel("Id: " + pokemon.getId()));
-                                        getContentPane().add(panelPokemon);
-                                    } catch (Exception s) {
-                                        s.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                        frame.dispose();
-                    });
-
-                    panel.add(mensajeLabel);
-                    panel.add(nombreEquipoField);
-                    panel.add(seleccionarButton);
-
-                    frame.getContentPane().add(panel);
-                    frame.setSize(300, 150);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                
-                }
-            }
-        });
         panelTeam2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam2.setBackground(Color.WHITE);
         panelTeam2.setLayout(new BorderLayout());
@@ -178,19 +90,30 @@ public class CompareWindow  extends JFrame{
         ));
 
         panelTeam2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         panelTeam2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	JOptionPane.showMessageDialog(null, "Esto selecciona un equipo");
+                if(e.getClickCount() == 2) {
+                	cargarEquipo();
+                }
             }
         });
-
         panelContainer.add(panelTeam2);
         
         contentPane.add(panelContainer, BorderLayout.CENTER);
 
-
+//        JButton competir = new JButton("Competir");
+//        
+//        competir.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//        	
+//        });
+//        contentPane.add(competir, BorderLayout.CENTER);
+        
         JButton bBack = new JButton("Back");
         
         bBack.addActionListener(new ActionListener() {
@@ -206,5 +129,84 @@ public class CompareWindow  extends JFrame{
         setVisible(true);
 	}
 	
+	public void cargarEquipo() {
+		JFrame frame = new JFrame("Seleccionar Equipo");
+        JPanel panel = new JPanel(new GridLayout(3, 1));
+
+        JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
+        JTextField nombreEquipoField = new JTextField();
+        JButton seleccionarButton = new JButton("Seleccionar Equipo");
+
+        seleccionarButton.addActionListener(ev -> {
+            // Acciones a realizar al seleccionar el equipo
+            String nombreEquipoInput = nombreEquipoField.getText();
+            for (PokemonTeam pt : listaEquipos) {
+                if(pt.getName().equals(nombreEquipoInput)) {
+                	for (int i = 1; i <= 6; i++) {
+                        try {
+                            String methodName = "getP" + i;
+                            Pokemon pokemon = (Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt);
+
+                            // Crear y agregar el panel correspondiente
+                            JPanel panelPokemon = new JPanel();
+                            panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                            panelPokemon.add(new JLabel("Name: " + pokemon.getPokemon()));
+                            getContentPane().add(panelPokemon);
+                        } catch (Exception s) {
+                            s.printStackTrace();
+                        }
+                    }
+                }
+            }
+            frame.dispose();
+        });
+
+        panel.add(mensajeLabel);
+        panel.add(nombreEquipoField);
+        panel.add(seleccionarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    
+	}
+	
+	
+	public String compararPokemons(Pokemon p1, Pokemon p2) {
+		int contP1 = 0;
+		int contP2 = 0;
+		
+		if(p1.getAttack() > p2.getHp() + p2.getDefense()) {
+			contP1 += 1;
+		} else {
+			contP2 += 1;
+		}
+		
+		if(p2.getAttack() > p1.getHp() + p1.getDefense()){
+			contP2 += 1;
+		} else {
+			contP1 += 1;
+		}
+		if(mayorValor(contP1, contP2) == contP1) {
+			return "Ha ganado" + p1.getPokemon();
+		} else {
+			return "Ha ganado" + p2.getPokemon();
+		}
+		
+	}
+	
+	
+	
+	public int mayorValor(int valor1, int valor2) {
+		
+		if(valor1 > valor2) {
+			return valor1;
+		} else if(valor1 < valor2){
+			return valor2;
+		} else {
+			return valor1;
+		}
+	}
 	
 }

@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
@@ -18,10 +23,52 @@ public class PokemonTeamWindow extends JFrame {
 	
 	private ArrayList<String> nombres;
 	private ArrayList<JLabel> labels;
+	private JLabel label;
+	private JPanel panel;
 	
+	public ArrayList<String> cargarNombres() {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("resources/pokemonteams.csv"))) {
+            String linea;
+            reader.readLine();
+            while ((linea = reader.readLine()) != null) {
+                String[] elementos = linea.split(",");
+                
+                for (int i = 0; i < elementos.length; i++) {
+                    elementos[i] = elementos[i].replaceAll("\"", "").trim();
+                }
+
+                if (elementos.length > 0) {
+                    nombres.add(elementos[0]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		return nombres;
+		
+	}
 	
+	public ArrayList<JLabel> cargarLabels() {
+		cargarNombres();
+		for(String s : nombres) {
+			label = new JLabel(s);
+			labels.add(label);
+		}
+		return labels;	
+	}
 	
 	public PokemonTeamWindow() {
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                cargarLabels();
+                cargarEquipos(labels, panel);
+                revalidate();
+            	repaint();
+            }
+        });
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
         setTitle("Main Window");
@@ -30,6 +77,9 @@ public class PokemonTeamWindow extends JFrame {
         setLayout(new GridLayout(3, 1));
         nombres = new ArrayList<String>();
         labels = new ArrayList<JLabel>();
+        panel = new JPanel();
+        
+        
         
         JPanel equipoPanel = new JPanel();
         equipoPanel.setLayout(new GridLayout(6, 1));
@@ -54,6 +104,7 @@ public class PokemonTeamWindow extends JFrame {
                 continuarButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                    	cargarNombres();
                         String nombreEquipo = nombreEquipoField.getText();
                         User u1 = new User("hola", "hola", "hola", "hola", "hola", 6);
                     	PokemonTeam t1 = new PokemonTeam(nombreEquipo, u1);
@@ -63,7 +114,15 @@ public class PokemonTeamWindow extends JFrame {
                         	JLabel equipoLabel = new JLabel(nombreEquipo);
                         	labels.add(equipoLabel);
                         	cargarEquipos(labels, equipoPanel);
-                            
+                        	
+                            CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(null);
+                            cp.setVisible(true);
+//                            try {
+//								anadirEquipoAFichero(nombreEquipo);
+//							} catch (IOException e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
                         } else {
                         	showMessage("El nombre del equipo ya existe.");
                         }
@@ -93,6 +152,7 @@ public class PokemonTeamWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
             	// Creamos un frame para guardar el nombre del equipo
                 JFrame frameNombre = new JFrame("Nombre Equipo");
+                frameNombre.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 frameNombre.setSize(500, 130);
                 JPanel panel = new JPanel();
                 
@@ -192,12 +252,18 @@ public class PokemonTeamWindow extends JFrame {
                         
                     }
                 }
-				//Que es esto??
             });
 			panel.add(label);
 		}
 		revalidate();
 		repaint();
 	}
+	
+//	public static void anadirEquipoAFichero(String nombreEquipo) throws IOException {
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/pokemonteams.csv", true))) {
+//            
+//            writer.write(nombreEquipo);
+//        }
+//    }
     
 }
