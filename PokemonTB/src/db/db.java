@@ -159,17 +159,15 @@ public class db {
                         String pokemonName = fields[i];
                         if (!pokemonName.isEmpty()) {
                             Pokemon pokemon = findPokemonByName(pkm, pokemonName);
-                            if (pokemon != null) {
-                            	switch (i) {
-								case 2: {team.setP1(pokemon);}
-								case 3: {team.setP2(pokemon);}
-								case 4: {team.setP3(pokemon);}
-								case 5: {team.setP4(pokemon);}
-								case 6: {team.setP5(pokemon);}
-								case 7: {team.setP6(pokemon);}
-								default:
-									team.setP1(null);
-								}
+                            switch (i) {
+                            case 2: team.setP1(pokemon); break;
+                            case 3: team.setP2(pokemon); break;
+                            case 4: team.setP3(pokemon); break;
+                            case 5: team.setP4(pokemon); break;
+                            case 6: team.setP5(pokemon); break;
+                            case 7: team.setP6(pokemon); break;
+                            default:
+                                break;
                             }
                         }
                     }
