@@ -1,9 +1,10 @@
 package windows;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import classes.Pokemon;
@@ -50,6 +52,22 @@ public class PokedexWindow extends JFrame{
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
+		DefaultTableCellRenderer imageRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value instanceof ImageIcon) {
+                    setIcon((ImageIcon) value);
+                    setHorizontalAlignment(CENTER);
+                    setVerticalAlignment(CENTER);
+                    setText("");
+                } else {
+                    setIcon(null);
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                }
+                return this;
+            }
+        };
+		
 		if(team == null) {
 			this.initTables1();
 			this.loadPokemons();
@@ -64,6 +82,10 @@ public class PokedexWindow extends JFrame{
 		JScrollPane scrollPanePokemon = new JScrollPane(this.tablaPokemons);
 		scrollPanePokemon.setBorder(new TitledBorder("Pokemons"));
 		this.tablaPokemons.setFillsViewportHeight(true);
+		this.tablaPokemons.setRowHeight(30);
+		this.tablaPokemons.getColumnModel().getColumn(0).setCellRenderer(imageRenderer);
+		this.tablaPokemons.getColumnModel().getColumn(2).setCellRenderer(imageRenderer);
+		this.tablaPokemons.getColumnModel().getColumn(3).setCellRenderer(imageRenderer);
 		
 		this.txtFiltro = new JTextField(20);	
 		
@@ -117,9 +139,32 @@ public class PokedexWindow extends JFrame{
 	private void loadPokemons() {
 		//Se borran los datos del modelo de datos
 		this.modeloDatosPokemon.setRowCount(0);
-		//Se añaden los comics uno a uno al modelo de datos
-		this.pokemons.forEach(c -> this.modeloDatosPokemon.addRow(
-				new Object[] {c.getId(), c.getPokemon(), c.getType_1(), c.getType_2(), c.getAttack(), c.getDefense(), c.getHp(), c.getSpecial_attack(), c.getSpecial_defense(), c.getSpeed(), c.getAbility_1(), c.getAbility_2(), c.getAbility_hidden()} )
-		);
+		//Se añaden los pokemons uno a uno al modelo de datos
+		this.pokemons.forEach(c -> {
+			String imagePath = "resources/PokemonLogos/" + c.getId() + ".png";
+			ImageIcon originalIcon = new ImageIcon(imagePath);
+            Image originalImage = originalIcon.getImage();
+            Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            ImageIcon resizedIcon = new ImageIcon(resizedImage);
+            
+            ImageIcon type1Icon = loadTypeImage(c.getType_1());
+            ImageIcon type2Icon = loadTypeImage(c.getType_2());
+
+            this.modeloDatosPokemon.addRow(
+                    new Object[]{resizedIcon, c.getPokemon(), type1Icon, type2Icon, c.getAttack(), c.getDefense(), c.getHp(), c.getSpecial_attack(), c.getSpecial_defense(), c.getSpeed(), c.getAbility_1(), c.getAbility_2(), c.getAbility_hidden()}
+            );
+        });
 	}
+	
+	//chatgpt assisted
+	private ImageIcon loadTypeImage(String type) {
+        if (type == null) {
+            return new ImageIcon(); // ImageIcon vacío para el tipo null
+        }
+        String typeImagePath = "resources/PokemonTypes/" + type.toLowerCase() + ".png";
+        ImageIcon originalIcon = new ImageIcon(typeImagePath);
+        Image originalImage = originalIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
+    }
 }
