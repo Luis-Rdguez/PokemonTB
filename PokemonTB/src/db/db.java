@@ -19,11 +19,16 @@ public class db {
         // Supongamos que tienes una lista de equipos llamada 'teamList'
         // y quieres escribirlos en un archivo CSV llamado 'pokemonteams.csv'
 		User u1 = new User("w", "w", "w", "w", "w", 4546);
-		PokemonTeam pt = new PokemonTeam("e1", u1);
-		PokemonTeam pt1 = new PokemonTeam("e2", u1);
-        List<PokemonTeam> teamList = new ArrayList<>(Arrays.asList(pt, pt1)); // Debes proporcionar la implementación de esta función
-        exportarEquiposPokemonACSV(teamList, "resources/pokemonteams.csv");
+		User u2 = new User("x", "x", "x", "x", "x", 4546);
+        List<User> listuser = new ArrayList<>(Arrays.asList(u1, u2));
+        exportarUsuariosACSV(listuser, "resources/user.csv");
+		//PokemonTeam pt = new PokemonTeam("e1", u1);
+		//PokemonTeam pt1 = new PokemonTeam("e2", u1);
+        //List<PokemonTeam> teamList = new ArrayList<>(Arrays.asList(pt, pt1));
+        //exportarEquiposPokemonACSV(teamList, "resources/pokemonteams.csv");
+        
     }
+	
 	
 	
 	
@@ -54,8 +59,22 @@ public class db {
 		return result;
 	}
 	
-	public static void exportarUsuariosACSV(ArrayList<Pokemon> listaPokemons, String filePath) {
-		
+	public static void exportarUsuariosACSV(List<User> listUsers, String filePath) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            // Escribir encabezados en el archivo CSV
+            writer.write("UserName,Password,FirstSurname,SecondSurname,email,telefono");
+            writer.newLine();
+
+            // Escribir datos de cada equipo en el archivo CSV
+            for (User user : listUsers) {
+                writer.write(user.toCSVString());
+                writer.newLine();
+            }
+
+            System.out.println("CSV file created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public static ArrayList<PokemonTeam> importarEquiposPokemonDesdeCSV(String filePath) {

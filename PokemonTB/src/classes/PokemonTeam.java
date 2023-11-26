@@ -25,6 +25,7 @@ public class PokemonTeam {
             throw new IllegalArgumentException("El nombre ya existe, intentalo de nuevo.");
         }
         this.name = name;
+        this.u1 =u1;
         valoresUnicos.add(name);
 	}
 	
@@ -81,15 +82,21 @@ public class PokemonTeam {
 				+ ", p6=" + p6 + "]";
 	}
 	public String toCSVString() {
+		String pokemon1 = (p1 != null) ? p1.getPokemon() : "";
+	    String pokemon2 = (p2 != null) ? p2.getPokemon() : "";
+	    String pokemon3 = (p3 != null) ? p3.getPokemon() : "";
+	    String pokemon4 = (p4 != null) ? p4.getPokemon() : "";
+	    String pokemon5 = (p5 != null) ? p5.getPokemon() : "";
+	    String pokemon6 = (p6 != null) ? p6.getPokemon() : "";
         return String.format("%s;%s;%s;%s;%s;%s;%s;%s",
                 name,
                 u1.getUsername(),
-                p1.getPokemon(),
-                p2.getPokemon(),
-                p3.getPokemon(),
-                p4.getPokemon(),
-                p5.getPokemon(),
-                p6.getPokemon()
+                pokemon1,
+                pokemon2,
+                pokemon3,
+                pokemon4,
+                pokemon5,
+                pokemon6
         );
     } 
 
