@@ -118,5 +118,25 @@ public class Pokemon {
 				+ ", special_defense=" + special_defense + ", speed=" + speed + ", ability_1=" + ability_1
 				+ ", ability_2=" + ability_2 + ", ability_hidden=" + ability_hidden + "]";
 	}
+	public static Pokemon parseCSV(String line) {
+		//chatgpt assisted
+        String[] parts = line.split(",");
+        int id = Integer.parseInt(parts[0].replaceAll("\"", ""));
+        String pokemon = parts[1].replaceAll("\"", "");
+        String type_1 = parts[2].replaceAll("\"", "");
+        String type_2 = parts[3].replaceAll("\"", "");
+        int attack = Integer.parseInt(parts[4].replaceAll("\"", ""));
+        int defense = Integer.parseInt(parts[5].replaceAll("\"", ""));
+        int hp = Integer.parseInt(parts[6].replaceAll("\"", ""));
+        int special_attack = Integer.parseInt(parts[7].replaceAll("\"", ""));
+        int special_defense = Integer.parseInt(parts[8].replaceAll("\"", ""));
+        int speed = Integer.parseInt(parts[9].replaceAll("\"", ""));
+        String ability_1 = parts[10].replaceAll("\"", "");
+        String ability_2 = parts[11].replaceAll("\"", "");
+        String ability_hidden = parts[12].replaceAll("\"", "");
+
+        return new Pokemon(id, pokemon, type_1, type_2, attack, defense, hp,
+                special_attack, special_defense, speed, ability_1, ability_2, ability_hidden);
+    }
 	
 }
