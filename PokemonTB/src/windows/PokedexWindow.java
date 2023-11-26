@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import classes.Pokemon;
 import classes.PokemonTeam;
+import classes.User;
 
 
 public class PokedexWindow extends JFrame{
@@ -38,7 +39,9 @@ public class PokedexWindow extends JFrame{
 		Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		Pokemon p2 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 		List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1,p2));
-		PokedexWindow frame = new PokedexWindow(pokemons, null, 0);
+		User u1 = new User("w", "w", "w", "w", "w", 4546);
+		PokemonTeam pt = new PokemonTeam("e1", u1);
+		PokedexWindow frame = new PokedexWindow(pokemons, pt, 0);
 		frame.setVisible(true);
 	}
 	
