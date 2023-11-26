@@ -22,10 +22,10 @@ public class db {
 		User u2 = new User("x", "x", "x", "x", "x", 4546);
         List<User> listuser = new ArrayList<>(Arrays.asList(u1, u2));
         exportarUsuariosACSV(listuser, "resources/user.csv");
-		//PokemonTeam pt = new PokemonTeam("e1", u1);
-		//PokemonTeam pt1 = new PokemonTeam("e2", u1);
-        //List<PokemonTeam> teamList = new ArrayList<>(Arrays.asList(pt, pt1));
-        //exportarEquiposPokemonACSV(teamList, "resources/pokemonteams.csv");
+		PokemonTeam pt = new PokemonTeam("e1", u1);
+		PokemonTeam pt1 = new PokemonTeam("e2", u1);
+        List<PokemonTeam> teamList = new ArrayList<>(Arrays.asList(pt, pt1));
+        exportarEquiposPokemonACSV(teamList, "resources/pokemonteams.csv");
         
     }
 	

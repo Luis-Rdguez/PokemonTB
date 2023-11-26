@@ -74,7 +74,7 @@ public class User {
 				+ ", secondSurname=" + secondSurname + ", email=" + email + ", telephone=" + telephone + "]";
 	}
 	public String toCSVString() {
-        return String.format("%s;%s;%s;%s;%s;%i",
+        return String.format("%s;%s;%s;%s;%s;%s",
                 username,
                 password,
                 firstSurname,
