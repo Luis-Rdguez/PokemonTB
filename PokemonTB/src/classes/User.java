@@ -83,5 +83,14 @@ public class User {
                 telephone
         );
     }
-	
+	public User(User existingUser) {
+	    this(
+	        existingUser.getUsername(),
+	        existingUser.getPassword(),
+	        existingUser.getFirstSurname(),
+	        existingUser.getSecondSurname(),
+	        existingUser.getEmail(),
+	        existingUser.getTelephone()
+	    );
+	}
 }
