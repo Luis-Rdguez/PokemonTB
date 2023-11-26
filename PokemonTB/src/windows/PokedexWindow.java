@@ -52,7 +52,7 @@ public class PokedexWindow extends JFrame{
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		DefaultTableCellRenderer imageRenderer = new DefaultTableCellRenderer() {
+		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 if (value instanceof ImageIcon) {
@@ -60,11 +60,16 @@ public class PokedexWindow extends JFrame{
                     setHorizontalAlignment(CENTER);
                     setVerticalAlignment(CENTER);
                     setText("");
+                    setBackground(table.getBackground());
+                    if (isSelected || hasFocus) {
+            			setBackground(table.getSelectionBackground());
+            		}
                 } else {
                     setIcon(null);
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 }
                 return this;
+
             }
         };
 		
@@ -83,14 +88,16 @@ public class PokedexWindow extends JFrame{
 		scrollPanePokemon.setBorder(new TitledBorder("Pokemons"));
 		this.tablaPokemons.setFillsViewportHeight(true);
 		this.tablaPokemons.setRowHeight(30);
-		this.tablaPokemons.getColumnModel().getColumn(0).setCellRenderer(imageRenderer);
-		this.tablaPokemons.getColumnModel().getColumn(2).setCellRenderer(imageRenderer);
-		this.tablaPokemons.getColumnModel().getColumn(3).setCellRenderer(imageRenderer);
+		this.tablaPokemons.setDefaultRenderer(Object.class, tableCellRenderer);
+		int[] columnas = {0, 2, 3, 4, 5, 6, 7, 8, 9};
+        for (int column : columnas) {
+        	this.tablaPokemons.getColumnModel().getColumn(column).setPreferredWidth(30);
+        }
 		
-		this.txtFiltro = new JTextField(20);	
+		this.txtFiltro = new JTextField(20);
 		
 		JPanel panelFiltro = new JPanel();
-		panelFiltro.add(new JLabel("Filtro por título: "));
+		panelFiltro.add(new JLabel("Filtro por nombre: "));
 		panelFiltro.add(txtFiltro);
 		
 		JPanel panelPokedex = new JPanel();
@@ -126,12 +133,20 @@ public class PokedexWindow extends JFrame{
 	
 	private void initTables1() {
 		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability"));
-		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons);
+		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons) {
+			public boolean isCellEditable(int row, int column) {
+                return false;
+			}
+		};
 		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
 	}
 	private void initTables2() {
 		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability","Select"));
-		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons);
+		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons) {
+			public boolean isCellEditable(int row, int column) {
+                return false;
+			}
+		};
 		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
 	}
 	
