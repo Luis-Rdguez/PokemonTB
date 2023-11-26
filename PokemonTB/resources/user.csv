@@ -1,1 +1,3 @@
-"""username"",""password"",""firstSurname"",""secondSurname"",""email"",""telephone"",""equipos"""
+"""username"",""password"",""firstSurname"",""secondSurname"",""email"",""telephone"",""equipos""";;;;
+admin,admin,Luis,Rodriguez,admin@gmail.com,696969696;;;;
+pedro,,,,,

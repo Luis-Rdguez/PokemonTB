@@ -5,15 +5,22 @@ import java.awt.Button;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -24,8 +31,10 @@ public class RegisterUserWindow extends JDialog {
 	private JPanel contentPane;
 	
 	public static void main(String[] args) {
-		RegisterUserWindow frame = new RegisterUserWindow();
-		frame.setVisible(true);
+	    SwingUtilities.invokeLater(() -> {
+	    	RegisterUserWindow frame = new RegisterUserWindow();
+			frame.setVisible(true);
+	    });
 	}
 
 	public RegisterUserWindow() {
@@ -116,8 +125,32 @@ public class RegisterUserWindow extends JDialog {
 		panelButtons.add(bAccept);
 		
 		bAccept.addActionListener(new ActionListener() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) { 
+			public void actionPerformed(ActionEvent e) {
+		        String username = txtName.getText();
+		        char[] passwordChars = password.getPassword();
+		        String password = new String(passwordChars);
+		    	String firstSurname = txtFirstSurname.getText();
+		    	String secondSurname = txtSecondSurname.getText();
+		    	String email = txtEmail.getText();
+		    	String telephone = txtTelefono.getText();
+		    	
+		        if (isUsernameAlreadyRegistered(username)) {
+//		            JOptionPane.showMessageDialog(this, "Username already exists. Please choose another.", "Error", JOptionPane.ERROR_MESSAGE);
+		            System.out.println("Username already exists. Please choose another.");
+		            return;
+		        }
+
+		        try (PrintWriter writer = new PrintWriter(new FileWriter("resources/user.csv", true))) {
+		            writer.println(username + "," + password + "," + firstSurname + "," + secondSurname + "," + email+ "," + telephone);
+		            System.out.println("User registered successfully!");
+//		            JOptionPane.showMessageDialog(this, "User registered successfully!");
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		            System.out.println("Error registering user");
+//		            JOptionPane.showMessageDialog(this, "Error registering user", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
 				StartWindow st = new StartWindow();
 				st.setVisible(true);
 				dispose();
@@ -140,5 +173,25 @@ public class RegisterUserWindow extends JDialog {
 		contentPane.add(panelButtons, BorderLayout.SOUTH);
 		
 		this.setVisible(true);
+	}
+	
+	private boolean isUsernameAlreadyRegistered(String username) {
+	    try {
+	        BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"));
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] parts = line.split(",");
+	            if (parts.length > 0 && parts[0].equals(username)) {
+	                reader.close();
+	                return true;
+	            }
+	        }
+	        reader.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(this, "Error checking username", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+
+	    return false;
 	}
 }

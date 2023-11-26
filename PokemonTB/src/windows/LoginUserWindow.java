@@ -2,10 +2,14 @@ package windows;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -111,9 +116,17 @@ public class LoginUserWindow extends JDialog{
 		btnAcceder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MenuWindow mw = new MenuWindow();
-				mw.setVisible(true);
-				dispose();
+		        String enteredUsername = txtNombre.getText();
+		        char[] enteredPasswordChars = txtContrasenia.getPassword();
+		        String enteredPassword = new String(enteredPasswordChars);
+		        if (isValidLogin(enteredUsername, enteredPassword)) {
+		        	System.out.println("Login successful!");
+		            MenuWindow mw = new MenuWindow();
+					mw.setVisible(true);
+					dispose();
+		        } else {
+		            showLoginMessage("Invalid username or password. Please try again.", JOptionPane.ERROR_MESSAGE);
+		        }
 			}
 		});
 		
@@ -131,4 +144,26 @@ public class LoginUserWindow extends JDialog{
 		
 		setVisible(true);
 	}
+	
+    private boolean isValidLogin(String username, String password) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 2 && parts[0].equals(username) && parts[1].equals(password)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error checking login credentials", "Login Status", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return false;
+    }
+
+    private void showLoginMessage(String message, int messageType) {
+        JOptionPane.showMessageDialog(this, message, "Login Status", messageType);
+    }
+
 }
