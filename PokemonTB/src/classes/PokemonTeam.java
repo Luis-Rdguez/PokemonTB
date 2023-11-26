@@ -80,4 +80,17 @@ public class PokemonTeam {
 		return "PokemonTeam [u1=" + u1 + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4 + ", p5=" + p5
 				+ ", p6=" + p6 + "]";
 	}
+	public String toCSVString() {
+        return String.format("%s;%s;%s;%s;%s;%s;%s;%s",
+                name,
+                u1.getUsername(),
+                p1.getPokemon(),
+                p2.getPokemon(),
+                p3.getPokemon(),
+                p4.getPokemon(),
+                p5.getPokemon(),
+                p6.getPokemon()
+        );
+    } 
+
 }

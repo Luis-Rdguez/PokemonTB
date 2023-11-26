@@ -73,5 +73,15 @@ public class User {
 		return "User [username=" + username + ", password=" + password + ", firstSurname=" + firstSurname
 				+ ", secondSurname=" + secondSurname + ", email=" + email + ", telephone=" + telephone + "]";
 	}
+	public String toCSVString() {
+        return String.format("%s;%s;%s;%s;%s;%i",
+                username,
+                password,
+                firstSurname,
+                secondSurname,
+                email,
+                telephone
+        );
+    }
 	
 }
