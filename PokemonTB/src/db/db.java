@@ -80,42 +80,40 @@ public class db {
 		return pokemons;
 	}
 	
-//	public static ArrayList<User> importarUsuariosDesdeCSV(String filePath) {
-//		ArrayList<User> result = new ArrayList<User>();
-//		List<PokemonTeam> listaEquipos = new ArrayList<PokemonTeam>(importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
-//		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-//            // Leer la primera línea que generalmente contiene encabezados y descartarla
-//            reader.readLine();
-//
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String[] fields = line.split(";");
-//
-//                // Obtener datos del CSV
-//                String username = fields[0];
-//                String password = fields[1];
-//                String firstSurname = fields[2];
-//                String secondSurname = fields[3];
-//                String email = fields[4];
-//                int telephone = Integer.parseInt(fields[5]);
-//                // Crear el usuario
-//                User user = new User(username, password, firstSurname, secondSurname, email, telephone);
-//                
-//                // Asignar equipos al usuario si están presentes en la lista de equipos
-//                for (PokemonTeam team : listaEquipos) {
-//                    if (team.getUser() != null && team.getUser().equals(username)) {
-//                        user.anadirEquipo(team);
-//                    }
-//                }
-//                result.add(user);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return result;
-//	}
-//	
+	public static List<User> importarUsuariosDesdeCSV(String filePath) {
+		List<User> result = new ArrayList<User>();
+		List<PokemonTeam> listaEquipos = new ArrayList<PokemonTeam>(importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+			br.readLine();
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] fields = linea.split(";");
+
+                String username = fields[0];
+                String password = fields[1];
+                String firstSurname = fields[2];
+                String secondSurname = fields[3];
+                String email = fields[4];
+                int telephone = Integer.parseInt(fields[5]);
+                User user = new User(username, password, firstSurname, secondSurname, email, telephone);
+                
+                for (PokemonTeam pt : listaEquipos) {
+                    if (pt.getUser() != null && pt.getUser().equals(username)) {
+                        user.anadirEquipo(pt);
+                    }
+                }
+                if (user.getEquipos().isEmpty()) {
+                	user.setEquipos(null);
+                }
+                result.add(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+	}
+	
 	public static void exportarUsuariosACSV(List<User> listUsers, String filePath) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             // Escribir encabezados en el archivo CSV
