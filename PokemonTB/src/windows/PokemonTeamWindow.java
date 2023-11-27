@@ -21,37 +21,50 @@ import classes.User;
 public class PokemonTeamWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<String> nombres;
-	private ArrayList<JLabel> labels;
-	private JLabel label;
+	private static ArrayList<String> nombres;
+	private static ArrayList<JLabel> labels;
+	private static JLabel label;
 	private JPanel panel;
+	public static String nombreEquipo;
 	
-	public ArrayList<String> cargarNombres() {
+	public static String getNombreEquipo() {
+		return nombreEquipo;
+	}
 
+	public void setNombreEquipo(String nombreEquipo) {
+		PokemonTeamWindow.nombreEquipo = nombreEquipo;
+	}
+
+	public static void main(String[] args) {
+		
+	}
+	
+	public static ArrayList<String> cargarNombres() {
+		nombres = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("resources/pokemonteams.csv"))) {
             String linea;
             reader.readLine();
             while ((linea = reader.readLine()) != null) {
-                String[] elementos = linea.split(",");
-                
-                for (int i = 0; i < elementos.length; i++) {
-                    elementos[i] = elementos[i].replaceAll("\"", "").trim();
-                }
+                String[] elementos = linea.split(";");
+                String teamName = elementos[0];
+                String username = elementos[1];
 
-                if (elementos.length > 0) {
-                    nombres.add(elementos[0]);
+                if (username != null && username.equals(LoginUserWindow.getNombreUsario())) {
+                	
+                    nombres.add(teamName);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
 		return nombres;
 		
 	}
 	
-	public ArrayList<JLabel> cargarLabels() {
+	public static ArrayList<JLabel> cargarLabels() {
 		cargarNombres();
+		labels = new ArrayList<>();
 		for(String s : nombres) {
 			label = new JLabel(s);
 			labels.add(label);
@@ -63,10 +76,10 @@ public class PokemonTeamWindow extends JFrame {
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                cargarLabels();
+                
                 cargarEquipos(labels, panel);
-                revalidate();
-            	repaint();
+                
+                
             }
         });
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
@@ -107,7 +120,7 @@ public class PokemonTeamWindow extends JFrame {
                     	cargarNombres();
                         String nombreEquipo = nombreEquipoField.getText();
                         User u1 = new User("hola", "hola", "hola", "hola", "hola", 6);
-                    	PokemonTeam t1 = new PokemonTeam(nombreEquipo, u1);
+                    	PokemonTeam t1 = new PokemonTeam(nombreEquipo, LoginUserWindow.getNombreUsario());
                     	u1.anadirEquipo(t1);
                         if(!nombres.contains(nombreEquipo)) {
                         	nombres.add(nombreEquipo);
@@ -165,7 +178,7 @@ public class PokemonTeamWindow extends JFrame {
                 continuarButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String nombreEquipo = nombreEquipoField.getText();
+                        nombreEquipo = nombreEquipoField.getText();
                         if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
                         	for(JLabel label : labels) {
                         		if (labels.size() >= 1 && label.getText().equals(nombreEquipo)) {
@@ -238,6 +251,7 @@ public class PokemonTeamWindow extends JFrame {
     }
 	
 	private void cargarEquipos(ArrayList<JLabel> labels, JPanel panel) {
+		cargarLabels();
 		panel.removeAll();
 		for(JLabel label : labels) {
 			label.setBorder(new LineBorder(Color.BLACK));

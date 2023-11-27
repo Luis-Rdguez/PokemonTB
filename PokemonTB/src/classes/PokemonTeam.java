@@ -7,7 +7,7 @@ public class PokemonTeam {
 	
 	private static Set<String> valoresUnicos = new HashSet<>();
 	private String name;
-	private User u1;
+	private String user;
 	private Pokemon p1;
 	private Pokemon p2;
 	private Pokemon p3;
@@ -19,13 +19,13 @@ public class PokemonTeam {
 		super();
 	}
 	
-	public PokemonTeam(String name, User u1) {
+	public PokemonTeam(String name, String user) {
 		super();
 		if (valoresUnicos.contains(name)) {
             throw new IllegalArgumentException("El nombre ya existe, intentalo de nuevo.");
         }
         this.name = name;
-        this.u1 =u1;
+        this.user =user;
         valoresUnicos.add(name);
 	}
 	
@@ -33,11 +33,11 @@ public class PokemonTeam {
 		return name;
 	}
 	
-	public User getU1() {
-		return u1;
+	public String getUser() {
+		return user;
 	}
-	public void setU1(User u1) {
-		this.u1 = u1;
+	public void setUser(String user) {
+		this.user = user;
 	}
 	public Pokemon getP1() {
 		return p1;
@@ -78,7 +78,7 @@ public class PokemonTeam {
 	
 	@Override
 	public String toString() {
-		return "PokemonTeam [u1=" + u1 + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4 + ", p5=" + p5
+		return "PokemonTeam [name=" + name + ", u1=" + user + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4 + ", p5=" + p5
 				+ ", p6=" + p6 + "]";
 	}
 	public String toCSVString() {
@@ -90,7 +90,7 @@ public class PokemonTeam {
 	    String pokemon6 = (p6 != null) ? p6.getPokemon() : "";
         return String.format("%s;%s;%s;%s;%s;%s;%s;%s",
                 name,
-                u1.getUsername(),
+                user,
                 pokemon1,
                 pokemon2,
                 pokemon3,

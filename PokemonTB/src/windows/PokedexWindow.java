@@ -36,15 +36,16 @@ public class PokedexWindow extends JFrame{
 	private JTable tablaPokemons;
 	private DefaultTableModel modeloDatosPokemon;
 	private JTextField txtFiltro;
+	
 
 	
 	public static void main(String[] args) {
-		db db = new db();
-		List<Pokemon> pokemons = db.importarPokemonsDesdeCSV();
+		
+		pokemons = db.importarPokemonsDesdeCSV();
 		User u1 = new User("w", "w", "w", "w", "w", 4546);
-		PokemonTeam pt = new PokemonTeam("e1", u1);
-		PokedexWindow frame = new PokedexWindow(pokemons, pt, 0);
-		frame.setVisible(true);
+//		PokemonTeam pt = new PokemonTeam("e1", u1);
+//		PokedexWindow frame = new PokedexWindow(pokemons, pt, 0);
+//		frame.setVisible(true);
 	}
 	
 	public PokedexWindow(List<Pokemon> pokemons, PokemonTeam team, int pos) {
@@ -63,6 +64,7 @@ public class PokedexWindow extends JFrame{
                     setBackground(table.getBackground());
                     if (isSelected || hasFocus) {
             			setBackground(table.getSelectionBackground());
+            			
             		}
                 } else {
                     setIcon(null);
@@ -76,7 +78,7 @@ public class PokedexWindow extends JFrame{
 		if(team == null) {
 			this.initTables1();
 			this.loadPokemons();
-		}else {
+		} else {
 			this.initTables2();
 			this.loadPokemons();
 			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, team, pos));

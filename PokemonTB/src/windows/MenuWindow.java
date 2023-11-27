@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import classes.Pokemon;
+import db.db;
 
 public class MenuWindow extends JFrame{
 
@@ -73,8 +74,7 @@ public class MenuWindow extends JFrame{
         pokedexItem.addActionListener(new ActionListener() {
             @Override
                 public void actionPerformed(ActionEvent e) {
-                    Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
-                    List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
+                    List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
                     PokedexWindow frame = new PokedexWindow(pokemons, null, 0);
                     frame.setVisible(true);
                     dispose();

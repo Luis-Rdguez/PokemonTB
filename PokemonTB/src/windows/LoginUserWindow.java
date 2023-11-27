@@ -1,8 +1,8 @@
 package windows;
 
 import java.awt.BorderLayout;
+
 import java.awt.Button;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -37,6 +37,16 @@ public class LoginUserWindow extends JDialog{
 	private JLabel lblInicioSesion;
 	private JPanel panel;
 	private JPanel panel_1;
+	public static String nombreUsario;
+
+
+	public static String getNombreUsario() {
+		return nombreUsario;
+	}
+
+	public void setNombreUsario(String nombreUsario) {
+		LoginUserWindow.nombreUsario = nombreUsario;
+	}
 
 	public static void main(String[] args) {
 		LoginUserWindow frame = new LoginUserWindow();
@@ -117,6 +127,7 @@ public class LoginUserWindow extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		        String enteredUsername = txtNombre.getText();
+		        nombreUsario = enteredUsername;
 		        char[] enteredPasswordChars = txtContrasenia.getPassword();
 		        String enteredPassword = new String(enteredPasswordChars);
 		        if (isValidLogin(enteredUsername, enteredPassword)) {

@@ -1,6 +1,8 @@
 package windows;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
@@ -19,7 +21,16 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	private PokedexWindow pokedex;
 	private PokemonTeam team;
 	private int pos;
+	public static String nombrePokemon;
 	
+	public static String getNombrePokemon() {
+		return nombrePokemon;
+	}
+
+	public void setNombrePokemon(String nombrePokemon) {
+		selecPokRenderer.nombrePokemon = nombrePokemon;
+	}
+
 	public selecPokRenderer(PokedexWindow pokedex, PokemonTeam team, int pos) {
 		this.pokedex = pokedex;
 		this.team = team;
@@ -28,6 +39,14 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	
 	private JButton select(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		JButton button = new JButton("Select");
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				nombrePokemon = table.getValueAt(row, 1).toString();
+			}
+		});
 		button.setEnabled(true);				
 		button.setBackground(table.getBackground());
 		
