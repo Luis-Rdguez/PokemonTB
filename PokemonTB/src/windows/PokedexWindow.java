@@ -41,8 +41,8 @@ public class PokedexWindow extends JFrame{
 	
 	public static void main(String[] args) {
 		
-		pokemons = db.importarPokemonsDesdeCSV();
-		User u1 = new User("w", "w", "w", "w", "w", 4546);
+//		pokemons = db.importarPokemonsDesdeCSV();
+//		User u1 = new User("w", "w", "w", "w", "w", 4546);
 //		PokemonTeam pt = new PokemonTeam("e1", u1);
 //		PokedexWindow frame = new PokedexWindow(pokemons, pt, 0);
 //		frame.setVisible(true);
@@ -109,6 +109,16 @@ public class PokedexWindow extends JFrame{
 		
 		
 		JButton back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				CreatePokemonTeamWindow d = new CreatePokemonTeamWindow(team);
+				d.setVisible(true);
+				dispose();
+			}
+		});
 		panelPokedex.add(BorderLayout.SOUTH, back);
 		
 		this.getContentPane().add(panelPokedex);

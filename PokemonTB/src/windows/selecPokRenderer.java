@@ -3,16 +3,20 @@ package windows;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import classes.Pokemon;
 import classes.PokemonTeam;
+import db.db;
 
 public class selecPokRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 	private static final long serialVersionUID = 1L;
@@ -22,6 +26,7 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	private PokemonTeam team;
 	private int pos;
 	public static String nombrePokemon;
+	public List<PokemonTeam> equiposPokemon;
 	
 	public static String getNombrePokemon() {
 		return nombrePokemon;
@@ -45,6 +50,9 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				nombrePokemon = table.getValueAt(row, 1).toString();
+				CreatePokemonTeamWindow d = new CreatePokemonTeamWindow(team);
+				d.setVisible(true);
+				
 			}
 		});
 		button.setEnabled(true);				

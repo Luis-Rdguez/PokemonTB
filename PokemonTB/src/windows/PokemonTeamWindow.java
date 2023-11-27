@@ -1,6 +1,7 @@
 package windows;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
 import javax.swing.border.LineBorder;
 
 import classes.PokemonTeam;
 import classes.User;
+import db.db;
 
 public class PokemonTeamWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -127,8 +129,7 @@ public class PokemonTeamWindow extends JFrame {
                         	JLabel equipoLabel = new JLabel(nombreEquipo);
                         	labels.add(equipoLabel);
                         	cargarEquipos(labels, equipoPanel);
-                        	
-                            CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(null);
+                            CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(t1);
                             cp.setVisible(true);
 //                            try {
 //								anadirEquipoAFichero(nombreEquipo);
@@ -179,11 +180,20 @@ public class PokemonTeamWindow extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         nombreEquipo = nombreEquipoField.getText();
+                        nombres = cargarNombres();
+                        labels = cargarLabels();
+                        List<PokemonTeam> pt = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
                         if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
+                        	for(PokemonTeam team : pt) {
+                        		if(team.getName().equals(nombreEquipo)) {
+                        			pt.remove(team);
+                        		}
+                        	}
                         	for(JLabel label : labels) {
                         		if (labels.size() >= 1 && label.getText().equals(nombreEquipo)) {
                         			nombres.remove(label.getText());
                         			labels.remove(label);
+                        			
                         			cargarEquipos(labels, equipoPanel);
                         			break;
                         		} else {

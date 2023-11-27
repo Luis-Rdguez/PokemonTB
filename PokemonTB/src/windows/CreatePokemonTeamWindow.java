@@ -19,6 +19,9 @@ public class CreatePokemonTeamWindow extends JFrame {
 	Pokemon p1 = new Pokemon(1,"bulbasaur","grass","poison",49,49,45,65,65,45,"overgrow","NA","chlorophyll");
 	List<Pokemon> pokemons = new ArrayList<>(Arrays.asList(p1));
 	public List<PokemonTeam> equiposPokemon;
+	public int index;
+	public JLabel labelPokemon;
+	public JPanel panelPokemon;
 
 	
 	public CreatePokemonTeamWindow(PokemonTeam team) {
@@ -34,24 +37,25 @@ public class CreatePokemonTeamWindow extends JFrame {
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
         for (int i = 0; i < 6; i++) {
         	int ind = i+1;
-            JPanel panel = new JPanel();
-            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            panel.setBackground(Color.WHITE);
-            panel.setLayout(new BorderLayout());
-            panel.add(new JLabel("Panel " + (ind), SwingConstants.CENTER), BorderLayout.CENTER);
+        	panelPokemon = new JPanel();
+        	panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        	panelPokemon.setBackground(Color.WHITE);
+        	panelPokemon.setLayout(new BorderLayout());
+            labelPokemon = new JLabel("Panel " + (ind), SwingConstants.CENTER);
+            panelPokemon.add(labelPokemon, BorderLayout.CENTER);
 
             int arc = 20;
-            panel.setPreferredSize(new Dimension(100, 100));
-            panel.setBorder(BorderFactory.createCompoundBorder(
+            panelPokemon.setPreferredSize(new Dimension(100, 100));
+            panelPokemon.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(arc, arc, arc, arc)
             ));
 
-            panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            panelPokemon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             
-            final int index = i;
+            index = ind;
 
-            panel.addMouseListener(new MouseAdapter() {
+            panelPokemon.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                 	if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
@@ -59,47 +63,14 @@ public class CreatePokemonTeamWindow extends JFrame {
                         PokedexWindow vt = new PokedexWindow(listaPokemons, team, index);
                         vt.setVisible(true);
                         setVisible(false);
-                        equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
-                    	PokemonTeam pt = new PokemonTeam(PokemonTeamWindow.getNombreEquipo(), LoginUserWindow.getNombreUsario());
-
-                        Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
-                        if (pokemon != null) {
-                            switch (index) {
-                                case 1:
-                                    pt.setP1(pokemon);
-                                    break;
-                                case 2:
-                                	pt.setP2(pokemon);
-                                    break;
-                                case 3:
-                                	pt.setP3(pokemon);
-                                    break;
-                                case 4:
-                                	pt.setP4(pokemon);
-                                    break;
-                                case 5:
-                                	pt.setP5(pokemon);
-                                    break;
-                                case 6:
-                                	pt.setP6(pokemon);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
                         
-                        equiposPokemon.add(pt);
-                        JLabel label = new JLabel(pokemon.getPokemon());
-                    	panel.add(label, BorderLayout.CENTER);
-                    	panel.revalidate();
-                    	panel.repaint();
                     }
                 	
                 	
                 }
             });
 
-            panelContainer.add(panel);
+            panelContainer.add(panelPokemon);
         }
 
         add(panelContainer, BorderLayout.CENTER);
@@ -108,7 +79,45 @@ public class CreatePokemonTeamWindow extends JFrame {
         JButton guardarEquipoButton = new JButton("Guardar equipo");
         guardarEquipoButton.addActionListener(e -> {
         	//cargar los equipos en la base de datos
-                
+        	equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        	PokemonTeam pt = new PokemonTeam(PokemonTeamWindow.getNombreEquipo(), LoginUserWindow.getNombreUsario());
+
+            Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
+            if (pokemon != null) {
+                switch (index) {
+                    case 1:
+                        pt.setP1(pokemon);                      
+                        break;
+                    case 2:
+                    	pt.setP2(pokemon);                   	
+                        break;
+                    case 3:
+                    	pt.setP3(pokemon);                   	
+                        break;
+                    case 4:
+                    	pt.setP4(pokemon);                    	
+                        break;
+                    case 5:
+                    	pt.setP5(pokemon);                    	
+                        break;
+                    case 6:
+                    	pt.setP6(pokemon);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            try {
+                if (pt.getP1() != null && pt.getP2() != null && pt.getP3() != null && pt.getP4() != null && pt.getP5() != null && pt.getP6() != null) {
+                    equiposPokemon.add(pt);
+                }
+            } catch (NullPointerException e1) {
+      
+            	JOptionPane.showMessageDialog(this, "Faltan Pokémon en el equipo", "Error", JOptionPane.ERROR_MESSAGE);
+                e1.printStackTrace();
+            }
+            
+		
         	db.exportarEquiposPokemonACSV(equiposPokemon, "resources/pokemonteams.csv");
         	dispose();
         	
