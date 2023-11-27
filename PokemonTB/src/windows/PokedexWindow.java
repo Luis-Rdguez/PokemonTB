@@ -109,16 +109,16 @@ public class PokedexWindow extends JFrame{
 		
 		
 		JButton back = new JButton("Back");
-		back.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				CreatePokemonTeamWindow d = new CreatePokemonTeamWindow(team);
-				d.setVisible(true);
-				dispose();
-			}
-		});
+//		back.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				CreatePokemonTeamWindow d = new CreatePokemonTeamWindow(team, i);
+//				d.setVisible(true);
+//				dispose();
+//			}
+//		});
 		panelPokedex.add(BorderLayout.SOUTH, back);
 		
 		this.getContentPane().add(panelPokedex);
@@ -168,7 +168,7 @@ public class PokedexWindow extends JFrame{
 		this.modeloDatosPokemon.setRowCount(0);
 		//Se añaden los pokemons uno a uno al modelo de datos
 		this.pokemons.forEach(c -> {
-			String imagePath = "resources/PokemonLogos/" + c.getId() + ".png";
+			String imagePath = "resources/PokemonLogosPruebas/" + c.getId() + ".png";
 			ImageIcon originalIcon = new ImageIcon(imagePath);
             Image originalImage = originalIcon.getImage();
             Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);

@@ -21,12 +21,12 @@ public class PokemonTeam {
 	
 	public PokemonTeam(String name, String user) {
 		super();
-		if (valoresUnicos.contains(name)) {
-            throw new IllegalArgumentException("El nombre ya existe, intentalo de nuevo.");
-        }
+//		if (valoresUnicos.contains(name)) {
+//            throw new IllegalArgumentException("El nombre ya existe, intentalo de nuevo.");
+//        }
         this.name = name;
         this.user =user;
-        valoresUnicos.add(name);
+//        valoresUnicos.add(name);
 	}
 	
 	public String getName() {

@@ -268,9 +268,9 @@ public class PokemonTeamWindow extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 				    if (e.getClickCount() == 2) {
-					CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow(team, currentInstance);
-					vt.setVisible(true);
-					vt.setLocationRelativeTo(null);
+						CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow(team, currentInstance);
+						vt.setVisible(true);
+						vt.setLocationRelativeTo(null);
                         
                     }
                 }

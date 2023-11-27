@@ -37,6 +37,7 @@ public class CompareWindow  extends JFrame{
 	private PokemonTeam equipo1;
     private PokemonTeam equipo2;
     private String nombreEquipoInput;
+    private JPanel panelTeam1, panelTeam2;
 	private static final long serialVersionUID = 1L;	
 	
 	public CompareWindow() {
@@ -53,15 +54,16 @@ public class CompareWindow  extends JFrame{
 		setContentPane(contentPane);
 		
         JPanel panelContainer = new JPanel();
-        panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
+        panelContainer.setLayout(new GridLayout(3,1));
         
         int arc = 20;
         
-        JPanel panelTeam1= new JPanel();
+        panelTeam1= new JPanel(new GridLayout(3,2));
         panelTeam1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam1.setBackground(Color.WHITE);
         panelTeam1.setLayout(new BorderLayout());
-        panelTeam1.add(new JLabel("Team 1", SwingConstants.CENTER), BorderLayout.CENTER);
+        JLabel l = new JLabel("Team 1", SwingConstants.CENTER);
+        panelTeam1.add(l);
         
         panelTeam1.setPreferredSize(new Dimension(100, 100));
         panelTeam1.setBorder(BorderFactory.createCompoundBorder(
@@ -82,7 +84,7 @@ public class CompareWindow  extends JFrame{
         });
         
         panelContainer.add(panelTeam1);
-        JPanel panelTeam2= new JPanel();
+        panelTeam2= new JPanel(new GridLayout(3,2));
         
         panelTeam2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam2.setBackground(Color.WHITE);
@@ -117,7 +119,7 @@ public class CompareWindow  extends JFrame{
 		        JOptionPane.showMessageDialog(CompareWindow.this, resultado, "Ha ganado: ", JOptionPane.INFORMATION_MESSAGE);
 		    }
         });
-        panelContainer.add(competir, BorderLayout.CENTER);
+        panelContainer.add(competir, BorderLayout.SOUTH);
         
         JButton bBack = new JButton("Back");
         
@@ -144,35 +146,30 @@ public class CompareWindow  extends JFrame{
 
         seleccionarButton.addActionListener(ev -> {
             // Acciones a realizar al seleccionar el equipo
+        	panelTeam1.removeAll();
             nombreEquipoInput = nombreEquipoField.getText();
             listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
             for(PokemonTeam pt : listaEquipos) {
             	if(pt.getName().equals(nombreEquipoInput)) {
             		equipo1 = pt;
+            		break;
             	}
             }
             pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
             for (PokemonTeam pt : listaEquipos) {
                 if(pt.getName().equals(nombreEquipoInput)) {
-                	for (int i = 1; i <= 6; i++) {
-                        try {
-                            String methodName = "getP" + i;
-                            for(Pokemon pokemon : pokemons) {
-                            	if(pokemon.equals((Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt))) {
-                            		pokemon = (Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt);
-                            		panelPokemon = new JPanel();
-                                    panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                                    panelPokemon.add(new JLabel("Name: " + pokemon.getPokemon()));
-                                    getContentPane().add(panelPokemon);
-                            	}
-                            }
-                            
-                        } catch (Exception s) {
-                            s.printStackTrace();
-                        }
+                	for (int i = 0; i < 6; i++) {
+                		Pokemon p = getPokemonFromTeam(pt, i);
+                		JPanel panelPokemon = new JPanel();
+                        panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                        panelPokemon.add(new JLabel("P: " + p.getPokemon()));
+                        panelTeam1.add(panelPokemon);
+   
                     }
                 }
             }
+            panelTeam1.revalidate();
+            panelTeam1.repaint();
             frame.dispose();
         });
 
@@ -197,35 +194,30 @@ public class CompareWindow  extends JFrame{
 
         seleccionarButton.addActionListener(ev -> {
             // Acciones a realizar al seleccionar el equipo
+        	panelTeam2.removeAll();
             nombreEquipoInput = nombreEquipoField.getText();
             listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
             for(PokemonTeam pt : listaEquipos) {
             	if(pt.getName().equals(nombreEquipoInput)) {
             		equipo2 = pt;
+            		break;
             	}
             }
             pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
             for (PokemonTeam pt : listaEquipos) {
                 if(pt.getName().equals(nombreEquipoInput)) {
-                	for (int i = 1; i <= 6; i++) {
-                        try {
-                            String methodName = "getP" + i;
-                            for(Pokemon pokemon : pokemons) {
-                            	if(pokemon.equals((Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt))) {
-                            		pokemon = (Pokemon) PokemonTeam.class.getMethod(methodName).invoke(pt);
-                            		panelPokemon = new JPanel();
-                                    panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                                    panelPokemon.add(new JLabel("Name: " + pokemon.getPokemon()));
-                                    getContentPane().add(panelPokemon);
-                            	}
-                            }
-                            
-                        } catch (Exception s) {
-                            s.printStackTrace();
-                        }
+                	for (int i = 0; i < 6; i++) {
+                		Pokemon p = getPokemonFromTeam(pt, i);
+                		panelPokemon = new JPanel();
+                        panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                        panelPokemon.add(new JLabel("P: " + p.getPokemon()));
+                        panelTeam2.add(panelPokemon);
+   
                     }
                 }
             }
+            panelTeam2.revalidate();
+            panelTeam2.repaint();
             frame.dispose();
         });
 
@@ -257,9 +249,9 @@ public class CompareWindow  extends JFrame{
 			contT1 += 1;
 		}
 		if(mayorValor(contT1, contT2) == contT1) {
-			return "Ha ganado" + t1.getName();
+			return "Ha ganado el equipo: " + t1.getName();
 		} else {
-			return "Ha ganado" + t2.getName();
+			return "Ha ganado el equipo: " + t2.getName();
 		}
 		
 	}
@@ -275,6 +267,25 @@ public class CompareWindow  extends JFrame{
 		} else {
 			return valor1;
 		}
+	}
+	
+	private Pokemon getPokemonFromTeam(PokemonTeam team, int index) {
+	    switch (index) {
+	        case 0:
+	            return team.getP1();
+	        case 1:
+	            return team.getP2();
+	        case 2:
+	            return team.getP3();
+	        case 3:
+	            return team.getP4();
+	        case 4:
+	            return team.getP5();
+	        case 5:
+	            return team.getP6();
+	        default:
+	            throw new IllegalArgumentException("Índice de Pokémon no válido: " + index);
+	    }
 	}
 	
 }

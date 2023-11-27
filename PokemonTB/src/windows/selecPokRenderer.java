@@ -50,8 +50,7 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				nombrePokemon = table.getValueAt(row, 1).toString();
-				CreatePokemonTeamWindow d = new CreatePokemonTeamWindow(team);
-				d.setVisible(true);
+				
 				
 			}
 		});

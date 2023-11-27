@@ -42,6 +42,8 @@ public class CreatePokemonTeamWindow extends JFrame {
                 pokemonTeamWindow.cargarEquipos(team);
             }
         });
+        List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
+        List<PokemonTeam> equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
         for (int i = 0; i < 6; i++) {
@@ -50,7 +52,7 @@ public class CreatePokemonTeamWindow extends JFrame {
         	panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         	panelPokemon.setBackground(Color.WHITE);
         	panelPokemon.setLayout(new BorderLayout());
-            labelPokemon = new JLabel("Panel " + (ind), SwingConstants.CENTER);
+            labelPokemon = new JLabel("P:" + getPokemonFromTeam(team, i).getPokemon());
             panelPokemon.add(labelPokemon, BorderLayout.CENTER);
 
             int arc = 20;
@@ -69,7 +71,12 @@ public class CreatePokemonTeamWindow extends JFrame {
                 public void mouseClicked(MouseEvent e) {
                 	if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                         List<Pokemon> listaPokemons = db.importarPokemonsDesdeCSV();
-                        PokedexWindow vt = new PokedexWindow(listaPokemons, team, index);
+                        //prueba para cargar antes la pokede
+                        List<Pokemon> listaPokemonsPrueba = new ArrayList<>();
+                        for(int i = 0; i < 10; i++) {
+                        	listaPokemonsPrueba.add(listaPokemons.get(i));
+                        }
+                        PokedexWindow vt = new PokedexWindow(listaPokemonsPrueba, team, index);
                         vt.setVisible(true);
                         setVisible(false);
                         
@@ -88,7 +95,6 @@ public class CreatePokemonTeamWindow extends JFrame {
         JButton guardarEquipoButton = new JButton("Guardar equipo");
         guardarEquipoButton.addActionListener(e -> {
         	//cargar los equipos en la base de datos
-        	equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
         	
             Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
             if (pokemon != null) {
@@ -117,7 +123,11 @@ public class CreatePokemonTeamWindow extends JFrame {
             }
             try {
                 if (team.getP1() != null && team.getP2() != null && team.getP3() != null && team.getP4() != null && team.getP5() != null && team.getP6() != null) {
-                    equiposPokemon.add(team);
+                    if(!equiposPokemon.contains(team)) {
+                    	equiposPokemon.add(team);
+                    } else {
+                    	 throw new IllegalArgumentException("El equipo ya existe, intentalo de nuevo.");
+                    }
                 }
             } catch (NullPointerException e1) {
       
@@ -135,6 +145,25 @@ public class CreatePokemonTeamWindow extends JFrame {
         buttonPanel.add(guardarEquipoButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
+	
+	private Pokemon getPokemonFromTeam(PokemonTeam team, int index) {
+	    switch (index) {
+	        case 0:
+	            return team.getP1();
+	        case 1:
+	            return team.getP2();
+	        case 2:
+	            return team.getP3();
+	        case 3:
+	            return team.getP4();
+	        case 4:
+	            return team.getP5();
+	        case 5:
+	            return team.getP6();
+	        default:
+	            throw new IllegalArgumentException("Índice de Pokémon no válido: " + index);
+	    }
+	}
 	
 	
 
