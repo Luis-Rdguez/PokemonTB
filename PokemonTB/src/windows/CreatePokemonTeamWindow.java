@@ -31,7 +31,7 @@ public class CreatePokemonTeamWindow extends JFrame {
 	public CreatePokemonTeamWindow(PokemonTeam team, PokemonTeamWindow pokemonTeamWindow) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
-        setTitle("Create Pokemon Team Window");
+        setTitle(team.getName());
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(470, 340);
         setLayout(new BorderLayout());

@@ -131,7 +131,6 @@ public class LoginUserWindow extends JDialog{
 		        char[] enteredPasswordChars = txtContrasenia.getPassword();
 		        String enteredPassword = new String(enteredPasswordChars);
 		        if (isValidLogin(enteredUsername, enteredPassword)) {
-		        	System.out.println("Login successful!");
 		            MenuWindow mw = new MenuWindow();
 					mw.setVisible(true);
 					dispose();

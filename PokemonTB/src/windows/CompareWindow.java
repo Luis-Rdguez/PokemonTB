@@ -115,9 +115,13 @@ public class CompareWindow  extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        String resultado = compararPokemons(equipo1, equipo2);
-		        JOptionPane.showMessageDialog(CompareWindow.this, resultado, "Ha ganado: ", JOptionPane.INFORMATION_MESSAGE);
-		    }
+				if(!equipo1.getName().equals(equipo2.getName())) {
+					String resultado = compararPokemons(equipo1, equipo2);
+			        JOptionPane.showMessageDialog(CompareWindow.this, resultado, "Ha ganado: ", JOptionPane.INFORMATION_MESSAGE);			    
+				} else {
+					JOptionPane.showMessageDialog(CompareWindow.this, "No puede competir contra si mismo", equipo1.getName(), JOptionPane.ERROR_MESSAGE);
+				}
+		       }
         });
         panelContainer.add(competir, BorderLayout.SOUTH);
         
@@ -158,18 +162,25 @@ public class CompareWindow  extends JFrame{
             pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
             for (PokemonTeam pt : listaEquipos) {
                 if(pt.getName().equals(nombreEquipoInput)) {
+                	List<JPanel> panelesPokemon = new ArrayList<>();
                 	for (int i = 0; i < 6; i++) {
                 		Pokemon p = getPokemonFromTeam(pt, i);
                 		JPanel panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                         panelPokemon.add(new JLabel("P: " + p.getPokemon()));
                         panelTeam1.add(panelPokemon);
-   
+                        panelesPokemon.add(panelPokemon);
                     }
+                	for (JPanel panelPokemon : panelesPokemon) {
+                        panelTeam1.add(panelPokemon);
+                    }
+                	
                 }
             }
+            
             panelTeam1.revalidate();
             panelTeam1.repaint();
+            panelTeam1.validate(); 
             frame.dispose();
         });
 
@@ -206,14 +217,20 @@ public class CompareWindow  extends JFrame{
             pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
             for (PokemonTeam pt : listaEquipos) {
                 if(pt.getName().equals(nombreEquipoInput)) {
+                	List<JPanel> panelesPokemon = new ArrayList<>();
                 	for (int i = 0; i < 6; i++) {
                 		Pokemon p = getPokemonFromTeam(pt, i);
                 		panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                         panelPokemon.add(new JLabel("P: " + p.getPokemon()));
                         panelTeam2.add(panelPokemon);
-   
+                        panelesPokemon.add(panelPokemon);
+                        
                     }
+                	for (JPanel panelPokemon : panelesPokemon) {
+                        panelTeam2.add(panelPokemon);
+                    }
+                	
                 }
             }
             panelTeam2.revalidate();
