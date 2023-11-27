@@ -8,6 +8,8 @@ import db.db;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,9 @@ public class CreatePokemonTeamWindow extends JFrame {
 	public JPanel panelPokemon;
 
 	
-	public CreatePokemonTeamWindow(PokemonTeam team) {
+
+	
+	public CreatePokemonTeamWindow(PokemonTeam team, PokemonTeamWindow pokemonTeamWindow) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
         setTitle("Create Pokemon Team Window");
@@ -32,7 +36,12 @@ public class CreatePokemonTeamWindow extends JFrame {
         setSize(470, 340);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                pokemonTeamWindow.cargarEquipos(team);
+            }
+        });
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
         for (int i = 0; i < 6; i++) {
@@ -80,36 +89,35 @@ public class CreatePokemonTeamWindow extends JFrame {
         guardarEquipoButton.addActionListener(e -> {
         	//cargar los equipos en la base de datos
         	equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
-        	PokemonTeam pt = new PokemonTeam(PokemonTeamWindow.getNombreEquipo(), LoginUserWindow.getNombreUsario());
-
+        	
             Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
             if (pokemon != null) {
                 switch (index) {
                     case 1:
-                        pt.setP1(pokemon);                      
+                        team.setP1(pokemon);                      
                         break;
                     case 2:
-                    	pt.setP2(pokemon);                   	
+                    	team.setP2(pokemon);                   	
                         break;
                     case 3:
-                    	pt.setP3(pokemon);                   	
+                    	team.setP3(pokemon);                   	
                         break;
                     case 4:
-                    	pt.setP4(pokemon);                    	
+                    	team.setP4(pokemon);                    	
                         break;
                     case 5:
-                    	pt.setP5(pokemon);                    	
+                    	team.setP5(pokemon);                    	
                         break;
                     case 6:
-                    	pt.setP6(pokemon);
+                    	team.setP6(pokemon);
                         break;
                     default:
                         break;
                 }
             }
             try {
-                if (pt.getP1() != null && pt.getP2() != null && pt.getP3() != null && pt.getP4() != null && pt.getP5() != null && pt.getP6() != null) {
-                    equiposPokemon.add(pt);
+                if (team.getP1() != null && team.getP2() != null && team.getP3() != null && team.getP4() != null && team.getP5() != null && team.getP6() != null) {
+                    equiposPokemon.add(team);
                 }
             } catch (NullPointerException e1) {
       
