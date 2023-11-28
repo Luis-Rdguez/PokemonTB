@@ -24,6 +24,8 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	private Pokemon pokemon;
 	private PokedexWindow pokedex;
 	private PokemonTeam team;
+	
+
 	private int pos;
 	public static String nombrePokemon;
 	public List<PokemonTeam> equiposPokemon;
@@ -35,6 +37,7 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 	public void setNombrePokemon(String nombrePokemon) {
 		selecPokRenderer.nombrePokemon = nombrePokemon;
 	}
+	
 
 	public selecPokRenderer(PokedexWindow pokedex, PokemonTeam team, int pos) {
 		this.pokedex = pokedex;
@@ -42,6 +45,13 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 		this.pos = pos;
 	}
 	
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
 	private JButton select(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		JButton button = new JButton("Select");
 		button.addActionListener(new ActionListener() {
@@ -50,8 +60,9 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				nombrePokemon = table.getValueAt(row, 1).toString();
-				
-				
+				CreatePokemonTeamWindow p = new CreatePokemonTeamWindow(team, null);
+				p.setVisible(true);
+				pokedex.dispose();
 			}
 		});
 		button.setEnabled(true);				
@@ -72,6 +83,7 @@ public class selecPokRenderer extends AbstractCellEditor implements TableCellEdi
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + this.pos);
 			}
+			
 		});
 		
 		button.setOpaque(true);

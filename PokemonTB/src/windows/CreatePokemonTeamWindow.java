@@ -52,7 +52,13 @@ public class CreatePokemonTeamWindow extends JFrame {
         	panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         	panelPokemon.setBackground(Color.WHITE);
         	panelPokemon.setLayout(new BorderLayout());
-            labelPokemon = new JLabel("P:" + getPokemonFromTeam(team, i).getPokemon());
+        	if(team.getP1() != null) {
+        		labelPokemon = new JLabel("P:" + getPokemonFromTeam(team, i).getPokemon());
+        	} else {
+        		
+        		labelPokemon = new JLabel("Pokemon " + ind);
+        	}
+            
             panelPokemon.add(labelPokemon, BorderLayout.CENTER);
 
             int arc = 20;
