@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -141,16 +142,21 @@ public class CompareWindow  extends JFrame{
 	public void cargarEquipo1() {
 		JFrame frame = new JFrame("Seleccionar Equipo");
         JPanel panel = new JPanel(new GridLayout(3, 1));
-
+        listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        
         JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
-        JTextField nombreEquipoField = new JTextField();
+        JComboBox<String> nombreEquipoField = new JComboBox<>();
+        for(PokemonTeam pt : listaEquipos) {
+        	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
+        		nombreEquipoField.addItem(pt.getName());
+        	}
+        }
         JButton seleccionarButton = new JButton("Seleccionar Equipo");
 
         seleccionarButton.addActionListener(ev -> {
             // Acciones a realizar al seleccionar el equipo
         	panelTeam1.removeAll();
-            nombreEquipoInput = nombreEquipoField.getText();
-            listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+            nombreEquipoInput = nombreEquipoField.getSelectedItem().toString();
             for(PokemonTeam pt : listaEquipos) {
             	if(pt.getName().equals(nombreEquipoInput)) {
             		equipo1 = pt;
@@ -195,16 +201,20 @@ public class CompareWindow  extends JFrame{
 	public void cargarEquipo2() {
 		JFrame frame = new JFrame("Seleccionar Equipo");
         JPanel panel = new JPanel(new GridLayout(3, 1));
-
         JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
-        JTextField nombreEquipoField = new JTextField();
+        listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        JComboBox<String> nombreEquipoField = new JComboBox<>();
+        for(PokemonTeam pt : listaEquipos) {
+        	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
+        		nombreEquipoField.addItem(pt.getName());
+        	}
+        }
         JButton seleccionarButton = new JButton("Seleccionar Equipo");
 
         seleccionarButton.addActionListener(ev -> {
             // Acciones a realizar al seleccionar el equipo
         	panelTeam2.removeAll();
-            nombreEquipoInput = nombreEquipoField.getText();
-            listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+            nombreEquipoInput = nombreEquipoField.getSelectedItem().toString();
             for(PokemonTeam pt : listaEquipos) {
             	if(pt.getName().equals(nombreEquipoInput)) {
             		equipo2 = pt;
