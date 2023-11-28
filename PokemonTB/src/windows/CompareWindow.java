@@ -58,10 +58,9 @@ public class CompareWindow  extends JFrame{
         
         int arc = 20;
         
-        panelTeam1= new JPanel(new GridLayout(3,2));
+        panelTeam1= new JPanel(new GridLayout(2, 3));
         panelTeam1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam1.setBackground(Color.WHITE);
-        panelTeam1.setLayout(new BorderLayout());
         JLabel l = new JLabel("Team 1", SwingConstants.CENTER);
         panelTeam1.add(l);
         
@@ -84,11 +83,10 @@ public class CompareWindow  extends JFrame{
         });
         
         panelContainer.add(panelTeam1);
-        panelTeam2= new JPanel(new GridLayout(3,2));
+        panelTeam2= new JPanel(new GridLayout(2,3));
         
         panelTeam2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelTeam2.setBackground(Color.WHITE);
-        panelTeam2.setLayout(new BorderLayout());
         panelTeam2.add(new JLabel("Team 2", SwingConstants.CENTER), BorderLayout.CENTER);
         panelTeam2.setPreferredSize(new Dimension(100, 100));
         panelTeam2.setBorder(BorderFactory.createCompoundBorder(
@@ -165,10 +163,9 @@ public class CompareWindow  extends JFrame{
                 	List<JPanel> panelesPokemon = new ArrayList<>();
                 	for (int i = 0; i < 6; i++) {
                 		Pokemon p = getPokemonFromTeam(pt, i);
-                		JPanel panelPokemon = new JPanel();
+                		panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                        panelPokemon.add(new JLabel("P: " + p.getPokemon()));
-                        panelTeam1.add(panelPokemon);
+                        panelPokemon.add(new JLabel("P: " + p.getPokemon()), SwingConstants.CENTER);
                         panelesPokemon.add(panelPokemon);
                     }
                 	for (JPanel panelPokemon : panelesPokemon) {
@@ -222,8 +219,7 @@ public class CompareWindow  extends JFrame{
                 		Pokemon p = getPokemonFromTeam(pt, i);
                 		panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                        panelPokemon.add(new JLabel("P: " + p.getPokemon()));
-                        panelTeam2.add(panelPokemon);
+                        panelPokemon.add(new JLabel("P: " + p.getPokemon()), SwingConstants.CENTER);
                         panelesPokemon.add(panelPokemon);
                         
                     }
