@@ -18,46 +18,43 @@ public class db {
 
 	
 	public static void main(String[] args) {
-        // Supongamos que tienes una lista de equipos llamada 'teamList'
-        // y quieres escribirlos en un archivo CSV llamado 'pokemonteams.csv'
-		User u1 = new User("w", "w", "w", "w", "w", 4546);
-		User u2 = new User("x", "x", "x", "x", "x", 4546);
-        List<User> listuser = new ArrayList<>(Arrays.asList(u1, u2));
-//        exportarUsuariosACSV(listuser, "resources/user.csv");
-//		PokemonTeam pt = new PokemonTeam("e3", "juan");
-//		PokemonTeam pt1 = new PokemonTeam("e4", "pedro");
-//        List<PokemonTeam> teamList = new ArrayList<>(Arrays.asList(pt, pt1));
-//        exportarEquiposPokemonACSV(teamList, "resources/pokemonteams.csv");
+
         List<PokemonTeam> pkmTeam = new ArrayList<PokemonTeam>(importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
         System.out.println(pkmTeam);
-//        List<User> lUser = new ArrayList<>(importarUsuariosDesdeCSV("resources/user.csv"));
-//        for (User user : lUser) {
-//            System.out.println("Usuario: " + user.getUsername());
-//            System.out.println("Equipos:");
-//
-//            List<PokemonTeam> userTeams = user.getEquipos();
-//            for (PokemonTeam team : userTeams) {
-//                System.out.println("\t" + team.getName());
-//            }
-//        }
-//        for (PokemonTeam team : pkmTeam) {
-//            System.out.println("Equipo: " + team.getName());
-//            System.out.println("Usuario: " + (team.getU1() != null ? team.getU1().getUsername() : "N/A"));
-
-//             Imprimir información de los Pokémon en el equipo
-//            System.out.println("Pokémon:");
-//            System.out.println("\tPokemon 1: " + (team.getP1() != null ? team.getP1().getPokemon() : "N/A"));
-//            System.out.println("\tPokemon 2: " + (team.getP2() != null ? team.getP2().getPokemon() : "N/A"));
-//            System.out.println("\tPokemon 3: " + (team.getP3() != null ? team.getP3().getPokemon() : "N/A"));
-//            System.out.println("\tPokemon 4: " + (team.getP4() != null ? team.getP4().getPokemon() : "N/A"));
-//            System.out.println("\tPokemon 5: " + (team.getP5() != null ? team.getP5().getPokemon() : "N/A"));
-//            System.out.println("\tPokemon 6: " + (team.getP6() != null ? team.getP6().getPokemon() : "N/A"));
-
-//        }
     }
 	
+	// Metodos para Bases de Datos
+	public static void añadirUsuario(User usuario) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	
+	public static void seleccionarUsuarioPorNombre(String nombre) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	
+	public static void añadirEquipoPokemon(PokemonTeam pt) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public static void eliminarEquipoPokemon(PokemonTeam pt) {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	
 	// Metodos CSV
 	public static List<Pokemon> importarPokemonsDesdeCSV() {

@@ -44,6 +44,7 @@ public class CreatePokemonTeamWindow extends JFrame {
         });
         List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
         List<PokemonTeam> equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        System.out.println(equiposPokemon);
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
         for (int i = 0; i < 6; i++) {
@@ -130,6 +131,18 @@ public class CreatePokemonTeamWindow extends JFrame {
             try {
                 if (team.getP1() != null && team.getP2() != null && team.getP3() != null && team.getP4() != null && team.getP5() != null && team.getP6() != null) {
                     if(!equiposPokemon.contains(team)) {
+                    	equiposPokemon.add(team);
+                    } else {
+                    	 throw new IllegalArgumentException("El equipo ya existe, intentalo de nuevo.");
+                    }
+                } else {
+                	if(!equiposPokemon.contains(team)) {
+                		team.setP1(null);
+                    	team.setP2(null);
+                    	team.setP3(null);
+                    	team.setP4(null);
+                    	team.setP5(null);
+                    	team.setP6(null);
                     	equiposPokemon.add(team);
                     } else {
                     	 throw new IllegalArgumentException("El equipo ya existe, intentalo de nuevo.");
