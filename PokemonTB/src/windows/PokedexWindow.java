@@ -86,6 +86,7 @@ public class PokedexWindow extends JFrame{
 			this.initTables2();
 			this.loadPokemons();
 			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, team, pos));
+			this.tablaPokemons.getColumnModel().getColumn(13).setCellEditor(new selecPokRenderer(this, team, pos));
 		}
 		
 	
