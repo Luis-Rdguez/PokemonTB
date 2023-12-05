@@ -5,9 +5,15 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import classes.Pokemon;
 import classes.PokemonTeam;
@@ -16,6 +22,10 @@ import windows.LoginUserWindow;
 
 public class db {
 
+	private static Connection con;
+	private static Statement s;
+	private static ResultSet rs;
+	private static boolean LOGGING = true;
 	
 	public static void main(String[] args) {
 
@@ -23,7 +33,74 @@ public class db {
         System.out.println(pkmTeam);
     }
 	
+	// Logger
+	private static Logger logger = null;
+	// Metodo local para loggear
+	private static void log(Level level, String msg, Throwable excepcion) {
+		if (!LOGGING) return;
+		if (logger == null) {
+			logger = Logger.getLogger(db.class.getName());
+			logger.setLevel(Level.ALL);
+		}
+		if (excepcion == null)
+			logger.log(level, msg);
+		else
+			logger.log(level, msg, excepcion);
+	}
+	
+	public static void conectBD() {
+		try {
+			con = DriverManager.getConnection("jdbc:sqlite:PokemonBD.db");
+			s = con.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Metodo para cerrar la conexion con la base de datos despues de haber hecho todas las operaciones necesarias
+	 */
+	public static void cerrarConexion() {
+		try {
+			log( Level.INFO, "Cerrando conexion", null );
+			con.close();
+			s.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log(Level.SEVERE, "Error: No se ha podido cerrar la Base de datos", e);
+		}
+	}
+	
 	// Metodos para Bases de Datos
+	
+	public static boolean creacionBD(String nombreBD) {
+		try {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+			log(Level.INFO, "Abriendo conexión con " + nombreBD, null);
+			// CREACION DE TABLAS
+			// Tabla User
+			s = con.createStatement();
+			String sent = "CREATE TABLE IF NOT EXISTS User (username varchar(30) NOT NULL, "
+					+ "password varchar(40), "
+					+ "firstSurname varchar(30), "
+					+ "secondSurname varchar(30), "
+					+ "email varchar(50), "
+					+ "telefono long, "
+					+ "PRIMARY KEY (username));";
+		//  Comprobar si el statement es correcto
+		//	log( Level.INFO, "Statement: " + sent , null);
+			s.executeUpdate(sent);
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log(Level.SEVERE, "Error: No se ha podido conectar a la Base de datos", e);
+			return false;
+		}
+	}
+	
 	public static void añadirUsuario(User usuario) {
 		try {
 			

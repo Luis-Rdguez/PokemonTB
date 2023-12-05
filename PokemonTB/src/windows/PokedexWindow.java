@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -52,6 +54,8 @@ public class PokedexWindow extends JFrame{
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
+		
+		
 		
 		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -119,6 +123,24 @@ public class PokedexWindow extends JFrame{
 //				dispose();
 //			}
 //		});
+        this.tablaPokemons.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = tablaPokemons.getColumnModel().getColumnIndexAtX(e.getX());
+                int row = e.getY() / tablaPokemons.getRowHeight();
+
+                if (row < tablaPokemons.getRowCount() && row >= 0 && column < tablaPokemons.getColumnCount() && column >= 0) {
+                    Object value = tablaPokemons.getValueAt(row, column);
+
+                    if (value instanceof JButton) {
+                        JButton button = (JButton) value;
+                        System.out.println("Button Clicked in PokedexWindow");
+                        // Puedes realizar otras acciones necesarias aquí
+                    }
+                }
+            }
+        });
+		
 		panelPokedex.add(BorderLayout.SOUTH, back);
 		
 		this.getContentPane().add(panelPokedex);
@@ -193,5 +215,9 @@ public class PokedexWindow extends JFrame{
         Image originalImage = originalIcon.getImage();
         Image resizedImage = originalImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
+    }
+	
+    public JTable getTablaPokemons() {
+        return tablaPokemons;
     }
 }
