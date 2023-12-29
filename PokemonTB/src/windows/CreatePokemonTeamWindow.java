@@ -29,7 +29,7 @@ public class CreatePokemonTeamWindow extends JFrame {
 	
 
 	
-	public CreatePokemonTeamWindow(PokemonTeam team, PokemonTeamWindow pokemonTeamWindow) {
+	public CreatePokemonTeamWindow(PokemonTeam team, PokemonTeamWindow pokemonTeamWindow, int pos) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
         setTitle(team.getName());
@@ -45,22 +45,21 @@ public class CreatePokemonTeamWindow extends JFrame {
         });
         List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
         List<PokemonTeam> equiposPokemon = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
-        System.out.println(equiposPokemon);
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(2, 3, 10, 10));
         for (int i = 0; i < 6; i++) {
-        	int ind = i+1;
-        	panelPokemon = new JPanel();
-        	panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        	panelPokemon.setBackground(Color.WHITE);
-        	panelPokemon.setLayout(new BorderLayout());
-        	if(team.getP1() != null) {
-        		labelPokemon = new JLabel("P:" + getPokemonFromTeam(team, i).getPokemon());
-        	} else {
-        		
-        		labelPokemon = new JLabel("Pokemon " + ind);
-        	}
-            
+            int panelIndex = i + 1;
+            JPanel panelPokemon = new JPanel();
+            panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            panelPokemon.setBackground(Color.WHITE);
+            panelPokemon.setLayout(new BorderLayout());
+
+            if (team.getP1() != null) {
+            	labelPokemon = new JLabel("P:" + getPokemonFromTeam(team, panelIndex).getPokemon());
+            } else {
+                labelPokemon = new JLabel("Pokemon " + panelIndex);
+            }
+
             panelPokemon.add(labelPokemon, BorderLayout.CENTER);
 
             int arc = 20;
@@ -71,26 +70,23 @@ public class CreatePokemonTeamWindow extends JFrame {
             ));
 
             panelPokemon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            
-            index = ind;
 
             panelPokemon.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                	if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                         List<Pokemon> listaPokemons = db.importarPokemonsDesdeCSV();
+
                         //prueba para cargar antes la pokede
                         List<Pokemon> listaPokemonsPrueba = new ArrayList<>();
-                        for(int i = 0; i < 10; i++) {
-                        	listaPokemonsPrueba.add(listaPokemons.get(i));
+                        for (int i = 0; i < 10; i++) {
+                            listaPokemonsPrueba.add(listaPokemons.get(i));
                         }
-                        PokedexWindow vt = new PokedexWindow(listaPokemonsPrueba, team, index, currentInstance, pokemonTeamWindow);
+
+                        PokedexWindow vt = new PokedexWindow(listaPokemonsPrueba, team, panelIndex, currentInstance, pokemonTeamWindow);
                         vt.setVisible(true);
                         dispose();
-                        
                     }
-                	
-                	
                 }
             });
 
@@ -104,49 +100,58 @@ public class CreatePokemonTeamWindow extends JFrame {
         guardarEquipoButton.addActionListener(e -> {
         	//cargar los equipos en la base de datos
         	
-            Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
-            if (pokemon != null) {
-                switch (index) {
-                    case 1:
-                        team.setP1(pokemon);                      
-                        break;
-                    case 2:
-                    	team.setP2(pokemon);                   	
-                        break;
-                    case 3:
-                    	team.setP3(pokemon);                   	
-                        break;
-                    case 4:
-                    	team.setP4(pokemon);                    	
-                        break;
-                    case 5:
-                    	team.setP5(pokemon);                    	
-                        break;
-                    case 6:
-                    	team.setP6(pokemon);
-                        break;
-                    default:
-                        break;
-                }
-            }
+//            Pokemon pokemon = db.findPokemonByName(db.importarPokemonsDesdeCSV(), selecPokRenderer.getNombrePokemon());
+//            if (pokemon != null) {
+//                switch (index) {
+//                    case 1:
+//                        team.setP1(pokemon);                      
+//                        break;
+//                    case 2:
+//                    	team.setP2(pokemon);                   	
+//                        break;
+//                    case 3:
+//                    	team.setP3(pokemon);                   	
+//                        break;
+//                    case 4:
+//                    	team.setP4(pokemon);                    	
+//                        break;
+//                    case 5:
+//                    	team.setP5(pokemon);                    	
+//                        break;
+//                    case 6:
+//                    	team.setP6(pokemon);
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
             try {
                 if (team.getP1() != null && team.getP2() != null && team.getP3() != null && team.getP4() != null && team.getP5() != null && team.getP6() != null) {
                     if(!equiposPokemon.contains(team)) {
                     	equiposPokemon.add(team);
                     } else {
-                    	 throw new IllegalArgumentException("El equipo ya existe, intentalo de nuevo.");
-                    }
-                } else {
-                	if(!equiposPokemon.contains(team)) {
-                		team.setP1(null);
-                    	team.setP2(null);
-                    	team.setP3(null);
-                    	team.setP4(null);
-                    	team.setP5(null);
-                    	team.setP6(null);
+                    	equiposPokemon.remove(team);
+                    	switch (index) {
+        			    case 1:
+        			    	team.setP1(team.getP1());
+        			        break;
+        			    case 2:
+        			    	team.setP2(team.getP2());
+        			        break;
+        			    case 3:
+        			    	team.setP3(team.getP3());
+        			        break;
+        			    case 4:
+        			    	team.setP4(team.getP4());
+        			        break;
+        			    case 5:
+        			    	team.setP5(team.getP5());
+        			        break;
+        			    case 6:
+        			    	team.setP6(team.getP6());
+        			        break;
+        				}
                     	equiposPokemon.add(team);
-                    } else {
-                    	 throw new IllegalArgumentException("El equipo ya existe, intentalo de nuevo.");
                     }
                 }
             } catch (NullPointerException e1) {
@@ -168,17 +173,17 @@ public class CreatePokemonTeamWindow extends JFrame {
 	
 	private Pokemon getPokemonFromTeam(PokemonTeam team, int index) {
 	    switch (index) {
-	        case 0:
-	            return team.getP1();
 	        case 1:
-	            return team.getP2();
+	            return team.getP1();
 	        case 2:
-	            return team.getP3();
+	            return team.getP2();
 	        case 3:
-	            return team.getP4();
+	            return team.getP3();
 	        case 4:
-	            return team.getP5();
+	            return team.getP4();
 	        case 5:
+	            return team.getP5();
+	        case 6:
 	            return team.getP6();
 	        default:
 	            throw new IllegalArgumentException("Índice de Pokémon no válido: " + index);

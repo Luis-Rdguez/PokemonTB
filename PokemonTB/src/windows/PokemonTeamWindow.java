@@ -139,7 +139,7 @@ public class PokemonTeamWindow extends JFrame {
                     	PokemonTeam t1 = new PokemonTeam(nombreEquipo, LoginUserWindow.getNombreUsario());
                     	
                         if(!nombres.contains(nombreEquipo)) {
-                            CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(t1, currentInstance);
+                            CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(t1, currentInstance, 0);
                             cp.setVisible(true);
                             
                         } else {
@@ -268,7 +268,7 @@ public class PokemonTeamWindow extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 				    if (e.getClickCount() == 2) {
-						CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow(team, currentInstance);
+						CreatePokemonTeamWindow vt = new CreatePokemonTeamWindow(team, currentInstance, 0);
 						vt.setVisible(true);
 						vt.setLocationRelativeTo(null);
                         

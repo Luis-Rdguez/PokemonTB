@@ -55,7 +55,7 @@ public class PokedexWindow extends JFrame{
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		
+		System.out.println(pos);
 		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -159,7 +159,7 @@ public class PokedexWindow extends JFrame{
 	                    			    	nuevoEquipo.setP6(p);
 	                    			        break;
 	                    				}
-	                            		CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(nuevoEquipo, pw);
+	                            		CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(nuevoEquipo, pw, pos);
 	                            		ct.setVisible(true);
 	                        			dispose();
 	                    			} else {
@@ -183,7 +183,7 @@ public class PokedexWindow extends JFrame{
 	                    			    	team.setP6(p);
 	                    			        break;
 	                    				}
-	                    				CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(team, pw);
+	                    				CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(team, pw, pos);
 	                        			ct.setVisible(true);
 	                        			dispose();
 	                    			}
