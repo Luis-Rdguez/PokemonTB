@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class PokemonTeam {
@@ -76,6 +77,24 @@ public class PokemonTeam {
 		this.p6 = p6;
 	}
 	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        PokemonTeam otroEquipo = (PokemonTeam) obj;
+        return Objects.equals(name, otroEquipo.name) &&
+               Objects.equals(user, otroEquipo.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, user);
+    }
+    
 	@Override
 	public String toString() {
 		return "PokemonTeam [name=" + name + ", u1=" + user + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4 + ", p5=" + p5

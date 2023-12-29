@@ -33,7 +33,7 @@ public class PokedexWindow extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Pokemon> pokemons;
+	private List<Pokemon> pokemons = db.importarPokemonsDesdeCSV();;
 	
 	private JTable tablaPokemons;
 	private DefaultTableModel modeloDatosPokemon;
@@ -50,11 +50,10 @@ public class PokedexWindow extends JFrame{
 //		frame.setVisible(true);
 	}
 	
-	public PokedexWindow(List<Pokemon> pokemons, PokemonTeam team, int pos) {
+	public PokedexWindow(List<Pokemon> pokemons, PokemonTeam team, int pos, CreatePokemonTeamWindow cp, PokemonTeamWindow pw) {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
-		
 		
 		
 		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
@@ -129,14 +128,76 @@ public class PokedexWindow extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 int column = tablaPokemons.getColumnModel().getColumnIndexAtX(e.getX());
                 int row = e.getY() / tablaPokemons.getRowHeight();
-
+                
                 if (row < tablaPokemons.getRowCount() && row >= 0 && column < tablaPokemons.getColumnCount() && column >= 0) {
                     Object value = tablaPokemons.getValueAt(row, column);
-
-                    if (value instanceof JButton) {
-                        JButton button = (JButton) value;
-                        System.out.println("Button Clicked in PokedexWindow");
-                        // Puedes realizar otras acciones necesarias aquí
+                    if (e.getClickCount() == 2) {
+	                    int filaPokemon = tablaPokemons.getSelectedRow();
+	                    Object nombrePokemon = tablaPokemons.getValueAt(filaPokemon, 1).toString();
+	                    for(Pokemon p : pokemons) {
+	                    	if(p.getPokemon().equals(nombrePokemon)) {
+	                    		List<PokemonTeam> equipos = db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"); 
+	                    		PokemonTeam nuevoEquipo = new PokemonTeam(team.getName(), LoginUserWindow.getNombreUsario());
+	                    			if(!equipos.contains(team)) {
+	                    				switch (pos) {
+	                    			    case 1:
+	                    			    	nuevoEquipo.setP1(p);
+	                    			        break;
+	                    			    case 2:
+	                    			    	nuevoEquipo.setP2(p);
+	                    			        break;
+	                    			    case 3:
+	                    			    	nuevoEquipo.setP3(p);
+	                    			        break;
+	                    			    case 4:
+	                    			    	nuevoEquipo.setP4(p);
+	                    			        break;
+	                    			    case 5:
+	                    			    	nuevoEquipo.setP5(p);
+	                    			        break;
+	                    			    case 6:
+	                    			    	nuevoEquipo.setP6(p);
+	                    			        break;
+	                    				}
+	                            		CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(nuevoEquipo, pw);
+	                            		ct.setVisible(true);
+	                        			dispose();
+	                    			} else {
+	                    				switch (pos) {
+	                    			    case 1:
+	                    			    	team.setP1(p);
+	                    			        break;
+	                    			    case 2:
+	                    			    	team.setP2(p);
+	                    			        break;
+	                    			    case 3:
+	                    			    	team.setP3(p);
+	                    			        break;
+	                    			    case 4:
+	                    			    	team.setP4(p);
+	                    			        break;
+	                    			    case 5:
+	                    			    	team.setP5(p);
+	                    			        break;
+	                    			    case 6:
+	                    			    	team.setP6(p);
+	                    			        break;
+	                    				}
+	                    				CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(team, pw);
+	                        			ct.setVisible(true);
+	                        			dispose();
+	                    			}
+	                    		
+	                    			
+	                    		
+	                    		
+	                    	}
+	                    }
+	                    if (value instanceof JButton) {
+	                        JButton button = (JButton) value;
+	                        System.out.println("Button Clicked in PokedexWindow");
+	                        // Puedes realizar otras acciones necesarias aquí
+	                    }
                     }
                 }
             }
