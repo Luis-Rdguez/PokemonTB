@@ -7,10 +7,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class CompareWindow  extends JFrame{
     private PokemonTeam equipo2;
     private String nombreEquipoInput;
     private JPanel panelTeam1, panelTeam2;
+    private JLabel labelPokemon;
 	private static final long serialVersionUID = 1L;	
 	
 	public CompareWindow() {
@@ -168,10 +171,122 @@ public class CompareWindow  extends JFrame{
                 if(pt.getName().equals(nombreEquipoInput)) {
                 	List<JPanel> panelesPokemon = new ArrayList<>();
                 	for (int i = 0; i < 6; i++) {
-                		Pokemon p = getPokemonFromTeam(pt, i);
+                		int panelIndex = i+1;
                 		panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                        panelPokemon.add(new JLabel("P: " + p.getPokemon()), SwingConstants.CENTER);
+                        switch (panelIndex) {
+                        case 1:
+                        	if (pt.getP1() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP1().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 2:
+                        	if (pt.getP2() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP2().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 3:
+                        	if (pt.getP3() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP3().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 4:
+                        	if (pt.getP4() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP4().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 5:
+                        	if (pt.getP5() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP5().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 6:
+                        	if (pt.getP6() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP6().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                        }
+                        panelPokemon.add(labelPokemon);
                         panelesPokemon.add(panelPokemon);
                     }
                 	for (JPanel panelPokemon : panelesPokemon) {
@@ -226,10 +341,122 @@ public class CompareWindow  extends JFrame{
                 if(pt.getName().equals(nombreEquipoInput)) {
                 	List<JPanel> panelesPokemon = new ArrayList<>();
                 	for (int i = 0; i < 6; i++) {
-                		Pokemon p = getPokemonFromTeam(pt, i);
+                		int panelIndex = i+1;
                 		panelPokemon = new JPanel();
                         panelPokemon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                        panelPokemon.add(new JLabel("P: " + p.getPokemon()), SwingConstants.CENTER);
+                        switch (panelIndex) {
+                        case 1:
+                        	if (pt.getP1() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP1().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 2:
+                        	if (pt.getP2() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP2().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 3:
+                        	if (pt.getP3() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP3().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 4:
+                        	if (pt.getP4() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP4().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 5:
+                        	if (pt.getP5() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP5().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        case 6:
+                        	if (pt.getP6() != null) {
+                        		String imagePath = "resources/PokemonLogosPruebas/" + pt.getP6().getId() + ".png";
+                        		File file = new File(imagePath);
+                            	
+                				if(file.exists()) {
+                        			ImageIcon originalIcon = new ImageIcon(imagePath);
+                                    Image originalImage = originalIcon.getImage();
+                                    Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+                                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                                    labelPokemon = new JLabel(resizedIcon);
+                				} else {
+                					labelPokemon = new JLabel("P:" + getPokemonFromTeam(pt, panelIndex).getPokemon());
+                				}
+                            } else {
+                                labelPokemon = new JLabel("Pokemon " + panelIndex);
+                            }
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                        }
+                        panelPokemon.add(labelPokemon);
                         panelesPokemon.add(panelPokemon);
                         
                     }
@@ -294,17 +521,17 @@ public class CompareWindow  extends JFrame{
 	
 	private Pokemon getPokemonFromTeam(PokemonTeam team, int index) {
 	    switch (index) {
-	        case 0:
-	            return team.getP1();
 	        case 1:
-	            return team.getP2();
+	            return team.getP1();
 	        case 2:
-	            return team.getP3();
+	            return team.getP2();
 	        case 3:
-	            return team.getP4();
+	            return team.getP3();
 	        case 4:
-	            return team.getP5();
+	            return team.getP4();
 	        case 5:
+	            return team.getP5();
+	        case 6:
 	            return team.getP6();
 	        default:
 	            throw new IllegalArgumentException("Índice de Pokémon no válido: " + index);
