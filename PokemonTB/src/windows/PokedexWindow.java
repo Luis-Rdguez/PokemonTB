@@ -136,57 +136,29 @@ public class PokedexWindow extends JFrame{
 	                    for(Pokemon p : pokemons) {
 	                    	if(p.getPokemon().equals(nombrePokemon)) {
 	                    		List<PokemonTeam> equipos = db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"); 
-	                    		PokemonTeam nuevoEquipo = new PokemonTeam(team.getName(), LoginUserWindow.getNombreUsario());
-	                    			if(!equipos.contains(team)) {
-	                    				switch (pos) {
-	                    			    case 1:
-	                    			    	nuevoEquipo.setP1(p);
-	                    			        break;
-	                    			    case 2:
-	                    			    	nuevoEquipo.setP2(p);
-	                    			        break;
-	                    			    case 3:
-	                    			    	nuevoEquipo.setP3(p);
-	                    			        break;
-	                    			    case 4:
-	                    			    	nuevoEquipo.setP4(p);
-	                    			        break;
-	                    			    case 5:
-	                    			    	nuevoEquipo.setP5(p);
-	                    			        break;
-	                    			    case 6:
-	                    			    	nuevoEquipo.setP6(p);
-	                    			        break;
-	                    				}
-	                            		CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(nuevoEquipo, pw, pos);
-	                            		ct.setVisible(true);
-	                        			dispose();
-	                    			} else {
-	                    				switch (pos) {
-	                    			    case 1:
-	                    			    	team.setP1(p);
-	                    			        break;
-	                    			    case 2:
-	                    			    	team.setP2(p);
-	                    			        break;
-	                    			    case 3:
-	                    			    	team.setP3(p);
-	                    			        break;
-	                    			    case 4:
-	                    			    	team.setP4(p);
-	                    			        break;
-	                    			    case 5:
-	                    			    	team.setP5(p);
-	                    			        break;
-	                    			    case 6:
-	                    			    	team.setP6(p);
-	                    			        break;
-	                    				}
-	                    				CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(team, pw, pos);
-	                        			ct.setVisible(true);
-	                        			dispose();
-	                    			}
-	                    		
+	                    		switch (pos) {
+                			    case 1:
+                			    	team.setP1(p);
+                			        break;
+                			    case 2:
+                			    	team.setP2(p);
+                			        break;
+                			    case 3:
+                			    	team.setP3(p);
+                			        break;
+                			    case 4:
+                			    	team.setP4(p);
+                			        break;
+                			    case 5:
+                			    	team.setP5(p);
+                			        break;
+                			    case 6:
+                			    	team.setP6(p);
+                			        break;
+                				}
+                				CreatePokemonTeamWindow ct = new CreatePokemonTeamWindow(team, pw, pos);
+                    			ct.setVisible(true);
+                    			dispose();
 	                    			
 	                    		
 	                    		

@@ -33,6 +33,8 @@ public class MenuWindow extends JFrame{
 	/**
 	 * 
 	 */
+	public CreatePokemonTeamWindow cp;
+	public PokemonTeamWindow pw;
 	private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
@@ -75,7 +77,7 @@ public class MenuWindow extends JFrame{
             @Override
                 public void actionPerformed(ActionEvent e) {
                     List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
-                    PokedexWindow frame = new PokedexWindow(pokemons, null, 0);
+                    PokedexWindow frame = new PokedexWindow(pokemons, null, 0, cp, pw);
                     frame.setVisible(true);
                     dispose();
                 }
