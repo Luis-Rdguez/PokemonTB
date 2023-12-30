@@ -55,7 +55,6 @@ public class PokedexWindow extends JFrame{
 		setIconImage(icon.getImage());
 		this.pokemons = pokemons;
 		
-		System.out.println(pos);
 		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -255,7 +254,7 @@ public class PokedexWindow extends JFrame{
 			String imagePath = "resources/PokemonLogosPruebas/" + c.getId() + ".png";
 			ImageIcon originalIcon = new ImageIcon(imagePath);
             Image originalImage = originalIcon.getImage();
-            Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
             ImageIcon resizedIcon = new ImageIcon(resizedImage);
             
             ImageIcon type1Icon = loadTypeImage(c.getType_1());
@@ -275,7 +274,7 @@ public class PokedexWindow extends JFrame{
         String typeImagePath = "resources/PokemonTypes/" + type.toLowerCase() + ".png";
         ImageIcon originalIcon = new ImageIcon(typeImagePath);
         Image originalImage = originalIcon.getImage();
-        Image resizedImage = originalImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        Image resizedImage = originalImage.getScaledInstance(20, 20, Image.SCALE_FAST);
         return new ImageIcon(resizedImage);
     }
 	

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.border.LineBorder;
 
+import classes.Pokemon;
 import classes.PokemonTeam;
 import classes.User;
 import db.db;
@@ -137,6 +138,12 @@ public class PokemonTeamWindow extends JFrame {
                         String nombreEquipo = nombreEquipoField.getText();
                         nombres = cargarNombres();
                     	PokemonTeam t1 = new PokemonTeam(nombreEquipo, LoginUserWindow.getNombreUsario());
+                    	List<Pokemon> listaPokemons = db.importarPokemonsDesdeCSV();
+                    	for(Pokemon p : listaPokemons) {
+                    		if(p.getPokemon().equals("charmander")) {
+                    			t1.setP1(p);
+                    		}
+                    	}
                     	
                         if(!nombres.contains(nombreEquipo)) {
                             CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(t1, currentInstance, 0);
@@ -176,15 +183,21 @@ public class PokemonTeamWindow extends JFrame {
                 JPanel panel = new JPanel();
                 
                 frameNombre.add(panel);
-                JLabel labelPregunta = new JLabel("¿Qué equipo quiere eliminar?:", SwingConstants.CENTER);
+                List<PokemonTeam> listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+                JLabel labelPregunta = new JLabel("¿Qué equipo quieres eliminar?", SwingConstants.CENTER);
+                JComboBox<String> nombreEquipoField = new JComboBox<>();
+                for(PokemonTeam pt : listaEquipos) {
+                	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
+                		nombreEquipoField.addItem(pt.getName());
+                	}
+                }
                 frameNombre.add(labelPregunta, BorderLayout.NORTH);
-                JTextField nombreEquipoField = new JTextField(40);
                 panel.add(nombreEquipoField, BorderLayout.CENTER);
                 JButton continuarButton = new JButton("Continuar");
                 continuarButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        nombreEquipo = nombreEquipoField.getText();
+                        nombreEquipo = nombreEquipoField.getSelectedItem().toString();
                         nombres = cargarNombres();
                         labels = cargarLabels();
                         List<PokemonTeam> pt = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
