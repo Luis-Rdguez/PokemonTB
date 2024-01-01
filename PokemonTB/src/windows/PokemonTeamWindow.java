@@ -108,7 +108,24 @@ public class PokemonTeamWindow extends JFrame {
         nombres = new ArrayList<String>();
         labels = new ArrayList<JLabel>();
 
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
         
+        JMenu optionsMenu = new JMenu("Options");
+        menuBar.add(optionsMenu);
+
+        JMenuItem pokedexItem = new JMenuItem("Pokedex");
+        JMenuItem logoutItem = new JMenuItem("Logout");
+
+        pokedexItem.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
+                    PokedexWindow frame = new PokedexWindow(pokemons, null, 0, null, null);
+                    frame.setVisible(true);
+                    dispose();
+                }
+            });
         
         
         equipoPanel = new JPanel();
@@ -116,11 +133,10 @@ public class PokemonTeamWindow extends JFrame {
     	equipoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     	
         // Fila 3: Botones "Añadir Equipo", "Eliminar Equipo" y "Comparar equipos"
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton addEquipoButton = new JButton("Añadir Equipo");
-        addEquipoButton.addMouseListener(new MouseAdapter() {
+        JMenuItem addEquipoButton = new JMenuItem("Añadir Equipo");
+        addEquipoButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
             	// Creamos un frame para guardar el nombre del equipo
                 JFrame frameNombre = new JFrame("Nombre Equipo");
                 frameNombre.setSize(500, 130);
@@ -172,10 +188,10 @@ public class PokemonTeamWindow extends JFrame {
             }
         });
         
-        JButton eliminarEquipoButton = new JButton("Eliminar Equipo");
-        eliminarEquipoButton.addMouseListener(new MouseAdapter() {
+        JMenuItem eliminarEquipoButton = new JMenuItem("Eliminar Equipo");
+        eliminarEquipoButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
             	// Creamos un frame para guardar el nombre del equipo
                 JFrame frameNombre = new JFrame("Nombre Equipo");
                 frameNombre.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -226,7 +242,7 @@ public class PokemonTeamWindow extends JFrame {
                 frameNombre.setLocationRelativeTo(null);
             }	
         });
-        JButton compararEquiposButton = new JButton("Competir");
+        JMenuItem compararEquiposButton = new JMenuItem("Competir");
         
         compararEquiposButton.addActionListener(new ActionListener() {
             @Override
@@ -242,21 +258,20 @@ public class PokemonTeamWindow extends JFrame {
         JPanel backPanel = new JPanel(new BorderLayout());
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MenuWindow vt = new MenuWindow();
-				vt.setVisible(true);
-				setVisible(false);
-			}
+        	@Override
+            public void actionPerformed(ActionEvent e) {
+                StartWindow sw = new StartWindow();
+                sw.setVisible(true);
+                dispose();
+            }
         	
         });
         backPanel.add(backButton, BorderLayout.SOUTH);
-        
-        
-        buttonPanel.add(eliminarEquipoButton);
-        buttonPanel.add(compararEquiposButton);
-        buttonPanel.add(addEquipoButton); 
-        containerButton.add(buttonPanel, BorderLayout.NORTH);
+
+        optionsMenu.add(pokedexItem);
+        optionsMenu.add(eliminarEquipoButton);
+        optionsMenu.add(compararEquiposButton);
+        optionsMenu.add(addEquipoButton);
         add(containerButton);
         add(equipoPanel);
         add(backPanel);

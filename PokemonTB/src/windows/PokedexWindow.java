@@ -77,15 +77,8 @@ public class PokedexWindow extends JFrame{
             }
         };
 		
-		if(team == null) {
-			this.initTables1();
+			this.initTables();
 			this.loadPokemons();
-		} else {
-			this.initTables2();
-			this.loadPokemons();
-			this.tablaPokemons.getColumnModel().getColumn(13).setCellRenderer(new selecPokRenderer(this, team, pos));
-			this.tablaPokemons.getColumnModel().getColumn(13).setCellEditor(new selecPokRenderer(this, team, pos));
-		}
 		
 	
 		
@@ -184,31 +177,17 @@ public class PokedexWindow extends JFrame{
 		
 		back.addActionListener(new ActionListener() {
             @Override
-                public void actionPerformed(ActionEvent e) {
-            		if(team == null) {
-                        MenuWindow mw = new MenuWindow();
-                        mw.setVisible(true);
-                        dispose();
-            		}else {
-            			dispose();
-            		}
-
-                }
+        	public void actionPerformed(ActionEvent e) {
+        		PokemonTeamWindow ptw = new PokemonTeamWindow();
+        		ptw.setVisible(true);
+        		dispose();
+        	}
             });
 		
 	}
 	
-	private void initTables1() {
+	private void initTables() {
 		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability"));
-		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons) {
-			public boolean isCellEditable(int row, int column) {
-                return false;
-			}
-		};
-		this.tablaPokemons = new JTable(this.modeloDatosPokemon);
-	}
-	private void initTables2() {
-		Vector<String> cabeceraPokemons = new Vector<String>(Arrays.asList( "ID","Pokemon","Type 1","Type 2","Attack","Defense","HP","Special attack","Special defense","Speed","Ability 1","Ability 2","Hidden ability","Select"));
 		this.modeloDatosPokemon = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraPokemons) {
 			public boolean isCellEditable(int row, int column) {
                 return false;

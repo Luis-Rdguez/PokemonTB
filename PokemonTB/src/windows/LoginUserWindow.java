@@ -131,9 +131,9 @@ public class LoginUserWindow extends JDialog{
 		        char[] enteredPasswordChars = txtContrasenia.getPassword();
 		        String enteredPassword = new String(enteredPasswordChars);
 		        if (isValidLogin(enteredUsername, enteredPassword)) {
-		            MenuWindow mw = new MenuWindow();
-					mw.setVisible(true);
-					dispose();
+		        	PokemonTeamWindow ptw = new PokemonTeamWindow();
+	            	ptw.setVisible(true);
+	            	dispose();
 		        } else {
 		            showLoginMessage("Invalid username or password. Please try again.", JOptionPane.ERROR_MESSAGE);
 		        }
