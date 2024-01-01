@@ -484,29 +484,76 @@ public class CompareWindow  extends JFrame{
 	
 	
 	public String compararPokemons(PokemonTeam t1, PokemonTeam t2) {
-		int contT1 = 0;
-		int contT2 = 0;
+		List<Pokemon> pt1 = new ArrayList<Pokemon>();
+		List<Pokemon> pt2 = new ArrayList<Pokemon>();
+		pt1.add(t1.getP1());
+		pt1.add(t1.getP2());
+		pt1.add(t1.getP3());
+		pt1.add(t1.getP4());
+		pt1.add(t1.getP5());
+		pt1.add(t1.getP6());
 		
-		if(t1.getP1().getAttack() > t2.getP1().getHp() + t2.getP1().getDefense()) {
-			contT1 += 1;
-		} else {
-			contT2 += 1;
-		}
+		pt2.add(t2.getP1());
+		pt2.add(t2.getP2());
+		pt2.add(t2.getP3());
+		pt2.add(t2.getP4());
+		pt2.add(t2.getP5());
+		pt2.add(t2.getP6());
 		
-		if(t2.getP1().getAttack() > t1.getP1().getHp() + t1.getP1().getDefense()){
-			contT2 += 1;
-		} else {
-			contT1 += 1;
-		}
-		if(mayorValor(contT1, contT2) == contT1) {
-			return "Ha ganado el equipo: " + t1.getName();
-		} else {
-			return "Ha ganado el equipo: " + t2.getName();
-		}
+		return combateRecursivo(pt1,pt2);
+		
+//		int contT1 = 0;
+//		int contT2 = 0;
+//		
+//		if(t1.getP1().getAttack() > t2.getP1().getHp() + t2.getP1().getDefense()) {
+//			contT1 += 1;
+//		} else {
+//			contT2 += 1;
+//		}
+//		
+//		if(t2.getP1().getAttack() > t1.getP1().getHp() + t1.getP1().getDefense()){
+//			contT2 += 1;
+//		} else {
+//			contT1 += 1;
+//		}
+//		if(mayorValor(contT1, contT2) == contT1) {
+//			return "Ha ganado el equipo: " + t1.getName();
+//		} else {
+//			return "Ha ganado el equipo: " + t2.getName();
+//		}
 		
 	}
 	
+	public String combateRecursivo(List<Pokemon> t1, List<Pokemon> t2) {
+		if (!t1.isEmpty() && !t2.isEmpty()) {
+			Pokemon pt1 = t1.get(0);
+			Pokemon pt2 = t2.get(0);
+			//anyadir empates
+			if(pt1.getAttack()>pt2.getAttack()) {
+				t2.remove(0);
+			}else {
+				t1.remove(0);
+			}
+			return combateRecursivo(t1,t2);
+		}else if(t1.isEmpty()) {
+			return "Ha ganado el equipo 2, y ha conservado "+ t2.size() +" Pokemons, "+ printPokemons(t2);
+		}else {
+			return "Ha ganado el equipo 1, y ha conservado "+ t1.size() +" Pokemons, "+ printPokemons(t1);
+		}
+	}
 	
+	public String printPokemons(List<Pokemon> p) {
+
+        // StringBuilder para construir el string resultante
+        StringBuilder resultado = new StringBuilder();
+        resultado.append(p.get(0).getPokemon());
+        
+        for (int i = 1; i < p.size(); i++) {
+            resultado.append(", ").append(p.get(i).getPokemon());
+        }
+
+        return resultado.toString();
+	}
 	
 	public int mayorValor(int valor1, int valor2) {
 		
