@@ -25,7 +25,7 @@ public class db {
 	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
-	private static boolean LOGGING = true;
+	public static boolean LOGGING = true;
 	
 	public static void main(String[] args) {
 
@@ -89,9 +89,18 @@ public class db {
 					+ "email varchar(50), "
 					+ "telefono long, "
 					+ "PRIMARY KEY (username));";
-		//  Comprobar si el statement es correcto
-		//	log( Level.INFO, "Statement: " + sent , null);
 			s.executeUpdate(sent);
+			// Tabla Team
+			String sent1 = "CREATE TABLE IF NOT EXISTS Team (name varchar(30) NOT NULL, "
+					+ "user varchar(40), "
+					+ "pokemon1 varchar(40), "
+					+ "pokemon2 varchar(40), "
+					+ "pokemon3 varchar(40), "
+					+ "pokemon4 varchar(40), "
+					+ "pokemon5 varchar(40), "
+					+ "pokemon6 varchar(40)"
+					+ "PRIMARY KEY (name));";
+			s.executeUpdate(sent1);
 
 			return true;
 		} catch (Exception e) {
@@ -101,35 +110,127 @@ public class db {
 		}
 	}
 	
-	public static void añadirUsuario(User usuario) {
-		try {
-			
+	public static void añadirUsuario(User u) {
+		conectBD();
+		String sql = "INSERT INTO User VALUES('%s','%s','%s','%s','%s','%s');";
+		
+		try (Statement stmt = con.createStatement()) {
+			stmt.executeUpdate(String.format(sql,
+								u.getUsername(),
+								u.getPassword(),
+								u.getFirstSurname(),
+								u.getSecondSurname(),
+								u.getEmail(),
+								u.getTelephone()));
+			//TODO añadir equipos
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.warning(String.format("Error guardando usuario: %s", u));
+		} finally {
+			cerrarConexion();
 		}
 	}
 	
-	public static void seleccionarUsuarioPorNombre(String nombre) {
-		try {
-			
+
+	public static User seleccionarUsuarioPorNombre(String nombre) {
+		conectBD();
+		User usuario = null;
+		String selectQuery = "SELECT * FROM User WHERE username = '%s'";
+		try (Statement stmt = con.createStatement()){
+	        rs = stmt.executeQuery(String.format(selectQuery, nombre));
+
+	        if (rs.next()) {
+	            String username = rs.getString("username");
+	            String password = rs.getString("password");
+	            String firstSurname = rs.getString("firstSurname");
+	            String secondSurname = rs.getString("secondSurname");
+	            String email = rs.getString("email");
+	            int telefono = rs.getInt("telefono");
+
+	            usuario = new User(username, password, firstSurname, secondSurname, email, telefono);
+	            //TODO meter equipos
+	        }
+
 		} catch (Exception e) {
-			// TODO: handle exception
-		}
+			e.printStackTrace();
+	        log(Level.SEVERE, String.format("Error selecting user with username %s", nombre), e);
+	    } finally {
+	        cerrarConexion();
+	    }
+	    return usuario;
 	}
 	
+	public ArrayList<PokemonTeam> loadEquipos(User u) {
+		String sql = "SELECT * FROM Team WHERE user = '%s'";
+		ArrayList<PokemonTeam> result = new ArrayList<>();
+		List<Pokemon> pkm = new ArrayList<Pokemon>(importarPokemonsDesdeCSV());
+		PokemonTeam equipo = null;
+		conectBD();
+		try (Statement stmt = con.createStatement()){
+			rs = stmt.executeQuery(String.format(sql, u.getUsername()));
+			
+			while (rs.next()) {
+				equipo = new PokemonTeam(rs.getString("name"),
+						rs.getString("user"));
+				equipo.setP1(findPokemonByName(pkm, rs.getString("pokemon1")));
+				equipo.setP2(findPokemonByName(pkm, rs.getString("pokemon2")));
+				equipo.setP3(findPokemonByName(pkm, rs.getString("pokemon3")));
+				equipo.setP4(findPokemonByName(pkm, rs.getString("pokemon4")));
+				equipo.setP5(findPokemonByName(pkm, rs.getString("pokemon5")));
+				equipo.setP6(findPokemonByName(pkm, rs.getString("pokemon6")));
+				
+				result.add(equipo);
+			}
+			
+			return result;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			log(Level.SEVERE, String.format("Error selecting teams for username %s: %s", u.getUsername()), e);
+			return null;
+		} finally {
+			cerrarConexion();
+		}
+	}
 	public static void añadirEquipoPokemon(PokemonTeam pt) {
-		try {
-			
+		String sql = "INSERT INTO Team VALUES('%s','%s','%s','%s','%s','%s','%s','%s');";
+		
+		try (Statement stmt = con.createStatement()) {
+			stmt.executeUpdate(String.format(sql,
+								pt.getName(),
+								pt.getUser(),
+								pt.getP1().getPokemon(),
+								pt.getP2().getPokemon(),
+								pt.getP3().getPokemon(),
+								pt.getP4().getPokemon(),
+								pt.getP5().getPokemon(),
+								pt.getP6().getPokemon()));
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.warning(String.format("Error guardando equipo: %s", pt.getName()));
+		} finally {
+			cerrarConexion();
 		}
 	}
 	
 	public static void eliminarEquipoPokemon(PokemonTeam pt) {
-		try {
-			
+		String selectQuery = "Select FROM Team WHERE name = '%s' AND username = '%s";
+		try (Statement stmt = con.createStatement()){
+			conectBD();
+			rs = stmt.executeQuery(String.format(selectQuery, pt.getName(),pt.getUser()));
+
+	        if (!rs.next()) {
+	            log(Level.WARNING, "Team does not exist for the user.", null);
+	            return;
+	        }
+
+	        String deleteQuery = "DELETE FROM Team WHERE name = '%s' AND username = '%s";
+	        Statement stmt1 = con.createStatement();
+	        stmt1.executeUpdate(deleteQuery);
+	        log(Level.INFO, "Equipo eliminado exitosamente: " + pt.getName(), null);
+
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+	        log(Level.SEVERE, "Error al eliminar equipo de Pokémon", e);
+		} finally {
+			cerrarConexion();
 		}
 	}
 	
