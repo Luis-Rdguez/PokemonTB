@@ -19,11 +19,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import db.db;
+
 public class StartWindow extends JFrame {
-	
+	private static String dbname = "pdb";
+	private static db db = null;
 	private JPanel contentPane;
 	private static final long serialVersionUID = 1L;
-	
 
 	public static void main(String[] args) {
 		StartWindow frame = new StartWindow();
@@ -32,6 +34,8 @@ public class StartWindow extends JFrame {
 
 	
 	public StartWindow() {
+		db.conectBD(dbname);
+		db.creacionBD();
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,7 +79,7 @@ public class StartWindow extends JFrame {
 		bLoginUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginUserWindow luw = new LoginUserWindow();
+				LoginUserWindow luw = new LoginUserWindow(db);
 				luw.setVisible(true);
 				dispose();
 			}

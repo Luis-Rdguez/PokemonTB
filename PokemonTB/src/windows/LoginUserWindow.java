@@ -23,6 +23,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import classes.User;
+import db.db;
+
 public class LoginUserWindow extends JDialog{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -39,6 +42,8 @@ public class LoginUserWindow extends JDialog{
 	private JPanel panel_1;
 	public static String nombreUsario;
 	private Button bShowPass;
+	private static String dbname = "pdb";
+	private static db db = null;
 
 
 	public static String getNombreUsario() {
@@ -50,11 +55,14 @@ public class LoginUserWindow extends JDialog{
 	}
 
 	public static void main(String[] args) {
-		LoginUserWindow frame = new LoginUserWindow();
+		db.conectBD(dbname);
+		db.creacionBD();
+		LoginUserWindow frame = new LoginUserWindow(db);
 		frame.setVisible(true);
 	}
 
-	public LoginUserWindow() {
+	public LoginUserWindow(db db) {
+		LoginUserWindow.db = db;
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -167,13 +175,10 @@ public class LoginUserWindow extends JDialog{
 	
     private boolean isValidLogin(String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length >= 2 && parts[0].equals(username) && parts[1].equals(password)) {
-                    return true;
-                }
-            }
+        	User u = db.seleccionarUsuarioPorNombre(username);
+        	if(u.getPassword() == password) {
+        		return true;
+        	}
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error checking login credentials", "Login Status", JOptionPane.ERROR_MESSAGE);
