@@ -48,11 +48,12 @@ public class db {
 			logger.log(level, msg, excepcion);
 	}
 	
-	public static void conectBD() {
+	public static void conectBD(String nombreBD) {
 		try {
-			con = DriverManager.getConnection("jdbc:sqlite:PokemonBD.db");
-			s = con.createStatement();
-		} catch (SQLException e) {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+			log(Level.INFO, "Abriendo conexión con " + nombreBD, null);
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -74,11 +75,9 @@ public class db {
 	
 	// Metodos para Bases de Datos
 	
-	public static boolean creacionBD(String nombreBD) {
+	public static boolean creacionBD() {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
-			log(Level.INFO, "Abriendo conexión con " + nombreBD, null);
+			
 			// CREACION DE TABLAS
 			// Tabla User
 			s = con.createStatement();
@@ -98,7 +97,7 @@ public class db {
 					+ "pokemon3 varchar(40), "
 					+ "pokemon4 varchar(40), "
 					+ "pokemon5 varchar(40), "
-					+ "pokemon6 varchar(40)"
+					+ "pokemon6 varchar(40),"
 					+ "PRIMARY KEY (name));";
 			s.executeUpdate(sent1);
 
@@ -111,7 +110,6 @@ public class db {
 	}
 	
 	public static void añadirUsuario(User u) {
-		conectBD();
 		String sql = "INSERT INTO User VALUES('%s','%s','%s','%s','%s','%s');";
 		
 		try (Statement stmt = con.createStatement()) {
@@ -125,14 +123,11 @@ public class db {
 			//TODO añadir equipos
 		} catch (Exception e) {
 			logger.warning(String.format("Error guardando usuario: %s", u));
-		} finally {
-			cerrarConexion();
 		}
 	}
 	
 
 	public static User seleccionarUsuarioPorNombre(String nombre) {
-		conectBD();
 		User usuario = null;
 		String selectQuery = "SELECT * FROM User WHERE username = '%s'";
 		try (Statement stmt = con.createStatement()){
@@ -147,26 +142,25 @@ public class db {
 	            int telefono = rs.getInt("telefono");
 
 	            usuario = new User(username, password, firstSurname, secondSurname, email, telefono);
-	            //TODO meter equipos
+	            // Load teams for the user
+	            List<PokemonTeam> equipos = loadEquipos(nombre);
+	            usuario.setEquipos(equipos);
 	        }
 
 		} catch (Exception e) {
 			e.printStackTrace();
 	        log(Level.SEVERE, String.format("Error selecting user with username %s", nombre), e);
-	    } finally {
-	        cerrarConexion();
 	    }
 	    return usuario;
 	}
 	
-	public ArrayList<PokemonTeam> loadEquipos(User u) {
+	public static ArrayList<PokemonTeam> loadEquipos(String u) {
 		String sql = "SELECT * FROM Team WHERE user = '%s'";
 		ArrayList<PokemonTeam> result = new ArrayList<>();
 		List<Pokemon> pkm = new ArrayList<Pokemon>(importarPokemonsDesdeCSV());
 		PokemonTeam equipo = null;
-		conectBD();
 		try (Statement stmt = con.createStatement()){
-			rs = stmt.executeQuery(String.format(sql, u.getUsername()));
+			rs = stmt.executeQuery(String.format(sql, u));
 			
 			while (rs.next()) {
 				equipo = new PokemonTeam(rs.getString("name"),
@@ -184,10 +178,8 @@ public class db {
 			return result;	
 		} catch (Exception e) {
 			e.printStackTrace();
-			log(Level.SEVERE, String.format("Error selecting teams for username %s: %s", u.getUsername()), e);
+			log(Level.SEVERE, String.format("Error selecting teams for username %s: %s", u), e);
 			return null;
-		} finally {
-			cerrarConexion();
 		}
 	}
 	public static void añadirEquipoPokemon(PokemonTeam pt) {
@@ -205,15 +197,12 @@ public class db {
 								pt.getP6().getPokemon()));
 		} catch (Exception e) {
 			logger.warning(String.format("Error guardando equipo: %s", pt.getName()));
-		} finally {
-			cerrarConexion();
 		}
 	}
 	
 	public static void eliminarEquipoPokemon(PokemonTeam pt) {
 		String selectQuery = "Select FROM Team WHERE name = '%s' AND username = '%s";
 		try (Statement stmt = con.createStatement()){
-			conectBD();
 			rs = stmt.executeQuery(String.format(selectQuery, pt.getName(),pt.getUser()));
 
 	        if (!rs.next()) {
@@ -229,8 +218,6 @@ public class db {
 		} catch (Exception e) {
 			e.printStackTrace();
 	        log(Level.SEVERE, "Error al eliminar equipo de Pokémon", e);
-		} finally {
-			cerrarConexion();
 		}
 	}
 	
