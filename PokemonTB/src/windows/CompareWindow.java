@@ -525,68 +525,7 @@ public class CompareWindow  extends JFrame{
 		
 	}
 	
-	public String combateRecursivo(List<Pokemon> t1, List<Pokemon> t2) {
-		if (!t1.isEmpty() && !t2.isEmpty()) {
-			Pokemon pt1 = t1.get(0);
-			Pokemon pt2 = t2.get(0);
-			
-			pt2 = atacar(pt1, pt2);
-	        pt1 = atacar(pt2, pt1);
-			
-	        if (pt1.getHp() <= 0) {
-	            t1.remove(0);
-	        }
-	        if (pt2.getHp() <= 0) {
-	            t2.remove(0);
-	        }
-			return combateRecursivo(t1,t2);
-		}else if(t1.isEmpty()) {
-			return "Ha ganado el equipo 2, y ha conservado "+ t2.size() +" Pokemon(s): "+ printPokemons(t2);
-		}else {
-			return "Ha ganado el equipo 1, y ha conservado "+ t1.size() +" Pokemon(s): "+ printPokemons(t1);
-		}
-	}
-	
-	public Pokemon atacar(Pokemon t1, Pokemon t2) {
-	    // Lógica de batalla: compara los atributos de ataque y defensa y los aplica con un multiplicador random
-	    double multiplicadorAtaque = generarMultiplicadorAleatorio();
-	    double multiplicadorDefensa = generarMultiplicadorAleatorio();
 
-	    int ataqueFinal = (int) (t1.getAttack() * multiplicadorAtaque);
-	    int defensaFinal = (int) (t2.getDefense() * multiplicadorDefensa);
-
-	    int danioInfligido = Math.max(0, ataqueFinal - defensaFinal);
-	    return recibirDanio(t2, danioInfligido);
-	}
-
-	private double generarMultiplicadorAleatorio() {
-	    double MIN_MULTIPLIER = 0.5;
-	    double MAX_MULTIPLIER = 1.5;
-	    Random random = new Random();
-	    return random.nextDouble((MAX_MULTIPLIER - MIN_MULTIPLIER))+MIN_MULTIPLIER;
-	}
-
-	private Pokemon recibirDanio(Pokemon pokemon, int danio) {
-	    // Lógica para recibir daño y actualizar los puntos de salud (HP)
-	    int hp = pokemon.getHp();
-	    hp -= danio;
-	    pokemon.setHp(hp);
-	    return pokemon;
-	}
-
-	
-	public String printPokemons(List<Pokemon> p) {
-
-        // StringBuilder para construir el string resultante
-        StringBuilder resultado = new StringBuilder();
-        resultado.append(p.get(0).getPokemon());
-        
-        for (int i = 1; i < p.size(); i++) {
-            resultado.append(", ").append(p.get(i).getPokemon());
-        }
-
-        return resultado.toString();
-	}
 	
 	public int mayorValor(int valor1, int valor2) {
 		
