@@ -38,6 +38,7 @@ public class LoginUserWindow extends JDialog{
 	private JPanel panel;
 	private JPanel panel_1;
 	public static String nombreUsario;
+	private Button bShowPass;
 
 
 	public static String getNombreUsario() {
@@ -86,7 +87,7 @@ public class LoginUserWindow extends JDialog{
 		panelCentro2.add(panel_1);
 		panel_1.setLayout(new GridLayout(1, 1, 0, 0));
 		
-		lblNombre = new JLabel("Username or email:");
+		lblNombre = new JLabel("Username: ");
 		panel_1.add(lblNombre);
 		
 		txtNombre = new JTextField();
@@ -105,20 +106,29 @@ public class LoginUserWindow extends JDialog{
 		panel.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
-		Button bShowPass1 = new Button("Show");
-		panel.add(bShowPass1);
+		bShowPass = new Button("Show");
+		panel.add(bShowPass);
 		
-		bShowPass1.addActionListener(new ActionListener() {
-
+		bShowPass.addActionListener(new ActionListener() {
+			boolean visible = false;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				txtContrasenia.setEchoChar((char) 0);
+				visible = true;				
+				bShowPass.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(visible) {
+							txtContrasenia.setEchoChar('*');
+							visible=false;
+						}else {
+							txtContrasenia.setEchoChar((char) 0);
+							visible = true;		
+						}
+					}
+				});
 			}
 		});
-		
-		JCheckBox adminCB = new JCheckBox("Admin");
-		southPanel.add(adminCB);
 		
 		btnAcceder = new JButton("Accept");
 		southPanel.add(btnAcceder);
