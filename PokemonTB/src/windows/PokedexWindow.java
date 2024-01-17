@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -96,6 +98,20 @@ public class PokedexWindow extends JFrame{
 		
 		JPanel panelFiltro = new JPanel();
 		panelFiltro.add(new JLabel("Filtro por nombre: "));
+		this.txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				filtrarPokemons();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				filtrarPokemons();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) { }			
+		});
 		panelFiltro.add(txtFiltro);
 		
 		JPanel panelPokedex = new JPanel();
@@ -184,6 +200,29 @@ public class PokedexWindow extends JFrame{
         	}
             });
 		
+	}
+	private void filtrarPokemons() {
+		//Se vacían las dos tablas
+		this.modeloDatosPokemon.setRowCount(0);
+		this.modeloDatosPokemon.setRowCount(0);
+		
+		//Se añaden a la tabla sólo los comics que contengan el texto del filtro
+		this.pokemons.forEach(c -> {
+			if(c.getPokemon().contains(this.txtFiltro.getText())) {
+				String imagePath = "resources/PokemonLogosPruebas/" + c.getId() + ".png";
+				ImageIcon originalIcon = new ImageIcon(imagePath);
+	            Image originalImage = originalIcon.getImage();
+	            Image resizedImage = originalImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+	            ImageIcon resizedIcon = new ImageIcon(resizedImage);
+	            
+	            ImageIcon type1Icon = loadTypeImage(c.getType_1());
+	            ImageIcon type2Icon = loadTypeImage(c.getType_2());
+
+	            this.modeloDatosPokemon.addRow(
+	                    new Object[]{resizedIcon, c.getPokemon(), type1Icon, type2Icon, c.getAttack(), c.getDefense(), c.getHp(), c.getSpecial_attack(), c.getSpecial_defense(), c.getSpeed(), c.getAbility_1(), c.getAbility_2(), c.getAbility_hidden()}
+	            );
+			}
+        });
 	}
 	
 	private void initTables() {

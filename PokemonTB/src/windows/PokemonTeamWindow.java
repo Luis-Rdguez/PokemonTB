@@ -154,12 +154,6 @@ public class PokemonTeamWindow extends JFrame {
                         String nombreEquipo = nombreEquipoField.getText();
                         nombres = cargarNombres();
                     	PokemonTeam t1 = new PokemonTeam(nombreEquipo, LoginUserWindow.getNombreUsario());
-                    	List<Pokemon> listaPokemons = db.importarPokemonsDesdeCSV();
-                    	for(Pokemon p : listaPokemons) {
-                    		if(p.getPokemon().equals("charmander")) {
-                    			t1.setP1(p);
-                    		}
-                    	}
                     	
                         if(!nombres.contains(nombreEquipo)) {
                             CreatePokemonTeamWindow cp = new CreatePokemonTeamWindow(t1, currentInstance, 0);
