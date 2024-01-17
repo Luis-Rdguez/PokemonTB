@@ -195,30 +195,31 @@ public class db {
 								pt.getP4().getPokemon(),
 								pt.getP5().getPokemon(),
 								pt.getP6().getPokemon()));
+			log(Level.INFO, "Equipo añadido exitosamente: " + pt.getName(), null);
 		} catch (Exception e) {
-			logger.warning(String.format("Error guardando equipo: %s", pt.getName()));
+			logger.warning(String.format("Error guardando equipo %s: %s", pt.getName(), e.getMessage()));
 		}
 	}
 	
 	public static void eliminarEquipoPokemon(PokemonTeam pt) {
-		String selectQuery = "Select FROM Team WHERE name = '%s' AND username = '%s";
-		try (Statement stmt = con.createStatement()){
-			rs = stmt.executeQuery(String.format(selectQuery, pt.getName(),pt.getUser()));
+	    String selectQuery = "SELECT * FROM Team WHERE name = '%s' AND user = '%s'";
+	    try (Statement stmt = con.createStatement()) {
+	        rs = stmt.executeQuery(String.format(selectQuery, pt.getName(), pt.getUser()));
 
 	        if (!rs.next()) {
 	            log(Level.WARNING, "Team does not exist for the user.", null);
 	            return;
 	        }
 
-	        String deleteQuery = "DELETE FROM Team WHERE name = '%s' AND username = '%s";
-	        Statement stmt1 = con.createStatement();
-	        stmt1.executeUpdate(deleteQuery);
-	        log(Level.INFO, "Equipo eliminado exitosamente: " + pt.getName(), null);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+	        String deleteQuery = "DELETE FROM Team WHERE name = '%s' AND user = '%s'";
+	        try (Statement stmtDelete = con.createStatement()) {
+	            stmtDelete.executeUpdate(String.format(deleteQuery, pt.getName(), pt.getUser()));
+	            log(Level.INFO, "Equipo eliminado exitosamente: " + pt.getName(), null);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
 	        log(Level.SEVERE, "Error al eliminar equipo de Pokémon", e);
-		}
+	    }
 	}
 	
 	// Metodos CSV
