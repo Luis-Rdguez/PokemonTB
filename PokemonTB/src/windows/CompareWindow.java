@@ -548,7 +548,7 @@ public class CompareWindow  extends JFrame{
 	}
 	
 	public Pokemon atacar(Pokemon t1, Pokemon t2) {
-	    // Lógica de batalla: compara los atributos de ataque y defensa
+	    // Lógica de batalla: compara los atributos de ataque y defensa y los aplica con un multiplicador random
 	    double multiplicadorAtaque = generarMultiplicadorAleatorio();
 	    double multiplicadorDefensa = generarMultiplicadorAleatorio();
 
