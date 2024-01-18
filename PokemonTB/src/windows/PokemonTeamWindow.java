@@ -90,15 +90,19 @@ public class PokemonTeamWindow extends JFrame {
 		return labels;	
 	}
 	
+	public void mostrarEquipos() {
+		List<PokemonTeam> teams = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
+        for(PokemonTeam pt : teams) {
+        	cargarEquipos(pt);
+        }
+	}
+	
 	public PokemonTeamWindow() {
 		
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                List<PokemonTeam> teams = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
-                for(PokemonTeam pt : teams) {
-                	cargarEquipos(pt);
-                }
+                mostrarEquipos();
             }
         });
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
@@ -219,6 +223,7 @@ public class PokemonTeamWindow extends JFrame {
                         }
                         
                         db.eliminarEquipoPokemon(pt);
+                        mostrarEquipos();
 //                        List<PokemonTeam> pt = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
 //                        if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
 //                        	for(PokemonTeam team : pt) {
@@ -232,8 +237,7 @@ public class PokemonTeamWindow extends JFrame {
 //                        	
 //                        	
 //                        }
-                        revalidate();
-                    	repaint();
+                        
                     	frameNombre.setVisible(false);
                         
                     }
@@ -308,8 +312,8 @@ public class PokemonTeamWindow extends JFrame {
             });
 			equipoPanel.add(label);
 		}
-		revalidate();
-		repaint();
+		equipoPanel.revalidate();
+		equipoPanel.repaint();
 	}
 	
 
