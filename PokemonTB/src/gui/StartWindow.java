@@ -1,4 +1,4 @@
-package windows;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -22,19 +22,10 @@ import javax.swing.border.EmptyBorder;
 import db.db;
 
 public class StartWindow extends JFrame {
-	private static String dbname = "PokemonBD.db";
 	private JPanel contentPane;
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) {
-		StartWindow frame = new StartWindow();
-		frame.setVisible(true);
-	}
-
-	
 	public StartWindow() {
-		db.conectBD(dbname);
-		db.creacionBD();
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

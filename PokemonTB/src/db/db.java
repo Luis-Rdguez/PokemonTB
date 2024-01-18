@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import classes.Pokemon;
 import classes.PokemonTeam;
 import classes.User;
-import windows.LoginUserWindow;
+import gui.LoginUserWindow;
 
 public class db {
 
