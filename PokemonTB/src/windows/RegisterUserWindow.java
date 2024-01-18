@@ -65,13 +65,13 @@ public class RegisterUserWindow extends JDialog {
 		JLabel lblFirstSurname= new JLabel("First Surname");
 		panel.add(lblFirstSurname);
 		
+		JTextField txtFirstSurname = new JTextField();
+		panel.add(txtFirstSurname);
+		txtFirstSurname.setColumns(10);	
+		
 		JLabel lblSecondSurname = new JLabel("Second Surname");
 		panel.add(lblSecondSurname);
 	
-		JTextField txtFirstSurname = new JTextField();
-		panel.add(txtFirstSurname);
-		txtFirstSurname.setColumns(10);
-		
 		JTextField txtSecondSurname = new JTextField();
 		panel.add(txtSecondSurname);
 		txtSecondSurname.setColumns(10);
