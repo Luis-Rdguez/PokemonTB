@@ -42,8 +42,7 @@ public class LoginUserWindow extends JDialog{
 	private JPanel panel_1;
 	public static String nombreUsario;
 	private Button bShowPass;
-	private static String dbname = "pdb";
-	private static db db = null;
+	private static String dbname = "PokemonBD.db";
 
 
 	public static String getNombreUsario() {
@@ -57,12 +56,11 @@ public class LoginUserWindow extends JDialog{
 	public static void main(String[] args) {
 		db.conectBD(dbname);
 		db.creacionBD();
-		LoginUserWindow frame = new LoginUserWindow(db);
+		LoginUserWindow frame = new LoginUserWindow();
 		frame.setVisible(true);
 	}
 
-	public LoginUserWindow(db db) {
-		LoginUserWindow.db = db;
+	public LoginUserWindow() {
 		ImageIcon icon = new ImageIcon("resources/other/MainImage.png");
 		setIconImage(icon.getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -176,7 +174,7 @@ public class LoginUserWindow extends JDialog{
     private boolean isValidLogin(String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"))) {
         	User u = db.seleccionarUsuarioPorNombre(username);
-        	if(u.getPassword() == password) {
+        	if(u.getPassword().equals(password)) {
         		return true;
         	}
         } catch (IOException e) {

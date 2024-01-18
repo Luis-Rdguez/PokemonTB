@@ -144,7 +144,7 @@ public class PokedexWindow extends JFrame{
 	                    Object nombrePokemon = tablaPokemons.getValueAt(filaPokemon, 1).toString();
 	                    for(Pokemon p : pokemons) {
 	                    	if(p.getPokemon().equals(nombrePokemon)) {
-	                    		List<PokemonTeam> equipos = db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"); 
+	                    		List<PokemonTeam> equipos = db.loadEquipos(LoginUserWindow.getNombreUsario()); 
 	                    		switch (pos) {
                 			    case 1:
                 			    	team.setP1(p);

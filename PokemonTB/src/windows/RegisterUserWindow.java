@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import classes.User;
+import db.db;
 import net.miginfocom.swing.MigLayout;
 
 public class RegisterUserWindow extends JDialog {
@@ -134,23 +136,26 @@ public class RegisterUserWindow extends JDialog {
 		    	String firstSurname = txtFirstSurname.getText();
 		    	String secondSurname = txtSecondSurname.getText();
 		    	String email = txtEmail.getText();
-		    	String telephone = txtTelefono.getText();
+		    	int telephone = Integer.parseInt(txtTelefono.getText());
+		    	User u = new User(username,password,firstSurname,secondSurname,email,telephone);
 		    	
 		        if (isUsernameAlreadyRegistered(username)) {
 //		            JOptionPane.showMessageDialog(this, "Username already exists. Please choose another.", "Error", JOptionPane.ERROR_MESSAGE);
 		            System.out.println("Username already exists. Please choose another.");
 		            return;
 		        }
+		        
+		        db.añadirUsuario(u);
 
-		        try (PrintWriter writer = new PrintWriter(new FileWriter("resources/user.csv", true))) {
-		            writer.println(username + "," + password + "," + firstSurname + "," + secondSurname + "," + email+ "," + telephone);
-		            System.out.println("User registered successfully!");
-//		            JOptionPane.showMessageDialog(this, "User registered successfully!");
-		        } catch (IOException ex) {
-		            ex.printStackTrace();
-		            System.out.println("Error registering user");
-//		            JOptionPane.showMessageDialog(this, "Error registering user", "Error", JOptionPane.ERROR_MESSAGE);
-		        }
+//		        try (PrintWriter writer = new PrintWriter(new FileWriter("resources/user.csv", true))) {
+//		            writer.println(username + "," + password + "," + firstSurname + "," + secondSurname + "," + email+ "," + telephone);
+//		            System.out.println("User registered successfully!");
+////		            JOptionPane.showMessageDialog(this, "User registered successfully!");
+//		        } catch (IOException ex) {
+//		            ex.printStackTrace();
+//		            System.out.println("Error registering user");
+////		            JOptionPane.showMessageDialog(this, "Error registering user", "Error", JOptionPane.ERROR_MESSAGE);
+//		        }
 				StartWindow st = new StartWindow();
 				st.setVisible(true);
 				dispose();
@@ -176,21 +181,15 @@ public class RegisterUserWindow extends JDialog {
 	}
 	
 	private boolean isUsernameAlreadyRegistered(String username) {
-	    try {
-	        BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"));
-	        String line;
-	        while ((line = reader.readLine()) != null) {
-	            String[] parts = line.split(",");
-	            if (parts.length > 0 && parts[0].equals(username)) {
-	                reader.close();
-	                return true;
-	            }
-	        }
-	        reader.close();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        JOptionPane.showMessageDialog(this, "Error checking username", "Error", JOptionPane.ERROR_MESSAGE);
-	    }
+//	    try {
+	    	User u = db.seleccionarUsuarioPorNombre(username);
+        	if(u != null) {
+        		return true;
+        		}
+//	    } catch (IOException e) {
+	//        e.printStackTrace();
+	  //      JOptionPane.showMessageDialog(this, "Error checking username", "Error", JOptionPane.ERROR_MESSAGE);
+	    //}
 
 	    return false;
 	}

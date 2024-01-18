@@ -120,7 +120,8 @@ public class db {
 								u.getSecondSurname(),
 								u.getEmail(),
 								u.getTelephone()));
-			//TODO añadir equipos
+			log(Level.INFO, "Usuario añadido exitosamente: " + u.getUsername(), null);
+			
 		} catch (Exception e) {
 			logger.warning(String.format("Error guardando usuario: %s", u));
 		}

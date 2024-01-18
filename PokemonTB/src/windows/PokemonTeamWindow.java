@@ -55,22 +55,26 @@ public class PokemonTeamWindow extends JFrame {
 	
 	public static ArrayList<String> cargarNombres() {
 		nombres = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("resources/pokemonteams.csv"))) {
-            String linea;
-            reader.readLine();
-            while ((linea = reader.readLine()) != null) {
-                String[] elementos = linea.split(";");
-                String teamName = elementos[0];
-                String username = elementos[1];
-
-                if (username != null && username.equals(LoginUserWindow.getNombreUsario())) {
-                	
-                    nombres.add(teamName);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		ArrayList<PokemonTeam> teams = db.loadEquipos(LoginUserWindow.getNombreUsario());
+		for(PokemonTeam t: teams) {
+			nombres.add(t.getName());
+		}
+//        try (BufferedReader reader = new BufferedReader(new FileReader("resources/pokemonteams.csv"))) {
+//            String linea;
+//            reader.readLine();
+//            while ((linea = reader.readLine()) != null) {
+//                String[] elementos = linea.split(";");
+//                String teamName = elementos[0];
+//                String username = elementos[1];
+//
+//                if (username != null && username.equals(LoginUserWindow.getNombreUsario())) {
+//                	
+//                    nombres.add(teamName);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         
 		return nombres;
 		
@@ -91,11 +95,9 @@ public class PokemonTeamWindow extends JFrame {
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                List<PokemonTeam> teams = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+                List<PokemonTeam> teams = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
                 for(PokemonTeam pt : teams) {
-                	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
-                		cargarEquipos(pt);
-                	}
+                	cargarEquipos(pt);
                 }
             }
         });
@@ -193,13 +195,11 @@ public class PokemonTeamWindow extends JFrame {
                 JPanel panel = new JPanel();
                 
                 frameNombre.add(panel);
-                List<PokemonTeam> listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+                List<PokemonTeam> listaEquipos = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
                 JLabel labelPregunta = new JLabel("¿Qué equipo quieres eliminar?", SwingConstants.CENTER);
                 JComboBox<String> nombreEquipoField = new JComboBox<>();
                 for(PokemonTeam pt : listaEquipos) {
-                	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
-                		nombreEquipoField.addItem(pt.getName());
-                	}
+                	nombreEquipoField.addItem(pt.getName());
                 }
                 frameNombre.add(labelPregunta, BorderLayout.NORTH);
                 panel.add(nombreEquipoField, BorderLayout.CENTER);
@@ -210,19 +210,28 @@ public class PokemonTeamWindow extends JFrame {
                         nombreEquipo = nombreEquipoField.getSelectedItem().toString();
                         nombres = cargarNombres();
                         labels = cargarLabels();
-                        List<PokemonTeam> pt = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
-                        if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
-                        	for(PokemonTeam team : pt) {
-                        		if(team.getName().equals(nombreEquipo)) {
-                        			pt.remove(team);
-                        			db.exportarEquiposPokemonACSV(pt, "resources/pokemonteams.csv");
-                        			cargarEquipos(team);
-                        			break;
-                        		}
+                        PokemonTeam pt = null;
+                        for(PokemonTeam t : listaEquipos) {
+                        	if(t.getName().equals(nombreEquipo)) {
+                        		pt = t;
+                        		break;
                         	}
-                        	
-                        	
                         }
+                        
+                        db.eliminarEquipoPokemon(pt);
+//                        List<PokemonTeam> pt = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+//                        if(nombreEquipo != null && nombres.contains(nombreEquipo)) {
+//                        	for(PokemonTeam team : pt) {
+//                        		if(team.getName().equals(nombreEquipo)) {
+//                        			pt.remove(team);
+//                        			db.exportarEquiposPokemonACSV(pt, "resources/pokemonteams.csv");
+//                        			cargarEquipos(team);
+//                        			break;
+//                        		}
+//                        	}
+//                        	
+//                        	
+//                        }
                         revalidate();
                     	repaint();
                     	frameNombre.setVisible(false);

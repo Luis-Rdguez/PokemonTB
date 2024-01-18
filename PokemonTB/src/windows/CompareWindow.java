@@ -146,14 +146,12 @@ public class CompareWindow  extends JFrame{
 	public void cargarEquipo1() {
 		JFrame frame = new JFrame("Seleccionar Equipo");
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        listaEquipos = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
         
         JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
         JComboBox<String> nombreEquipoField = new JComboBox<>();
         for(PokemonTeam pt : listaEquipos) {
-        	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
-        		nombreEquipoField.addItem(pt.getName());
-        	}
+        	nombreEquipoField.addItem(pt.getName());
         }
         JButton seleccionarButton = new JButton("Seleccionar Equipo");
 
@@ -318,12 +316,10 @@ public class CompareWindow  extends JFrame{
 		JFrame frame = new JFrame("Seleccionar Equipo");
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel mensajeLabel = new JLabel("¿Qué equipo quieres seleccionar?");
-        listaEquipos = new ArrayList<>(db.importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
+        listaEquipos = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
         JComboBox<String> nombreEquipoField = new JComboBox<>();
         for(PokemonTeam pt : listaEquipos) {
-        	if(pt.getUser().equals(LoginUserWindow.getNombreUsario())) {
-        		nombreEquipoField.addItem(pt.getName());
-        	}
+        	nombreEquipoField.addItem(pt.getName());
         }
         JButton seleccionarButton = new JButton("Seleccionar Equipo");
 

@@ -22,8 +22,7 @@ import javax.swing.border.EmptyBorder;
 import db.db;
 
 public class StartWindow extends JFrame {
-	private static String dbname = "pdb";
-	private static db db = null;
+	private static String dbname = "PokemonBD.db";
 	private JPanel contentPane;
 	private static final long serialVersionUID = 1L;
 
@@ -79,7 +78,7 @@ public class StartWindow extends JFrame {
 		bLoginUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginUserWindow luw = new LoginUserWindow(db);
+				LoginUserWindow luw = new LoginUserWindow();
 				luw.setVisible(true);
 				dispose();
 			}
