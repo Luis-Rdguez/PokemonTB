@@ -52,6 +52,7 @@ public class RegisterUserWindow extends JDialog {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
+		JPanel panelButtons = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(7, 2));
 		
@@ -82,30 +83,20 @@ public class RegisterUserWindow extends JDialog {
 		JPasswordField password = new JPasswordField();
 		panel.add(password);
 		
-		Button bShowPassword = new Button("Show");
-		//panel.add(bShowPassword);
-		bShowPassword.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
 		JLabel lblPassword2 = new JLabel("Repeat Password");
 		panel.add(lblPassword2);
 		
 		JPasswordField password2 = new JPasswordField();
 		panel.add(password2);
 		
-		Button bShowPassword2 = new Button("Show");
-		//panel.add(bShowPassword2);
-		bShowPassword2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+//		Button bShowPassword2 = new Button("Show");
+//		//panel.add(bShowPassword2);
+//		bShowPassword2.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//			}
+//		});
 		
 		JLabel lblEmail = new JLabel("Correo Electrónico");
 		panel.add(lblEmail);
@@ -121,8 +112,32 @@ public class RegisterUserWindow extends JDialog {
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
+		Button bShowPassword = new Button("Show");
+		panelButtons.add(bShowPassword);
+		bShowPassword.addActionListener(new ActionListener() {
+			boolean visible = false;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				password.setEchoChar((char) 0);
+				password2.setEchoChar((char) 0);
+				visible = true;				
+				bShowPassword.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(visible) {
+							password.setEchoChar('*');
+							password2.setEchoChar('*');
+							visible=false;
+						}else {
+							password.setEchoChar((char) 0);
+							password2.setEchoChar('*');
+							visible = true;		
+						}
+					}
+				});
+			}
+		});
 		
-		JPanel panelButtons = new JPanel();
 		JButton bAccept = new JButton("Accept");
 		panelButtons.add(bAccept);
 		
@@ -130,37 +145,40 @@ public class RegisterUserWindow extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        String username = txtName.getText();
-		        char[] passwordChars = password.getPassword();
-		        String password = new String(passwordChars);
-		    	String firstSurname = txtFirstSurname.getText();
-		    	String secondSurname = txtSecondSurname.getText();
-		    	String email = txtEmail.getText();
-		    	int telephone = Integer.parseInt(txtTelefono.getText());
-		    	User u = new User(username,password,firstSurname,secondSurname,email,telephone);
-		    	
-		        if (isUsernameAlreadyRegistered(username)) {
-//		            JOptionPane.showMessageDialog(this, "Username already exists. Please choose another.", "Error", JOptionPane.ERROR_MESSAGE);
-		            System.out.println("Username already exists. Please choose another.");
-		            return;
-		        }
-		        
-		        db.añadirUsuario(u);
 
-//		        try (PrintWriter writer = new PrintWriter(new FileWriter("resources/user.csv", true))) {
-//		            writer.println(username + "," + password + "," + firstSurname + "," + secondSurname + "," + email+ "," + telephone);
-//		            System.out.println("User registered successfully!");
-////		            JOptionPane.showMessageDialog(this, "User registered successfully!");
-//		        } catch (IOException ex) {
-//		            ex.printStackTrace();
-//		            System.out.println("Error registering user");
-////		            JOptionPane.showMessageDialog(this, "Error registering user", "Error", JOptionPane.ERROR_MESSAGE);
-//		        }
-				StartWindow st = new StartWindow();
-				st.setVisible(true);
-				dispose();
+		    	if(txtName.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta el nombre de usuario");
+				}else if(txtEmail.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta el email");
+				}else if(txtFirstSurname.getText().equals("")){
+					JOptionPane.showMessageDialog(contentPane, "Falta el primer apellido");
+				}else if(txtSecondSurname.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta el segundo apellido");
+				}else if(password.getPassword().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta la contraseña");
+				}else if(password2.getPassword().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta repetir la contraseña");
+				}else if(!(password.getText().equals(password2.getText()))) {
+					JOptionPane.showMessageDialog(contentPane, "Las contraseñas no son iguales");
+				}else if(txtTelefono.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Falta el telefono");
+				}else if (isUsernameAlreadyRegistered(txtName.getText())) {
+		            JOptionPane.showMessageDialog(contentPane, "Username already exists. Please choose another.");
+		        }else {
+			        String username = txtName.getText();
+			        char[] passwordChars = password.getPassword();
+			        String pass = new String(passwordChars);
+			    	String firstSurname = txtFirstSurname.getText();
+			    	String secondSurname = txtSecondSurname.getText();
+			    	String email = txtEmail.getText();
+			    	int telephone = Integer.parseInt(txtTelefono.getText());
+		        	User u = new User(username,pass,firstSurname,secondSurname,email,telephone);
+			        db.añadirUsuario(u);
+					StartWindow st = new StartWindow();
+					st.setVisible(true);
+					dispose();
+		        }
 			}
-			
 		});
 		
 		JButton btnBack = new JButton("Back");
