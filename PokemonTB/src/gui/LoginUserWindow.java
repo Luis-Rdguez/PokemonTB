@@ -42,7 +42,6 @@ public class LoginUserWindow extends JDialog{
 	private JPanel panel_1;
 	public static String nombreUsario;
 	private Button bShowPass;
-	private static String dbname = "PokemonBD.db";
 
 
 	public static String getNombreUsario() {
@@ -54,8 +53,6 @@ public class LoginUserWindow extends JDialog{
 	}
 
 	public static void main(String[] args) {
-		db.conectBD(dbname);
-		db.creacionBD();
 		LoginUserWindow frame = new LoginUserWindow();
 		frame.setVisible(true);
 	}

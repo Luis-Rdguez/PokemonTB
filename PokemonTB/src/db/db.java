@@ -27,6 +27,15 @@ public class db {
 	private static ResultSet rs;
 	public static boolean LOGGING = true;
 	
+	
+	public static Connection getCon() {
+		return con;
+	}
+
+	public static void setCon(Connection con) {
+		db.con = con;
+	}
+
 	public static void main(String[] args) {
 
         List<PokemonTeam> pkmTeam = new ArrayList<PokemonTeam>(importarEquiposPokemonDesdeCSV("resources/pokemonteams.csv"));
