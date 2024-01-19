@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class CreatePokemonTeamWindow extends JFrame {
@@ -45,6 +46,7 @@ public class CreatePokemonTeamWindow extends JFrame {
                 pokemonTeamWindow.cargarEquipos(team);
             }
         });
+        
         List<Pokemon> pokemons = new ArrayList<>(db.importarPokemonsDesdeCSV());
         List<PokemonTeam> equiposPokemon = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
         JPanel panelContainer = new JPanel();

@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.border.LineBorder;
 
@@ -87,8 +88,17 @@ public class PokemonTeamWindow extends JFrame {
 			label = new JLabel(s);
 			labels.add(label);
 		}
+		ordenarEquipos(labels);
 		return labels;	
 	}
+	
+	private static void ordenarEquipos(List<JLabel> labels) {
+        // Usar Comparator para comparar los textos de los JLabels
+        Comparator<JLabel> comparator = Comparator.comparing(JLabel::getText);
+
+        // Ordenar la lista utilizando el Comparator
+        labels.sort(comparator);
+    }
 	
 	public void mostrarEquipos() {
 		List<PokemonTeam> teams = new ArrayList<>(db.loadEquipos(LoginUserWindow.getNombreUsario()));
