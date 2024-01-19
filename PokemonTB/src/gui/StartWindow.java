@@ -74,7 +74,6 @@ public class StartWindow extends JFrame {
 		bLoginUser.addActionListener(new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				main.se
 				LoginUserWindow luw = new LoginUserWindow();
 				luw.setVisible(true);
 				dispose();
