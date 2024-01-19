@@ -194,7 +194,7 @@ public class CreatePokemonTeamWindow extends JFrame {
                         for (int i = 0; i < 10; i++) {
                             listaPokemonsPrueba.add(listaPokemons.get(i));
                         }
-
+//                      PokedexWindow vt = new PokedexWindow(listaPokemons, team, panelIndex, currentInstance, pokemonTeamWindow);
                         PokedexWindow vt = new PokedexWindow(listaPokemonsPrueba, team, panelIndex, currentInstance, pokemonTeamWindow);
                         vt.setVisible(true);
                         dispose();
