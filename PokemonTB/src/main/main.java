@@ -7,7 +7,8 @@ public class main {
 	private static String dbname = "PokemonBD.db";
 	
 	public static void main(String[] args) {
-		db.conectBD(dbname);
+		db db = new db();
+		db.conectBD();
 		db.creacionBD();
 		StartWindow frame = new StartWindow();
 		frame.setVisible(true);

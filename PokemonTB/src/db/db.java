@@ -2,6 +2,7 @@ package db;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,12 @@ import gui.LoginUserWindow;
 
 public class db {
 
+	private final String PROPERTIES_FILE = "resources/prop.properties";
+	
+	private Properties properties;
+	private String driverName;
+	private String databaseFile;
+	private String connectionString;
 	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
@@ -57,13 +65,35 @@ public class db {
 			logger.log(level, msg, excepcion);
 	}
 	
-	public static void conectBD(String nombreBD) {
+	public static void conectBDTest(String nombreBD){
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
 			log(Level.INFO, "Abriendo conexión con " + nombreBD, null);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			log(Level.SEVERE, "Error al cargar el driver de BBDD: ", e);
+		}
+	}
+	
+	public void conectBD(){
+		try {
+			//Lectura del fichero properties
+			properties = new Properties();
+			properties.load(new FileReader(PROPERTIES_FILE));
+			
+			driverName = properties.getProperty("driver");
+			databaseFile = properties.getProperty("file");
+			connectionString = properties.getProperty("connection");
+			
+			Class.forName(driverName);
+			con = DriverManager.getConnection(connectionString);
+//			Class.forName("org.sqlite.JDBC");
+//			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+			log(Level.INFO, "Abriendo conexión con " + databaseFile, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log(Level.SEVERE, "Error al cargar el driver de BBDD: ", e);
 		}
 	}
 	

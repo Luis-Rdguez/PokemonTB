@@ -17,7 +17,7 @@ public class TestDB {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		db.conectBD(dbName);
+		db.conectBDTest(dbName);
 		db.creacionBD();
 	}
 	
