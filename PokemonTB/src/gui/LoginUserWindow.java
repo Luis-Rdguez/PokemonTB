@@ -169,17 +169,13 @@ public class LoginUserWindow extends JDialog{
 	}
 	
     private boolean isValidLogin(String username, String password) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("resources/user.csv"))) {
-        	User u = db.seleccionarUsuarioPorNombre(username);
-        	if(u.getPassword().equals(password)) {
-        		return true;
-        	}
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error checking login credentials", "Login Status", JOptionPane.ERROR_MESSAGE);
+        User u = db.seleccionarUsuarioPorNombre(username);
+        if(u.getPassword().equals(password)) {
+        	return true;
+        }else {
+        	JOptionPane.showMessageDialog(this, "Error checking login credentials", "Login Status", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-
-        return false;
     }
 
     private void showLoginMessage(String message, int messageType) {

@@ -265,7 +265,7 @@ public class db {
 	// Metodos CSV
 	public static List<Pokemon> importarPokemonsDesdeCSV() {
 		List<Pokemon> pokemons = new ArrayList<>();
-		try (BufferedReader in = new BufferedReader(new FileReader("resources/pokemon.csv"))) {
+		try (BufferedReader in = new BufferedReader(new FileReader("resources/data/pokemon.csv"))) {
 			String linea;
 			
 			//Lectura inicial para saltar la cabecera del fichero CSV.
