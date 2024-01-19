@@ -24,12 +24,12 @@ import gui.LoginUserWindow;
 
 public class db {
 
-	private final String PROPERTIES_FILE = "resources/prop.properties";
+	private static final String PROPERTIES_FILE = "conf/prop.properties";
 	
-	private Properties properties;
-	private String driverName;
-	private String databaseFile;
-	private String connectionString;
+	private static Properties properties;
+	private static String driverName;
+	private static String databaseFile;
+	private static String connectionString;
 	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
@@ -76,7 +76,7 @@ public class db {
 		}
 	}
 	
-	public void conectBD(){
+	public static void conectBD(){
 		try {
 			//Lectura del fichero properties
 			properties = new Properties();
